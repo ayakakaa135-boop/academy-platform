@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ category.name }} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Category Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">
+            <i class="fas fa-folder-open me-3"></i>
+            {{ category.name }}
+        </h1>
+        {% if category.description %}
+            <p class="lead text-muted">{{ category.description }}</p>
+        {% endif %}
+        <p class="text-muted">{{ courses.count }} {% trans "دورة متاحة" %}</p>
+    </div>
+
+    <!-- Courses Grid -->
+    <div class="row g-4">
+        {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card course-card h-100">
+                    {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-book fa-4x text-white"></i>
+                        </div>
+                    {% endif %}
+
+                    {% if course.is_featured %}
+                        <span class="badge bg-warning position-absolute top-0 start-0 m-2">
+                            <i class="fas fa-star me-1"></i>{% trans "مميزة" %}
+                        </span>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-primary">{{ category.name }}</span>
+                            <span class="badge bg-info">
+                                {% if course.difficulty == 'beginner' %}{% trans "مبتدئ" %}
+                                {% elif course.difficulty == 'intermediate' %}{% trans "متوسط" %}
+                                {% else %}{% trans "متقدم" %}{% endif %}
+                            </span>
+                        </div>
+
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text text-muted small">{{ course.description|truncatewords:15 }}</p>
+
+                        <div class="mb-3">
+                            <small class="text-muted d-block">
+                                <i class="fas fa-user me-1"></i>
+                                {{ course.instructor.get_full_name }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-book-open me-1"></i>
+                                {{ course.total_lessons }} {% trans "درس" %}
+                            </small>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-success mb-0">${{ course.price }}</span>
+                            <a href="{% url 'courses:detail' course.slug %}" class="btn btn-primary">
+                                {% trans "التفاصيل" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center py-5">
+                    <i class="fas fa-info-circle fa-3x mb-3"></i>
+                    <h4>{% trans "لا توجد دورات في هذه الفئة" %}</h4>
+                    <a href="{% url 'courses:list' %}" class="btn btn-primary mt-3">
+                        {% trans "تصفح جميع الدورات" %}
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'courses:list' %}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-{% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %} me-2"></i>
+            {% trans "العودة لجميع الدورات" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

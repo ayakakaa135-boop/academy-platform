@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "إضافة تقييم" %} - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'courses:home' %}">{% trans "الرئيسية" %}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'courses:detail' course.slug %}">{{ course.title }}</a></li>
+                    <li class="breadcrumb-item active">{% trans "إضافة تقييم" %}</li>
+                </ol>
+            </nav>
+
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-star me-2"></i>
+                        {% if review %}
+                            {% trans "تعديل تقييمك" %}
+                        {% else %}
+                            {% trans "أضف تقييمك" %}
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Course Info -->
+                    <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
+                        {% if course.thumbnail %}
+                            <img src="{{ course.thumbnail.url }}" class="rounded me-3" width="80" height="80" style="object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary rounded me-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="fas fa-book fa-2x text-white"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h5 class="mb-1">{{ course.title }}</h5>
+                            <small class="text-muted">{{ course.instructor.get_full_name }}</small>
+                        </div>
+                    </div>
+
+                    <!-- Review Form -->
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                {% if review %}{% trans "تحديث التقييم" %}{% else %}{% trans "إرسال التقييم" %}{% endif %}
+                            </button>
+                            <a href="{% url 'courses:detail' course.slug %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>
+                                {% trans "إلغاء" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-check-input[type="radio"] {
+    transform: scale(1.5);
+    margin: 0.5rem;
+}
+</style>
+{% endblock %}

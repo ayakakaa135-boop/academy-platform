@@ -1,0 +1,121 @@
+{% extends "account/email/base_email.html" %}
+
+{% block content %}
+<h2>🎉 تهانينا! تم شراء الدورة بنجاح</h2>
+
+<p>مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
+
+<p>نؤكد لك أن عملية الشراء تمت بنجاح! شكراً لثقتك في <strong>الأكاديمية التعليمية</strong>. 🎊</p>
+
+<div class="success-box">
+    <p style="margin: 0;">
+        <strong>✅ تم شراء الدورة بنجاح!</strong>
+    </p>
+</div>
+
+<!-- Course Details -->
+<div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border: 2px solid #2563eb;">
+    <h3 style="color: #2563eb; margin-top: 0; font-size: 20px;">📚 تفاصيل الدورة</h3>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe;">
+                <strong>اسم الدورة:</strong>
+            </td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe; text-align: left;">
+                {{ course.title }}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe;">
+                <strong>المدرب:</strong>
+            </td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe; text-align: left;">
+                {{ course.instructor.get_full_name }}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe;">
+                <strong>عدد الدروس:</strong>
+            </td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe; text-align: left;">
+                {{ course.total_lessons }} درس
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe;">
+                <strong>المدة:</strong>
+            </td>
+            <td style="padding: 10px 0; border-bottom: 1px solid #bfdbfe; text-align: left;">
+                {{ course.duration_hours }} ساعة
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 10px 0;">
+                <strong>المبلغ المدفوع:</strong>
+            </td>
+            <td style="padding: 10px 0; text-align: left;">
+                <span style="color: #10b981; font-size: 24px; font-weight: bold;">${{ course.price }}</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="text-align: center; margin: 30px 0;">
+    <a href="{{ course_url }}" class="button">
+        🚀 ابدأ التعلم الآن
+    </a>
+</div>
+
+<div class="divider"></div>
+
+<h3 style="color: #2563eb; font-size: 18px;">🎯 الخطوات التالية:</h3>
+
+<ul>
+    <li>✅ تم تسجيلك في الدورة تلقائياً</li>
+    <li>📚 يمكنك الوصول إلى جميع دروس الدورة الآن</li>
+    <li>💬 شارك في المناقشات واطرح الأسئلة</li>
+    <li>🏆 أكمل الدورة واحصل على شهادة إتمام</li>
+    <li>⭐ لا تنسَ تقييم الدورة بعد الانتهاء</li>
+</ul>
+
+<div class="info-box">
+    <p style="margin: 0; font-size: 14px;">
+        <strong>💡 نصيحة:</strong> خصص وقتاً محدداً يومياً للدراسة لتحقيق أفضل النتائج!
+    </p>
+</div>
+
+<div class="divider"></div>
+
+<h3 style="color: #2563eb; font-size: 18px;">📱 الوصول للدورة</h3>
+
+<p>يمكنك الوصول للدورة من خلال:</p>
+
+<ul>
+    <li>🌐 الموقع الإلكتروني: <a href="{{ site_url }}" style="color: #2563eb;">{{ site_url }}</a></li>
+    <li>📊 لوحة التحكم: قسم "دوراتي"</li>
+    <li>🔗 الرابط المباشر: <a href="{{ course_url }}" style="color: #2563eb;">{{ course_url }}</a></li>
+</ul>
+
+<div class="success-box">
+    <p style="margin: 0; font-size: 14px;">
+        <strong>🎁 هدية خاصة!</strong> كمتعلم جديد، تحصل على خصم <span class="highlight">10%</span> على دورتك التالية!
+    </p>
+</div>
+
+<p style="margin-top: 30px;">
+    نتمنى لك رحلة تعليمية ممتعة ومثمرة! إذا كان لديك أي استفسار، نحن هنا لمساعدتك. 🌟
+</p>
+
+<p style="margin-top: 20px;">
+    مع أطيب التحيات،<br>
+    <strong>فريق الأكاديمية التعليمية</strong>
+</p>
+
+<div class="divider"></div>
+
+<p style="font-size: 12px; color: #6b7280; text-align: center;">
+    رقم الطلب: #{{ order_id }}<br>
+    تاريخ الشراء: {{ purchase_date|date:"Y-m-d H:i" }}
+</p>
+{% endblock %}

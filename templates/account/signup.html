@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "إنشاء حساب جديد" %} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                        <h2 class="fw-bold">{% trans "إنشاء حساب جديد" %}</h2>
+                        <p class="text-muted">{% trans "انضم إلينا وابدأ رحلتك التعليمية" %}</p>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <form method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+                            <i class="fas fa-user-plus me-2"></i>
+                            {% trans "إنشاء حساب" %}
+                        </button>
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="text-center my-4">
+                        <hr>
+                        <span class="text-muted">{% trans "أو" %}</span>
+                        <hr>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p class="text-muted mb-0">
+                            {% trans "لديك حساب بالفعل؟" %}
+                            <a href="{% url 'account_login' %}" class="text-primary fw-bold text-decoration-none">
+                                {% trans "سجل دخول" %}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        {% trans "مميزات التسجيل" %}
+                    </h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "الوصول إلى آلاف الدورات التعليمية" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "تتبع تقدمك في التعلم" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "الحصول على شهادات إتمام" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "التفاعل مع المدربين والطلاب" %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

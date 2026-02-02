@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "جميع الدورات - الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-book me-3"></i>
+                {% trans "جميع الدورات" %}
+            </h1>
+            <p class="lead text-muted">{% trans "اختر الدورة المناسبة لك من بين مئات الدورات المتاحة" %}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>
+                        {% trans "تصفية النتائج" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Search Form -->
+                    <form method="get" action="{% url 'courses:list' %}">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-search me-2"></i>
+                                {% trans "البحث" %}
+                            </label>
+                            <input type="text" name="q" class="form-control" placeholder="{% trans 'ابحث عن دورة...' %}" value="{{ search_query|default:'' }}">
+                        </div>
+
+                        <!-- Category Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-folder me-2"></i>
+                                {% trans "الفئة" %}
+                            </label>
+                            <select name="category" class="form-select">
+                                <option value="">{% trans "جميع الفئات" %}</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Difficulty Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-signal me-2"></i>
+                                {% trans "المستوى" %}
+                            </label>
+                            <select name="difficulty" class="form-select">
+                                <option value="">{% trans "جميع المستويات" %}</option>
+                                <option value="beginner" {% if selected_difficulty == 'beginner' %}selected{% endif %}>{% trans "مبتدئ" %}</option>
+                                <option value="intermediate" {% if selected_difficulty == 'intermediate' %}selected{% endif %}>{% trans "متوسط" %}</option>
+                                <option value="advanced" {% if selected_difficulty == 'advanced' %}selected{% endif %}>{% trans "متقدم" %}</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-sort me-2"></i>
+                                {% trans "الترتيب" %}
+                            </label>
+                            <select name="sort" class="form-select">
+                                <option value="-created_at">{% trans "الأحدث" %}</option>
+                                <option value="price">{% trans "السعر: من الأقل" %}</option>
+                                <option value="-price">{% trans "السعر: من الأعلى" %}</option>
+                                <option value="title">{% trans "الاسم: أ-ي" %}</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-filter me-2"></i>
+                            {% trans "تطبيق الفلتر" %}
+                        </button>
+
+                        <a href="{% url 'courses:list' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="fas fa-redo me-2"></i>
+                            {% trans "إعادة تعيين" %}
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="col-lg-9">
+            <!-- Results Info -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="text-muted mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    {% trans "عدد النتائج:" %} <strong>{{ courses.count }}</strong>
+                </p>
+            </div>
+
+            <!-- Courses -->
+            <div class="row g-4">
+                {% for course in courses %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card course-card h-100">
+                            {% if course.thumbnail %}
+                                <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="fas fa-book fa-4x text-white"></i>
+                                </div>
+                            {% endif %}
+
+                            {% if course.is_featured %}
+                                <span class="badge bg-warning position-absolute top-0 start-0 m-2">
+                                    <i class="fas fa-star me-1"></i>{% trans "مميزة" %}
+                                </span>
+                            {% endif %}
+
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="badge bg-primary">{{ course.category.name }}</span>
+                                    <span class="badge bg-info">
+                                        {% if course.difficulty == 'beginner' %}{% trans "مبتدئ" %}
+                                        {% elif course.difficulty == 'intermediate' %}{% trans "متوسط" %}
+                                        {% else %}{% trans "متقدم" %}{% endif %}
+                                    </span>
+                                </div>
+
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <p class="card-text text-muted small">{{ course.description|truncatewords:15 }}</p>
+
+                                <div class="mb-3">
+                                    <small class="text-muted d-block">
+                                        <i class="fas fa-user me-1"></i>
+                                        {{ course.instructor.get_full_name }}
+                                    </small>
+                                    <small class="text-muted d-block">
+                                        <i class="fas fa-book-open me-1"></i>
+                                        {{ course.total_lessons }} {% trans "درس" %}
+                                    </small>
+                                    <small class="text-muted d-block">
+                                        <i class="fas fa-users me-1"></i>
+                                        {{ course.total_students }} {% trans "طالب" %}
+                                    </small>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 text-success mb-0">${{ course.price }}</span>
+                                    <a href="{% url 'courses:detail' course.slug %}" class="btn btn-primary">
+                                        {% trans "التفاصيل" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center py-5">
+                            <i class="fas fa-info-circle fa-3x mb-3"></i>
+                            <h4>{% trans "لا توجد دورات متاحة" %}</h4>
+                            <p class="mb-0">{% trans "لم يتم العثور على دورات تطابق معايير البحث" %}</p>
+                            <a href="{% url 'courses:list' %}" class="btn btn-primary mt-3">
+                                {% trans "عرض جميع الدورات" %}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

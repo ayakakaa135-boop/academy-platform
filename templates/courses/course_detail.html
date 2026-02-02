@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ course.title }} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Course Info -->
+        <div class="col-lg-8">
+            <!-- Course Image -->
+            {% if course.thumbnail %}
+                <img src="{{ course.thumbnail.url }}" class="img-fluid rounded shadow mb-4" alt="{{ course.title }}">
+            {% else %}
+                <div class="bg-secondary rounded d-flex align-items-center justify-content-center mb-4" style="height: 400px;">
+                    <i class="fas fa-book fa-10x text-white"></i>
+                </div>
+            {% endif %}
+
+            <!-- Course Title -->
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <h1 class="display-5 fw-bold">{{ course.title }}</h1>
+                {% if course.is_featured %}
+                    <span class="badge bg-warning">
+                        <i class="fas fa-star me-1"></i>{% trans "مميزة" %}
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- Course Meta -->
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <span class="badge bg-primary p-2">
+                    <i class="fas fa-folder me-1"></i>
+                    {{ course.category.name }}
+                </span>
+                <span class="badge bg-info p-2">
+                    <i class="fas fa-signal me-1"></i>
+                    {% if course.difficulty == 'beginner' %}{% trans "مبتدئ" %}
+                    {% elif course.difficulty == 'intermediate' %}{% trans "متوسط" %}
+                    {% else %}{% trans "متقدم" %}{% endif %}
+                </span>
+                <span class="badge bg-secondary p-2">
+                    <i class="fas fa-clock me-1"></i>
+                    {{ course.duration_hours }} {% trans "ساعة" %}
+                </span>
+                <span class="badge bg-dark p-2">
+                    <i class="fas fa-users me-1"></i>
+                    {{ course.total_students }} {% trans "طالب" %}
+                </span>
+            </div>
+
+            <!-- Instructor -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>
+                        {% trans "المدرب" %}
+                    </h5>
+                    <div class="d-flex align-items-center">
+                        {% if course.instructor.avatar %}
+                            <img src="{{ course.instructor.avatar.url }}" class="rounded-circle me-3" width="60" height="60" alt="{{ course.instructor.get_full_name }}">
+                        {% else %}
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-user fa-2x"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h6 class="mb-0">{{ course.instructor.get_full_name }}</h6>
+                            <small class="text-muted">{{ course.instructor.email }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-align-left me-2"></i>
+                        {% trans "وصف الدورة" %}
+                    </h5>
+                    <p class="card-text">{{ course.description }}</p>
+                </div>
+            </div>
+
+            <!-- Lessons -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        {% trans "محتوى الدورة" %} ({{ lessons.count }} {% trans "درس" %})
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        {% for lesson in lessons %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            <i class="fas fa-play-circle me-2 text-primary"></i>
+                                            {{ lesson.title }}
+                                        </h6>
+                                        <small class="text-muted">
+                                            <i class="fas fa-clock me-1"></i>
+                                            {{ lesson.duration_minutes }} {% trans "دقيقة" %}
+                                        </small>
+                                    </div>
+                                    <div>
+                                        {% if lesson.is_preview or is_enrolled %}
+                                            <a href="{% url 'courses:lesson' course.slug lesson.id %}" class="btn btn-sm btn-primary">
+                                                <i class="fas fa-play me-1"></i>
+                                                {% trans "مشاهدة" %}
+                                            </a>
+                                        {% else %}
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-lock me-1"></i>
+                                                {% trans "مقفل" %}
+                                            </span>
+                                        {% endif %}
+
+                                        {% if lesson.is_preview %}
+                                            <span class="badge bg-success ms-2">{% trans "تجريبي" %}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <div class="list-group-item text-center text-muted py-4">
+                                <i class="fas fa-info-circle me-2"></i>
+                                {% trans "لا توجد دروس متاحة حالياً" %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star me-2"></i>
+                        {% trans "التقييمات" %} ({{ reviews.count }})
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if avg_rating %}
+                        <div class="text-center mb-4">
+                            <h2 class="display-4 fw-bold text-warning">{{ avg_rating|floatformat:1 }}</h2>
+                            <div class="text-warning">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= avg_rating %}
+                                        <i class="fas fa-star"></i>
+                                    {% else %}
+                                        <i class="far fa-star"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <p class="text-muted">{% trans "بناءً على" %} {{ reviews.count }} {% trans "تقييم" %}</p>
+                        </div>
+                    {% endif %}
+
+                    {% if is_enrolled and not user_review %}
+                        <a href="{% url 'courses:add_review' course.slug %}" class="btn btn-primary mb-4">
+                            <i class="fas fa-plus me-2"></i>
+                            {% trans "إضافة تقييم" %}
+                        </a>
+                    {% endif %}
+
+                    {% for review in reviews %}
+                        <div class="border-bottom pb-3 mb-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1">{{ review.user.get_full_name }}</h6>
+                                    <div class="text-warning mb-2">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star"></i>
+                                            {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <small class="text-muted">{{ review.created_at|date:"Y-m-d" }}</small>
+                            </div>
+                            {% if review.comment %}
+                                <p class="mb-0">{{ review.comment }}</p>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <p class="text-muted text-center">{% trans "لا توجد تقييمات بعد" %}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card shadow sticky-top" style="top: 90px;">
+                <div class="card-body">
+                    <h3 class="text-success mb-4">${{ course.price }}</h3>
+
+                    {% if is_enrolled %}
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            {% trans "أنت مسجل في هذه الدورة" %}
+                        </div>
+                        <a href="{% url 'courses:lesson' course.slug lessons.first.id %}" class="btn btn-primary btn-lg w-100 mb-2">
+                            <i class="fas fa-play me-2"></i>
+                            {% trans "متابعة التعلم" %}
+                        </a>
+                    {% else %}
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'payments:checkout' course.slug %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-lg w-100 mb-2">
+                                    <i class="fas fa-shopping-cart me-2"></i>
+                                    {% trans "اشترِ الآن" %}
+                                </button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'account_login' %}?next={% url 'courses:detail' course.slug %}" class="btn btn-success btn-lg w-100 mb-2">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                {% trans "سجل دخول للشراء" %}
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
+                    <!-- Preview Lessons -->
+                    {% if preview_lessons %}
+                        <div class="mt-4">
+                            <h6 class="fw-bold">
+                                <i class="fas fa-gift me-2"></i>
+                                {% trans "دروس تجريبية مجانية" %}
+                            </h6>
+                            <ul class="list-unstyled">
+                                {% for lesson in preview_lessons %}
+                                    <li class="mb-2">
+                                        <a href="{% url 'courses:lesson' course.slug lesson.id %}" class="text-decoration-none">
+                                            <i class="fas fa-play-circle me-2 text-primary"></i>
+                                            {{ lesson.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <!-- Course Info -->
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            {% trans "معلومات الدورة" %}
+                        </h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-book-open me-2 text-primary"></i>
+                                <strong>{{ lessons.count }}</strong> {% trans "درس" %}
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-clock me-2 text-primary"></i>
+                                <strong>{{ course.duration_hours }}</strong> {% trans "ساعة" %}
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-users me-2 text-primary"></i>
+                                <strong>{{ course.total_students }}</strong> {% trans "طالب" %}
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-calendar me-2 text-primary"></i>
+                                {% trans "آخر تحديث:" %} {{ course.updated_at|date:"Y-m-d" }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

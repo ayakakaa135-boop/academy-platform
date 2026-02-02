@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}مرحباً بك في الأكاديمية - تأكيد البريد الإلكتروني{% endblocktrans %}
+{% endautoescape %}

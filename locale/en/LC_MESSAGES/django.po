@@ -1,0 +1,1456 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-01 11:30+0100\n"
+"PO-Revision-Date: 2026-02-01 12:00+0100\n"
+"Last-Translator: Grok <grok@x.ai>\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\blog\admin.py:35 .\courses\admin.py:41 .\payments\admin.py:39
+#: .\payments\admin.py:70
+msgid "معلومات أساسية"
+msgstr "Basic Information"
+
+#: .\blog\admin.py:38 .\blog\admin.py:70 .\blog\models.py:64
+#: .\blog\models.py:135 .\courses\admin.py:86 .\courses\models.py:203
+msgid "المحتوى"
+msgstr "Content"
+
+#: .\blog\admin.py:41 .\blog\models.py:77 .\courses\admin.py:50
+#: .\payments\models.py:41 .\payments\models.py:113
+#: .\templates\payments\history.html:25
+msgid "الحالة"
+msgstr "Status"
+
+#: .\blog\admin.py:44
+msgid "SEO"
+msgstr "SEO"
+
+#: .\blog\admin.py:48
+msgid "إحصائيات"
+msgstr "Statistics"
+
+#: .\blog\forms.py:18 .\courses\forms.py:18
+msgid "اكتب تعليقك هنا..."
+msgstr "Write your comment here..."
+
+#: .\blog\forms.py:22 .\courses\admin.py:99 .\courses\forms.py:22
+#: .\courses\forms.py:51 .\courses\models.py:234
+msgid "التعليق"
+msgstr "Comment"
+
+#: .\blog\forms.py:31 .\courses\forms.py:31
+#: .\templates\blog\post_detail.html:59
+msgid "إضافة تعليق"
+msgstr "Add Comment"
+
+#: .\blog\models.py:16 .\courses\models.py:12
+msgid "الاسم"
+msgstr "Name"
+
+#: .\blog\models.py:17 .\courses\models.py:13
+msgid "الاسم بالإنجليزية"
+msgstr "Name in English"
+
+#: .\blog\models.py:18 .\blog\models.py:46 .\courses\models.py:14
+#: .\courses\models.py:44
+msgid "الرابط"
+msgstr "Slug"
+
+#: .\blog\models.py:19 .\courses\admin.py:44 .\courses\models.py:15
+#: .\courses\models.py:45 .\courses\models.py:124
+msgid "الوصف"
+msgstr "Description"
+
+#: .\blog\models.py:22
+msgid "فئة المدونة"
+msgstr "Blog Category"
+
+#: .\blog\models.py:23
+msgid "فئات المدونة"
+msgstr "Blog Categories"
+
+#: .\blog\models.py:40
+msgid "مسودة"
+msgstr "Draft"
+
+#: .\blog\models.py:41
+msgid "منشور"
+msgstr "Published"
+
+#: .\blog\models.py:44 .\courses\models.py:42 .\courses\models.py:122
+msgid "العنوان"
+msgstr "Title"
+
+#: .\blog\models.py:45 .\courses\models.py:43 .\courses\models.py:123
+msgid "العنوان بالإنجليزية"
+msgstr "Title in English"
+
+#: .\blog\models.py:51
+msgid "الكاتب"
+msgstr "Author"
+
+#: .\blog\models.py:58 .\courses\models.py:52
+#: .\templates\courses\course_list.html:45
+#: .\templates\courses\course_list_htmx.html:65
+msgid "الفئة"
+msgstr "Category"
+
+#: .\blog\models.py:62
+msgid "ملخص"
+msgstr "Summary"
+
+#: .\blog\models.py:63
+msgid "ملخص بالإنجليزية"
+msgstr "Summary in English"
+
+#: .\blog\models.py:65
+msgid "المحتوى بالإنجليزية"
+msgstr "Content in English"
+
+#: .\blog\models.py:69
+msgid "الصورة المميزة"
+msgstr "Featured Image"
+
+#: .\blog\models.py:82
+msgid "مميز"
+msgstr "Featured"
+
+#: .\blog\models.py:83
+msgid "عدد المشاهدات"
+msgstr "Number of Views"
+
+#: .\blog\models.py:86
+msgid "وصف ميتا"
+msgstr "Meta Description"
+
+#: .\blog\models.py:87
+msgid "كلمات مفتاحية"
+msgstr "Keywords"
+
+#: .\blog\models.py:90 .\blog\models.py:137 .\courses\models.py:16
+#: .\courses\models.py:77 .\courses\models.py:136 .\courses\models.py:204
+#: .\courses\models.py:235 .\payments\models.py:64 .\payments\models.py:120
+#: .\users\models.py:29
+msgid "تاريخ الإنشاء"
+msgstr "Creation Date"
+
+#: .\blog\models.py:91 .\blog\models.py:138 .\courses\models.py:78
+#: .\courses\models.py:137 .\courses\models.py:205 .\courses\models.py:236
+#: .\payments\models.py:65 .\payments\models.py:121 .\users\models.py:30
+msgid "تاريخ التحديث"
+msgstr "Update Date"
+
+#: .\blog\models.py:92
+msgid "تاريخ النشر"
+msgstr "Publication Date"
+
+#: .\blog\models.py:95
+msgid "مقالة"
+msgstr "Article"
+
+#: .\blog\models.py:96
+msgid "المقالات"
+msgstr "Articles"
+
+#: .\blog\models.py:119
+msgid "المقالة"
+msgstr "Article"
+
+#: .\blog\models.py:125 .\courses\models.py:156 .\courses\models.py:193
+#: .\courses\models.py:231 .\payments\models.py:28 .\payments\models.py:93
+msgid "المستخدم"
+msgstr "User"
+
+#: .\blog\models.py:133 .\courses\models.py:201
+msgid "رد على"
+msgstr "Reply to"
+
+#: .\blog\models.py:136
+msgid "موافق عليه"
+msgstr "Approved"
+
+#: .\blog\models.py:141 .\courses\models.py:209
+msgid "تعليق"
+msgstr "Comment"
+
+#: .\blog\models.py:142 .\courses\models.py:210
+#: .\templates\blog\post_detail.html:49
+msgid "التعليقات"
+msgstr "Comments"
+
+#: .\blog\views.py:99 .\courses\views.py:168
+msgid "تم إضافة التعليق بنجاح"
+msgstr "Comment added successfully"
+
+#: .\courses\admin.py:47
+msgid "تفاصيل الدورة"
+msgstr "Course Details"
+
+#: .\courses\admin.py:53 .\payments\admin.py:48 .\payments\admin.py:76
+msgid "التواريخ"
+msgstr "Dates"
+
+#: .\courses\forms.py:46
+msgid "شارك تجربتك مع هذه الدورة..."
+msgstr "Share your experience with this course..."
+
+#: .\courses\forms.py:50 .\courses\models.py:233
+msgid "التقييم"
+msgstr "Rating"
+
+#: .\courses\forms.py:61 .\templates\courses\add_review.html:56
+msgid "إرسال التقييم"
+msgstr "Submit Rating"
+
+#: .\courses\models.py:19
+msgid "فئة"
+msgstr "Category"
+
+#: .\courses\models.py:20
+msgid "الفئات"
+msgstr "Categories"
+
+#: .\courses\models.py:37 .\templates\courses\category.html:44
+#: .\templates\courses\course_detail.html:39
+#: .\templates\courses\course_list.html:65
+#: .\templates\courses\course_list.html:132
+#: .\templates\courses\course_list_htmx.html:87
+#: .\templates\courses\partials\course_grid.html:25
+#: .\templates\courses\partials\course_preview_modal.html:15
+msgid "مبتدئ"
+msgstr "Beginner"
+
+#: .\courses\models.py:38 .\templates\courses\category.html:45
+#: .\templates\courses\course_detail.html:40
+#: .\templates\courses\course_list.html:66
+#: .\templates\courses\course_list.html:133
+#: .\templates\courses\course_list_htmx.html:90
+#: .\templates\courses\partials\course_grid.html:26
+#: .\templates\courses\partials\course_preview_modal.html:16
+msgid "متوسط"
+msgstr "Intermediate"
+
+#: .\courses\models.py:39 .\templates\courses\category.html:46
+#: .\templates\courses\course_detail.html:41
+#: .\templates\courses\course_list.html:67
+#: .\templates\courses\course_list.html:134
+#: .\templates\courses\course_list_htmx.html:93
+#: .\templates\courses\partials\course_grid.html:27
+#: .\templates\courses\partials\course_preview_modal.html:17
+msgid "متقدم"
+msgstr "Advanced"
+
+#: .\courses\models.py:46
+msgid "الوصف بالإنجليزية"
+msgstr "Description in English"
+
+#: .\courses\models.py:58
+msgid "المدرس"
+msgstr "Instructor"
+
+#: .\courses\models.py:62
+msgid "صورة الدورة"
+msgstr "Course Image"
+
+#: .\courses\models.py:63
+msgid "السعر"
+msgstr "Price"
+
+#: .\courses\models.py:65
+msgid "مستوى الصعوبة"
+msgstr "Difficulty Level"
+
+#: .\courses\models.py:70
+msgid "مدة الدورة (بالساعات)"
+msgstr "Course Duration (in hours)"
+
+#: .\courses\models.py:73
+msgid "منشورة"
+msgstr "Published"
+
+#: .\courses\models.py:74 .\templates\courses\category.html:36
+#: .\templates\courses\course_detail.html:26
+#: .\templates\courses\course_list.html:124
+#: .\templates\courses\partials\course_grid.html:17
+msgid "مميزة"
+msgstr "Featured"
+
+#: .\courses\models.py:81 .\templates\courses\home.html:39
+#: .\templates\users\profile.html:34
+msgid "دورة"
+msgstr "Course"
+
+#: .\courses\models.py:82 .\templates\base.html:252 .\templates\base.html:369
+msgid "الدورات"
+msgstr "Courses"
+
+#: .\courses\models.py:120 .\courses\models.py:162 .\courses\models.py:225
+#: .\payments\models.py:34 .\payments\models.py:99
+#: .\templates\payments\history.html:23
+msgid "الدورة"
+msgstr "Course"
+
+#: .\courses\models.py:125
+msgid "رابط الفيديو"
+msgstr "Video URL"
+
+#: .\courses\models.py:127
+msgid "ملف الفيديو"
+msgstr "Video File"
+
+#: .\courses\models.py:132
+msgid "المدة (بالدقائق)"
+msgstr "Duration (in minutes)"
+
+#: .\courses\models.py:133 .\templates\courses\course_list.html:75
+#: .\templates\courses\course_list_htmx.html:102
+msgid "الترتيب"
+msgstr "Order"
+
+#: .\courses\models.py:134
+msgid "درس تجريبي"
+msgstr "Free Preview Lesson"
+
+#: .\courses\models.py:140 .\templates\courses\category.html:60
+#: .\templates\courses\course_detail.html:92
+#: .\templates\courses\course_detail.html:260
+#: .\templates\courses\course_list.html:148 .\templates\courses\home.html:88
+#: .\templates\courses\partials\course_grid.html:41
+#: .\templates\courses\partials\course_preview_modal.html:38
+#: .\templates\courses\partials\search_results.html:15
+msgid "درس"
+msgstr "Lesson"
+
+#: .\courses\models.py:141
+#: .\templates\courses\partials\course_preview_modal.html:37
+msgid "الدروس"
+msgstr "Lessons"
+
+#: .\courses\models.py:164
+msgid "تاريخ التسجيل"
+msgstr "Enrollment Date"
+
+#: .\courses\models.py:165 .\courses\models.py:206
+msgid "نشط"
+msgstr "Active"
+
+#: .\courses\models.py:166
+msgid "نسبة الإنجاز"
+msgstr "Completion Percentage"
+
+#: .\courses\models.py:167
+msgid "تاريخ الإكمال"
+msgstr "Completion Date"
+
+#: .\courses\models.py:170
+msgid "تسجيل"
+msgstr "Enrollment"
+
+#: .\courses\models.py:171
+msgid "التسجيلات"
+msgstr "Enrollments"
+
+#: .\courses\models.py:187
+msgid "الدرس"
+msgstr "Lesson"
+
+#: .\courses\models.py:239 .\templates\courses\course_detail.html:160
+#: .\templates\courses\partials\reviews_section.html:16
+msgid "تقييم"
+msgstr "Review"
+
+#: .\courses\models.py:240 .\templates\courses\course_detail.html:144
+msgid "التقييمات"
+msgstr "Reviews"
+
+#: .\courses\views.py:145
+msgid "يجب التسجيل في الدورة لمشاهدة هذا الدرس"
+msgstr "You must enroll in the course to watch this lesson"
+
+#: .\courses\views.py:202
+msgid "يجب التسجيل في الدورة لإضافة تقييم"
+msgstr "You must enroll in the course to add a review"
+
+#: .\courses\views.py:215
+msgid "تم إضافة التقييم بنجاح"
+msgstr "Review added successfully"
+
+#: .\payments\admin.py:42
+msgid "تفاصيل الدفع"
+msgstr "Payment Details"
+
+#: .\payments\admin.py:45
+msgid "معلومات Stripe"
+msgstr "Stripe Information"
+
+#: .\payments\admin.py:73
+msgid "تفاصيل الطلب"
+msgstr "Order Details"
+
+#: .\payments\models.py:16 .\payments\models.py:82
+#: .\templates\payments\history.html:39
+msgid "قيد الانتظار"
+msgstr "Pending"
+
+#: .\payments\models.py:17 .\payments\models.py:84
+#: .\templates\payments\history.html:37
+msgid "مكتمل"
+msgstr "Completed"
+
+#: .\payments\models.py:18 .\templates\payments\history.html:41
+msgid "فشل"
+msgstr "Failed"
+
+#: .\payments\models.py:19
+msgid "مسترد"
+msgstr "Refunded"
+
+#: .\payments\models.py:38 .\templates\payments\history.html:24
+msgid "المبلغ"
+msgstr "Amount"
+
+#: .\payments\models.py:39
+msgid "العملة"
+msgstr "Currency"
+
+#: .\payments\models.py:49
+msgid "معرف Stripe"
+msgstr "Stripe ID"
+
+#: .\payments\models.py:54
+msgid "معرف الدفع"
+msgstr "Payment Intent ID"
+
+#: .\payments\models.py:60 .\templates\payments\checkout.html:39
+msgid "طريقة الدفع"
+msgstr "Payment Method"
+
+#: .\payments\models.py:61
+msgid "رقم المعاملة"
+msgstr "Transaction Number"
+
+#: .\payments\models.py:66 .\payments\models.py:122
+msgid "تاريخ الاكتمال"
+msgstr "Completion Date"
+
+#: .\payments\models.py:69
+msgid "دفعة"
+msgstr "Payment"
+
+#: .\payments\models.py:70
+msgid "الدفعات"
+msgstr "Payments"
+
+#: .\payments\models.py:83
+msgid "قيد المعالجة"
+msgstr "Processing"
+
+#: .\payments\models.py:85
+msgid "ملغي"
+msgstr "Canceled"
+
+#: .\payments\models.py:107
+msgid "الدفعة"
+msgstr "Payment"
+
+#: .\payments\models.py:111
+msgid "المبلغ الإجمالي"
+msgstr "Total Amount"
+
+#: .\payments\models.py:125
+msgid "طلب"
+msgstr "Order"
+
+#: .\payments\models.py:126
+msgid "الطلبات"
+msgstr "Orders"
+
+#: .\payments\views.py:30
+msgid "أنت مسجل بالفعل في هذه الدورة"
+msgstr "You are already enrolled in this course"
+
+#: .\payments\views.py:86
+msgid "حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى."
+msgstr "An error occurred while processing the payment. Please try again."
+
+#: .\payments\views.py:107
+msgid "معلومات الدفع غير صحيحة"
+msgstr "Invalid payment information"
+
+#: .\payments\views.py:144
+msgid "تم الدفع بنجاح! يمكنك الآن الوصول إلى الدورة"
+msgstr "Payment successful! You can now access the course"
+
+#: .\payments\views.py:152
+msgid "لم يتم إتمام الدفع"
+msgstr "Payment not completed"
+
+#: .\payments\views.py:157
+msgid "حدث خطأ أثناء معالجة الدفع"
+msgstr "An error occurred while processing the payment"
+
+#: .\payments\views.py:242
+#, python-brace-format
+msgid "تأكيد شراء الدورة - {}"
+msgstr "Confirm Course Purchase - {}"
+
+#: .\templates\account\email\email_confirmation_message.html:7
+#: .\templates\account\email\email_confirmation_subject.txt:3
+msgid "مرحباً بك في الأكاديمية - تأكيد البريد الإلكتروني"
+msgstr "Welcome to the Academy - Email Confirmation"
+
+#: .\templates\account\email\password_reset_key_message.html:6
+msgid "إعادة تعيين كلمة المرور - الأكاديمية"
+msgstr "Password Reset - Academy"
+
+#: .\templates\account\email_confirm.html:5
+#: .\templates\account\email_confirm.html:15
+msgid "تأكيد البريد الإلكتروني"
+msgstr "Email Confirmation"
+
+#: .\templates\account\email_confirm.html:17
+#, python-format
+msgid ""
+"\n"
+"                            يرجى تأكيد أن <strong>%(email)s</strong> هو "
+"عنوان بريدك الإلكتروني.\n"
+"                            "
+msgstr ""
+"\n"
+"                            Please confirm that <strong>%(email)s</strong> is "
+"your email address.\n"
+"                            "
+
+#: .\templates\account\email_confirm.html:26
+msgid "تأكيد"
+msgstr "Confirm"
+
+#: .\templates\account\email_confirm.html:31
+msgid "رابط غير صالح"
+msgstr "Invalid Link"
+
+#: .\templates\account\email_confirm.html:33
+msgid "عذراً، رابط التأكيد غير صالح أو منتهي الصلاحية."
+msgstr "Sorry, the confirmation link is invalid or has expired."
+
+#: .\templates\account\email_confirm.html:36
+msgid "التسجيل مرة أخرى"
+msgstr "Sign Up Again"
+
+#: .\templates\account\login.html:6 .\templates\account\login.html:45
+#: .\templates\base.html:296
+msgid "تسجيل الدخول"
+msgstr "Login"
+
+#: .\templates\account\login.html:6 .\templates\account\logout.html:5
+#: .\templates\account\password_reset.html:6 .\templates\account\signup.html:6
+#: .\templates\base.html:234 .\templates\blog\post_list.html:5
+#: .\templates\courses\category.html:5 .\templates\courses\course_detail.html:5
+#: .\templates\courses\course_list_htmx.html:5
+#: .\templates\users\dashboard.html:5 .\templates\users\profile.html:6
+msgid "الأكاديمية"
+msgstr "Academy"
+
+#: .\templates\account\login.html:17
+msgid "مرحباً بعودتك!"
+msgstr "Welcome back!"
+
+#: .\templates\account\login.html:18
+msgid "سجل دخول للمتابعة"
+msgstr "Log in to continue"
+
+#: .\templates\account\login.html:35
+msgid "تذكرني"
+msgstr "Remember me"
+
+#: .\templates\account\login.html:39 .\templates\account\password_reset.html:16
+msgid "نسيت كلمة المرور؟"
+msgstr "Forgot your password?"
+
+#: .\templates\account\login.html:52 .\templates\account\signup.html:39
+msgid "أو"
+msgstr "Or"
+
+#: .\templates\account\login.html:59
+msgid "ليس لديك حساب؟"
+msgstr "Don't have an account?"
+
+#: .\templates\account\login.html:61
+msgid "سجل الآن"
+msgstr "Sign up now"
+
+#: .\templates\account\logout.html:5 .\templates\account\logout.html:14
+#: .\templates\base.html:286
+msgid "تسجيل الخروج"
+msgstr "Logout"
+
+#: .\templates\account\logout.html:15
+msgid "هل أنت متأكد من رغبتك في تسجيل الخروج؟"
+msgstr "Are you sure you want to log out?"
+
+#: .\templates\account\logout.html:25
+msgid "تأكيد تسجيل الخروج"
+msgstr "Confirm Logout"
+
+#: .\templates\account\logout.html:30 .\templates\courses\add_review.html:60
+#: .\templates\courses\lesson.html:177 .\templates\users\profile.html:91
+msgid "إلغاء"
+msgstr "Cancel"
+
+#: .\templates\account\password_reset.html:6
+msgid "إعادة تعيين كلمة المرور"
+msgstr "Reset Password"
+
+#: .\templates\account\password_reset.html:17
+msgid "أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين"
+msgstr "Enter your email and we will send you a reset link"
+
+#: .\templates\account\password_reset.html:26
+msgid "إرسال رابط إعادة التعيين"
+msgstr "Send Reset Link"
+
+#: .\templates\account\password_reset.html:33
+#: .\templates\account\password_reset_done.html:23
+msgid "العودة لتسجيل الدخول"
+msgstr "Back to Login"
+
+#: .\templates\account\password_reset_done.html:5
+msgid "تم إرسال رابط إعادة التعيين"
+msgstr "Reset Link Sent"
+
+#: .\templates\account\password_reset_done.html:14
+#: .\templates\account\verification_sent.html:14
+msgid "تحقق من بريدك الإلكتروني"
+msgstr "Check Your Email"
+
+#: .\templates\account\password_reset_done.html:16
+msgid "تم إرسال تعليمات إعادة تعيين كلمة المرور إلى بريدك الإلكتروني."
+msgstr "Password reset instructions have been sent to your email."
+
+#: .\templates\account\password_reset_done.html:19
+msgid "إذا لم تستلم البريد، تحقق من مجلد الرسائل غير المرغوب فيها (Spam)."
+msgstr "If you don't receive the email, check your spam folder."
+
+#: .\templates\account\signup.html:6 .\templates\account\signup.html:17
+msgid "إنشاء حساب جديد"
+msgstr "Create New Account"
+
+#: .\templates\account\signup.html:18
+msgid "انضم إلينا وابدأ رحلتك التعليمية"
+msgstr "Join us and start your learning journey"
+
+#: .\templates\account\signup.html:32 .\templates\base.html:302
+msgid "إنشاء حساب"
+msgstr "Create Account"
+
+#: .\templates\account\signup.html:46
+msgid "لديك حساب بالفعل؟"
+msgstr "Already have an account?"
+
+#: .\templates\account\signup.html:48 .\templates\blog\post_detail.html:64
+#: .\templates\courses\lesson.html:127
+#: .\templates\courses\partials\lesson_content.html:101
+msgid "سجل دخول"
+msgstr "Log in"
+
+#: .\templates\account\signup.html:60
+msgid "مميزات التسجيل"
+msgstr "Registration Benefits"
+
+#: .\templates\account\signup.html:65
+msgid "الوصول إلى آلاف الدورات التعليمية"
+msgstr "Access to thousands of educational courses"
+
+#: .\templates\account\signup.html:69
+msgid "تتبع تقدمك في التعلم"
+msgstr "Track your learning progress"
+
+#: .\templates\account\signup.html:73
+msgid "الحصول على شهادات إتمام"
+msgstr "Receive completion certificates"
+
+#: .\templates\account\signup.html:77
+msgid "التفاعل مع المدربين والطلاب"
+msgstr "Interact with instructors and students"
+
+#: .\templates\account\verification_sent.html:5
+msgid "تم إرسال رابط التحقق"
+msgstr "Verification Link Sent"
+
+#: .\templates\account\verification_sent.html:16
+msgid "تم إرسال رسالة تحقق إلى بريدك الإلكتروني."
+msgstr "A verification email has been sent to your email address."
+
+#: .\templates\account\verification_sent.html:20
+msgid ""
+"يرجى النقر على الرابط في البريد لتفعيل حسابك والبدء في استخدام الأكاديمية."
+msgstr ""
+"Please click the link in the email to activate your account and start using the Academy."
+
+#: .\templates\account\verification_sent.html:23
+msgid ""
+"إذا لم تستلم البريد خلال بضع دقائق، تحقق من مجلد الرسائل غير المرغوب فيها."
+msgstr ""
+"If you don't receive the email within a few minutes, check your spam folder."
+
+#: .\templates\account\verification_sent.html:27
+msgid "العودة للصفحة الرئيسية"
+msgstr "Back to Home Page"
+
+#: .\templates\base.html:9 .\templates\base.html:362
+msgid "الأكاديمية التعليمية"
+msgstr "Educational Academy"
+
+#: .\templates\base.html:246 .\templates\courses\add_review.html:15
+#: .\templates\courses\lesson.html:45
+#: .\templates\courses\partials\lesson_content.html:6
+msgid "الرئيسية"
+msgstr "Home"
+
+#: .\templates\base.html:258 .\templates\base.html:370
+#: .\templates\blog\category.html:5 .\templates\blog\post_list.html:5
+#: .\templates\blog\post_list.html:13 .\templates\users\dashboard.html:157
+msgid "المدونة"
+msgstr "Blog"
+
+#: .\templates\base.html:266
+msgid "لوحتي"
+msgstr "My Dashboard"
+
+#: .\templates\base.html:276 .\templates\users\profile.html:6
+msgid "الملف الشخصي"
+msgstr "Profile"
+
+#: .\templates\base.html:279 .\templates\payments\history.html:5
+#: .\templates\payments\history.html:11 .\templates\users\dashboard.html:145
+#: .\templates\users\profile.html:60
+msgid "سجل المدفوعات"
+msgstr "Payment History"
+
+#: .\templates\base.html:364
+msgid "منصة تعليمية متكاملة لتعلم المهارات الجديدة وتطوير قدراتك"
+msgstr "A comprehensive educational platform for learning new skills and developing your abilities"
+
+#: .\templates\base.html:367 .\templates\users\profile.html:50
+msgid "روابط سريعة"
+msgstr "Quick Links"
+
+#: .\templates\base.html:372 .\templates\users\dashboard.html:5
+#: .\templates\users\profile.html:56
+msgid "لوحة التحكم"
+msgstr "Dashboard"
+
+#: .\templates\base.html:377
+msgid "تواصل معنا"
+msgstr "Contact Us"
+
+#: .\templates\base.html:388
+msgid "الأكاديمية التعليمية. جميع الحقوق محفوظة."
+msgstr "Educational Academy. All rights reserved."
+
+#: .\templates\blog\category.html:28 .\templates\blog\post_list.html:74
+msgid "اقرأ المزيد"
+msgstr "Read More"
+
+#: .\templates\blog\category.html:36
+msgid "لا توجد مقالات في هذه الفئة"
+msgstr "No articles in this category"
+
+#: .\templates\blog\category.html:48 .\templates\blog\post_list.html:94
+msgid "السابق"
+msgstr "Previous"
+
+#: .\templates\blog\category.html:58 .\templates\blog\post_list.html:108
+msgid "التالي"
+msgstr "Next"
+
+#: .\templates\blog\post_detail.html:65 .\templates\courses\lesson.html:128
+#: .\templates\courses\partials\lesson_content.html:102
+msgid "لإضافة تعليق"
+msgstr "to add a comment"
+
+#: .\templates\blog\post_detail.html:72 .\templates\courses\lesson.html:151
+#: .\templates\courses\lesson.html:198
+#: .\templates\courses\partials\comment_item.html:17
+#: .\templates\courses\partials\comment_item.html:71
+msgid "منذ"
+msgstr "ago"
+
+#: .\templates\blog\post_detail.html:76
+msgid "كن أول من يعلق!"
+msgstr "Be the first to comment!"
+
+#: .\templates\blog\post_detail.html:89
+msgid "مقالات ذات صلة"
+msgstr "Related Articles"
+
+#: .\templates\blog\post_list.html:15
+msgid "اقرأ أحدث المقالات والنصائح التعليمية"
+msgstr "Read the latest articles and educational tips"
+
+#: .\templates\blog\post_list.html:26
+msgid "ابحث في المدونة..."
+msgstr "Search the blog..."
+
+#: .\templates\blog\post_list.html:31
+msgid "بحث"
+msgstr "Search"
+
+#: .\templates\blog\post_list.html:83
+msgid "لا توجد مقالات متاحة"
+msgstr "No articles available"
+
+#: .\templates\blog\post_list.html:125
+msgid "مقالات مميزة"
+msgstr "Featured Articles"
+
+#: .\templates\blog\post_list.html:144
+msgid "التصنيفات"
+msgstr "Categories"
+
+#: .\templates\courses\add_review.html:6 .\templates\courses\add_review.html:17
+#: .\templates\courses\course_detail.html:167
+#: .\templates\courses\partials\reviews_section.html:26
+msgid "إضافة تقييم"
+msgstr "Add Review"
+
+#: .\templates\courses\add_review.html:26
+msgid "تعديل تقييمك"
+msgstr "Edit Your Review"
+
+#: .\templates\courses\add_review.html:28
+msgid "أضف تقييمك"
+msgstr "Add Your Review"
+
+#: .\templates\courses\add_review.html:56
+msgid "تحديث التقييم"
+msgstr "Update Review"
+
+#: .\templates\courses\category.html:18
+msgid "دورة متاحة"
+msgstr "Available Course"
+
+#: .\templates\courses\category.html:67
+#: .\templates\courses\course_list.html:159 .\templates\courses\home.html:133
+#: .\templates\courses\partials\course_grid.html:53
+msgid "التفاصيل"
+msgstr "Details"
+
+#: .\templates\courses\category.html:77
+msgid "لا توجد دورات في هذه الفئة"
+msgstr "No courses in this category"
+
+#: .\templates\courses\category.html:79
+msgid "تصفح جميع الدورات"
+msgstr "Browse All Courses"
+
+#: .\templates\courses\category.html:90
+msgid "العودة لجميع الدورات"
+msgstr "Back to All Courses"
+
+#: .\templates\courses\course_detail.html:45
+#: .\templates\courses\course_detail.html:264
+#: .\templates\courses\partials\course_preview_modal.html:47
+msgid "ساعة"
+msgstr "hour"
+
+#: .\templates\courses\course_detail.html:49
+#: .\templates\courses\course_detail.html:268
+#: .\templates\courses\course_list.html:152 .\templates\courses\home.html:155
+#: .\templates\courses\partials\course_grid.html:45
+msgid "طالب"
+msgstr "Student"
+
+#: .\templates\courses\course_detail.html:58
+#: .\templates\courses\partials\course_preview_modal.html:28
+msgid "المدرب"
+msgstr "Instructor"
+
+#: .\templates\courses\course_detail.html:81
+msgid "وصف الدورة"
+msgstr "Course Description"
+
+#: .\templates\courses\course_detail.html:92 .\templates\courses\lesson.html:17
+#: .\templates\courses\lesson_htmx.html:24
+msgid "محتوى الدورة"
+msgstr "Course Content"
+
+#: .\templates\courses\course_detail.html:107
+#: .\templates\courses\lesson.html:28 .\templates\courses\lesson_htmx.html:38
+#: .\templates\courses\partials\course_preview_modal.html:74
+msgid "دقيقة"
+msgstr "minute"
+
+#: .\templates\courses\course_detail.html:114
+msgid "مشاهدة"
+msgstr "Watch"
+
+#: .\templates\courses\course_detail.html:119
+msgid "مقفل"
+msgstr "Locked"
+
+#: .\templates\courses\course_detail.html:124
+#: .\templates\courses\lesson.html:31 .\templates\courses\lesson_htmx.html:41
+msgid "تجريبي"
+msgstr "Preview"
+
+#: .\templates\courses\course_detail.html:132
+msgid "لا توجد دروس متاحة حالياً"
+msgstr "No lessons available at the moment"
+
+#: .\templates\courses\course_detail.html:160
+#: .\templates\courses\partials\reviews_section.html:16
+msgid "بناءً على"
+msgstr "Based on"
+
+#: .\templates\courses\course_detail.html:193
+#: .\templates\courses\partials\reviews_section.html:54
+msgid "لا توجد تقييمات بعد"
+msgstr "No reviews yet"
+
+#: .\templates\courses\course_detail.html:208
+msgid "أنت مسجل في هذه الدورة"
+msgstr "You are enrolled in this course"
+
+#: .\templates\courses\course_detail.html:212
+#: .\templates\users\dashboard.html:100
+msgid "متابعة التعلم"
+msgstr "Continue Learning"
+
+#: .\templates\courses\course_detail.html:220
+msgid "اشترِ الآن"
+msgstr "Buy Now"
+
+#: .\templates\courses\course_detail.html:226
+msgid "سجل دخول للشراء"
+msgstr "Log in to purchase"
+
+#: .\templates\courses\course_detail.html:236
+#: .\templates\courses\partials\course_preview_modal.html:65
+msgid "دروس تجريبية مجانية"
+msgstr "Free Preview Lessons"
+
+#: .\templates\courses\course_detail.html:255
+msgid "معلومات الدورة"
+msgstr "Course Information"
+
+#: .\templates\courses\course_detail.html:272
+msgid "آخر تحديث:"
+msgstr "Last updated:"
+
+#: .\templates\courses\course_list.html:5
+msgid "جميع الدورات - الأكاديمية"
+msgstr "All Courses - Academy"
+
+#: .\templates\courses\course_list.html:14
+#: .\templates\courses\course_list_htmx.html:5
+#: .\templates\courses\course_list_htmx.html:14
+msgid "جميع الدورات"
+msgstr "All Courses"
+
+#: .\templates\courses\course_list.html:16
+#: .\templates\courses\course_list_htmx.html:16
+msgid "اختر الدورة المناسبة لك من بين مئات الدورات المتاحة"
+msgstr "Choose the right course for you from hundreds of available courses"
+
+#: .\templates\courses\course_list.html:27
+#: .\templates\courses\course_list_htmx.html:27
+msgid "تصفية النتائج"
+msgstr "Filter Results"
+
+#: .\templates\courses\course_list.html:36
+msgid "البحث"
+msgstr "Search"
+
+#: .\templates\courses\course_list.html:38
+#: .\templates\courses\course_list_htmx.html:40
+msgid "ابحث عن دورة..."
+msgstr "Search for a course..."
+
+#: .\templates\courses\course_list.html:48
+#: .\templates\courses\course_list_htmx.html:68
+msgid "جميع الفئات"
+msgstr "All Categories"
+
+#: .\templates\courses\course_list.html:61
+#: .\templates\courses\course_list_htmx.html:82
+msgid "المستوى"
+msgstr "Level"
+
+#: .\templates\courses\course_list.html:64
+#: .\templates\courses\course_list_htmx.html:85
+msgid "جميع المستويات"
+msgstr "All Levels"
+
+#: .\templates\courses\course_list.html:78
+#: .\templates\courses\course_list_htmx.html:105
+msgid "الأحدث"
+msgstr "Newest"
+
+#: .\templates\courses\course_list.html:79
+#: .\templates\courses\course_list_htmx.html:106
+msgid "السعر: من الأقل"
+msgstr "Price: Low to High"
+
+#: .\templates\courses\course_list.html:80
+#: .\templates\courses\course_list_htmx.html:107
+msgid "السعر: من الأعلى"
+msgstr "Price: High to Low"
+
+#: .\templates\courses\course_list.html:81
+#: .\templates\courses\course_list_htmx.html:108
+msgid "الاسم: أ-ي"
+msgstr "Name: A-Z"
+
+#: .\templates\courses\course_list.html:87
+msgid "تطبيق الفلتر"
+msgstr "Apply Filter"
+
+#: .\templates\courses\course_list.html:92
+#: .\templates\courses\course_list_htmx.html:116
+msgid "إعادة تعيين"
+msgstr "Reset"
+
+#: .\templates\courses\course_list.html:105
+#: .\templates\courses\course_list_htmx.html:137
+msgid "عدد النتائج:"
+msgstr "Number of results:"
+
+#: .\templates\courses\course_list.html:169
+msgid "لا توجد دورات متاحة"
+msgstr "No courses available"
+
+#: .\templates\courses\course_list.html:170
+msgid "لم يتم العثور على دورات تطابق معايير البحث"
+msgstr "No courses found matching the search criteria"
+
+#: .\templates\courses\course_list.html:172
+msgid "عرض جميع الدورات"
+msgstr "View All Courses"
+
+#: .\templates\courses\course_list_htmx.html:35
+msgid "البحث المباشر"
+msgstr "Live Search"
+
+#: .\templates\courses\course_list_htmx.html:130
+msgid "جاري التحميل..."
+msgstr "Loading..."
+
+#: .\templates\courses\course_list_htmx.html:154
+msgid "معاينة الدورة"
+msgstr "Course Preview"
+
+#: .\templates\courses\home.html:5
+msgid "الصفحة الرئيسية - الأكاديمية التعليمية"
+msgstr "Home - Educational Academy"
+
+#: .\templates\courses\home.html:13
+msgid "تعلم مهارات جديدة مع أفضل الدورات"
+msgstr "Learn new skills with the best courses"
+
+#: .\templates\courses\home.html:14
+msgid ""
+"اكتشف آلاف الدورات التعليمية في مختلف المجالات وابدأ رحلتك التعليمية الآن"
+msgstr ""
+"Discover thousands of educational courses in various fields and start your learning journey now"
+
+#: .\templates\courses\home.html:17 .\templates\courses\home.html:184
+#: .\templates\payments\history.html:60 .\templates\users\dashboard.html:65
+#: .\templates\users\dashboard.html:115 .\templates\users\dashboard.html:151
+msgid "تصفح الدورات"
+msgstr "Browse Courses"
+
+#: .\templates\courses\home.html:30
+msgid "تصفح حسب الفئة"
+msgstr "Browse by Category"
+
+#: .\templates\courses\home.html:53
+msgid "الدورات المميزة"
+msgstr "Featured Courses"
+
+#: .\templates\courses\home.html:55
+msgid "عرض الكل"
+msgstr "View All"
+
+#: .\templates\courses\home.html:94
+msgid "عرض التفاصيل"
+msgstr "View Details"
+
+#: .\templates\courses\home.html:103
+msgid "لا توجد دورات متاحة حالياً"
+msgstr "No courses available at the moment"
+
+#: .\templates\courses\home.html:114
+msgid "أحدث الدورات"
+msgstr "Latest Courses"
+
+#: .\templates\courses\home.html:150
+msgid "دورة تعليمية"
+msgstr "Educational Course"
+
+#: .\templates\courses\home.html:160
+msgid "مدرب محترف"
+msgstr "Professional Instructor"
+
+#: .\templates\courses\home.html:165
+msgid "متوسط التقييم"
+msgstr "Average Rating"
+
+#: .\templates\courses\home.html:174
+msgid "ابدأ رحلتك التعليمية اليوم"
+msgstr "Start your learning journey today"
+
+#: .\templates\courses\home.html:175
+msgid "انضم إلى آلاف الطلاب الذين حققوا أهدافهم من خلال دوراتنا"
+msgstr "Join thousands of students who have achieved their goals through our courses"
+
+#: .\templates\courses\home.html:179
+msgid "سجل الآن مجاناً"
+msgstr "Sign Up for Free"
+
+#: .\templates\courses\lesson.html:57
+#: .\templates\courses\partials\lesson_content.html:18
+msgid "درس تجريبي مجاني"
+msgstr "Free Preview Lesson"
+
+#: .\templates\courses\lesson.html:74
+#: .\templates\courses\partials\lesson_content.html:40
+msgid "متصفحك لا يدعم تشغيل الفيديو"
+msgstr "Your browser does not support video playback"
+
+#: .\templates\courses\lesson.html:80
+#: .\templates\courses\partials\lesson_content.html:46
+msgid "لا يوجد فيديو متاح حالياً"
+msgstr "No video available at the moment"
+
+#: .\templates\courses\lesson.html:93
+#: .\templates\courses\partials\lesson_content.html:59
+msgid "وصف الدرس"
+msgstr "Lesson Description"
+
+#: .\templates\courses\lesson.html:107
+#: .\templates\courses\partials\lesson_content.html:73
+msgid "التعليقات والأسئلة"
+msgstr "Comments and Questions"
+
+#: .\templates\courses\lesson.html:114
+#: .\templates\courses\partials\lesson_content.html:80
+msgid "أضف تعليقاً"
+msgstr "Add a comment"
+
+#: .\templates\courses\lesson.html:120
+#: .\templates\courses\partials\lesson_content.html:94
+msgid "إرسال التعليق"
+msgstr "Send Comment"
+
+#: .\templates\courses\lesson.html:160
+#: .\templates\courses\partials\comment_item.html:36
+msgid "رد"
+msgstr "Reply"
+
+#: .\templates\courses\lesson.html:170
+#: .\templates\courses\partials\comment_item.html:46
+msgid "اكتب ردك..."
+msgstr "Write your reply..."
+
+#: .\templates\courses\lesson.html:174
+msgid "إرسال الرد"
+msgstr "Send Reply"
+
+#: .\templates\courses\lesson.html:212
+#: .\templates\courses\partials\lesson_content.html:117
+msgid "لا توجد تعليقات بعد. كن أول من يعلق!"
+msgstr "No comments yet. Be the first to comment!"
+
+#: .\templates\courses\lesson.html:222
+#: .\templates\courses\partials\lesson_content.html:141
+msgid "العودة للدورة"
+msgstr "Back to Course"
+
+#: .\templates\courses\lesson_htmx.html:14
+msgid "إخفاء القائمة"
+msgstr "Hide Menu"
+
+#: .\templates\courses\lesson_htmx.html:14
+msgid "عرض القائمة"
+msgstr "Show Menu"
+
+#: .\templates\courses\partials\comment_item.html:49
+msgid "إرسال"
+msgstr "Send"
+
+#: .\templates\courses\partials\course_grid.html:71
+msgid "لا توجد دورات تطابق معايير البحث"
+msgstr "No courses match the search criteria"
+
+#: .\templates\courses\partials\course_preview_modal.html:46
+msgid "المدة"
+msgstr "Duration"
+
+#: .\templates\courses\partials\course_preview_modal.html:55
+msgid "الطلاب"
+msgstr "Students"
+
+#: .\templates\courses\partials\course_preview_modal.html:81
+msgid "إغلاق"
+msgstr "Close"
+
+#: .\templates\courses\partials\course_preview_modal.html:83
+msgid "عرض التفاصيل الكاملة"
+msgstr "View Full Details"
+
+#: .\templates\courses\partials\lesson_content.html:90
+msgid "اكتب تعليقك..."
+msgstr "Write your comment..."
+
+#: .\templates\courses\partials\lesson_content.html:130
+msgid "تحميل المزيد"
+msgstr "Load More"
+
+#: .\templates\courses\partials\lesson_content.html:149
+msgid "تم إكمال الدرس"
+msgstr "Lesson Completed"
+
+#: .\templates\courses\partials\progress_bar.html:14
+#: .\templates\users\dashboard.html:89
+msgid "التقدم"
+msgstr "Progress"
+
+#: .\templates\courses\partials\search_results.html:22
+msgid "لا توجد نتائج"
+msgstr "No results"
+
+#: .\templates\payments\checkout.html:5
+msgid "الدفع"
+msgstr "Checkout"
+
+#: .\templates\payments\checkout.html:15
+msgid "إتمام عملية الشراء"
+msgstr "Complete Purchase"
+
+#: .\templates\payments\checkout.html:43
+msgid "الدفع آمن ومحمي بواسطة Stripe"
+msgstr "Payment is secure and protected by Stripe"
+
+#: .\templates\payments\checkout.html:49
+msgid "ملخص الطلب"
+msgstr "Order Summary"
+
+#: .\templates\payments\checkout.html:51
+msgid "سعر الدورة:"
+msgstr "Course Price:"
+
+#: .\templates\payments\checkout.html:55
+msgid "الضريبة:"
+msgstr "Tax:"
+
+#: .\templates\payments\checkout.html:60
+msgid "المجموع:"
+msgstr "Total:"
+
+#: .\templates\payments\checkout.html:70
+msgid "متابعة إلى الدفع الآمن"
+msgstr "Proceed to Secure Payment"
+
+#: .\templates\payments\checkout.html:75
+msgid "سيتم تحويلك إلى صفحة الدفع الآمنة من Stripe"
+msgstr "You will be redirected to Stripe's secure payment page"
+
+#: .\templates\payments\checkout.html:84
+msgid "جميع المعاملات مشفرة وآمنة 256-bit SSL"
+msgstr "All transactions are encrypted and secure with 256-bit SSL"
+
+#: .\templates\payments\history.html:22
+msgid "التاريخ"
+msgstr "Date"
+
+#: .\templates\payments\history.html:26
+msgid "الإجراءات"
+msgstr "Actions"
+
+#: .\templates\payments\history.html:46
+msgid "عرض الدورة"
+msgstr "View Course"
+
+#: .\templates\payments\history.html:57
+msgid "لا توجد مدفوعات بعد"
+msgstr "No payments yet"
+
+#: .\templates\payments\history.html:58
+msgid "ابدأ بشراء دورتك الأولى!"
+msgstr "Start by purchasing your first course!"
+
+#: .\templates\payments\success.html:5
+msgid "تم الدفع بنجاح"
+msgstr "Payment Successful"
+
+#: .\templates\payments\success.html:17
+msgid "تم الدفع بنجاح!"
+msgstr "Payment Successful!"
+
+#: .\templates\payments\success.html:18
+msgid "شكراً لشرائك الدورة"
+msgstr "Thank you for purchasing the course"
+
+#: .\templates\payments\success.html:24
+msgid "تم تسجيلك في الدورة بنجاح"
+msgstr "You have been successfully enrolled in the course"
+
+#: .\templates\payments\success.html:28
+msgid "تم إرسال تأكيد إلى بريدك الإلكتروني"
+msgstr "A confirmation has been sent to your email"
+
+#: .\templates\payments\success.html:35
+msgid "ابدأ التعلم الآن"
+msgstr "Start Learning Now"
+
+#: .\templates\payments\success.html:39
+msgid "الذهاب إلى لوحة التحكم"
+msgstr "Go to Dashboard"
+
+#: .\templates\users\dashboard.html:15
+msgid "مرحباً"
+msgstr "Hello"
+
+#: .\templates\users\dashboard.html:17
+msgid "نحن سعداء بوجودك معنا. استمر في التعلم وتحقيق أهدافك!"
+msgstr "We are glad to have you with us. Keep learning and achieving your goals!"
+
+#: .\templates\users\dashboard.html:30
+msgid "دورة مسجلة"
+msgstr "Enrolled Course"
+
+#: .\templates\users\dashboard.html:39
+msgid "دورة مكتملة"
+msgstr "Completed Course"
+
+#: .\templates\users\dashboard.html:48
+msgid "ساعة تعلم"
+msgstr "Learning Hours"
+
+#: .\templates\users\dashboard.html:61
+msgid "دوراتي"
+msgstr "My Courses"
+
+#: .\templates\users\dashboard.html:111
+msgid "لم تسجل في أي دورة بعد"
+msgstr "You haven't enrolled in any course yet"
+
+#: .\templates\users\dashboard.html:112
+msgid "ابدأ رحلتك التعليمية الآن!"
+msgstr "Start your learning journey now!"
+
+#: .\templates\users\dashboard.html:131
+msgid "إجراءات سريعة"
+msgstr "Quick Actions"
+
+#: .\templates\users\dashboard.html:139 .\templates\users\profile.html:76
+msgid "تعديل الملف الشخصي"
+msgstr "Edit Profile"
+
+#: .\templates\users\profile.html:38
+msgid "عضو منذ"
+msgstr "Member since"
+
+#: .\templates\users\profile.html:64 .\templates\users\profile.html:128
+msgid "تغيير كلمة المرور"
+msgstr "Change Password"
+
+#: .\templates\users\profile.html:87 .\users\forms.py:46
+msgid "حفظ التغييرات"
+msgstr "Save Changes"
+
+#: .\templates\users\profile.html:103
+msgid "إعدادات الحساب"
+msgstr "Account Settings"
+
+#: .\templates\users\profile.html:112 .\users\forms.py:22 .\users\models.py:10
+msgid "البريد الإلكتروني"
+msgstr "Email"
+
+#: .\templates\users\profile.html:116
+msgid "إدارة البريد"
+msgstr "Manage Email"
+
+#: .\templates\users\profile.html:124
+msgid "كلمة المرور"
+msgstr "Password"
+
+#: .\users\admin.py:22
+msgid "معلومات شخصية"
+msgstr "Personal Information"
+
+#: .\users\admin.py:25
+msgid "الصلاحيات"
+msgstr "Permissions"
+
+#: .\users\admin.py:28
+msgid "تواريخ مهمة"
+msgstr "Important Dates"
+
+#: .\users\forms.py:20
+msgid "الاسم الأول"
+msgstr "First Name"
+
+#: .\users\forms.py:21
+msgid "اسم العائلة"
+msgstr "Last Name"
+
+#: .\users\forms.py:23 .\users\models.py:11
+msgid "رقم الهاتف"
+msgstr "Phone Number"
+
+#: .\users\forms.py:24 .\users\models.py:12
+msgid "نبذة عني"
+msgstr "About Me"
+
+#: .\users\forms.py:25 .\users\models.py:14
+msgid "الصورة الشخصية"
+msgstr "Profile Picture"
+
+#: .\users\forms.py:26 .\users\models.py:19
+msgid "تاريخ الميلاد"
+msgstr "Date of Birth"
+
+#: .\users\models.py:26
+msgid "الدورات المسجلة"
+msgstr "Enrolled Courses"
+
+#: .\users\models.py:33
+msgid "مستخدم"
+msgstr "User"
+
+#: .\users\models.py:34
+msgid "المستخدمون"
+msgstr "Users"
+
+#: .\users\signals.py:38
+msgid "مرحباً بك في الأكاديمية!"
+msgstr "Welcome to the Academy!"
+
+#: .\users\signals.py:58
+msgid "تسجيل دخول جديد إلى حسابك"
+msgstr "New login to your account"
+
+#: .\users\signals.py:79
+msgid "تم تغيير كلمة المرور بنجاح"
+msgstr "Password changed successfully"
+
+#: .\users\views.py:21
+msgid "تم تحديث الملف الشخصي بنجاح"
+msgstr "Profile updated successfully"
+
+msgid "ابحث عن الدورات"
+msgstr "Search for courses"

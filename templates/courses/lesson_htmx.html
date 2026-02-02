@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ lesson.title }} - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4" x-data="{ showSidebar: true }">
+    <div class="row">
+        <!-- Sidebar Toggle (Mobile) -->
+        <div class="d-lg-none mb-3">
+            <button @click="showSidebar = !showSidebar" class="btn btn-primary w-100">
+                <i class="fas fa-bars me-2"></i>
+                <span x-text="showSidebar ? '{% trans "إخفاء القائمة" %}' : '{% trans "عرض القائمة" %}'"></span>
+            </button>
+        </div>
+
+        <!-- Sidebar with lessons list -->
+        <div class="col-lg-3 col-md-4" x-show="showSidebar" x-cloak>
+            <div class="card shadow-sm sticky-top" style="top: 90px; max-height: calc(100vh - 110px); overflow-y: auto;">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-list me-2"></i>
+                        {% trans "محتوى الدورة" %}
+                    </h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for course_lesson in all_lessons %}
+                        <a href="{% url 'courses:lesson' course.slug course_lesson.id %}"
+                           class="list-group-item list-group-item-action {% if course_lesson.id == lesson.id %}active{% endif %}"
+                           hx-get="{% url 'courses:lesson_htmx_content' course.slug course_lesson.id %}"
+                           hx-target="#lesson-content"
+                           hx-push-url="true">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-{% if course_lesson.id == lesson.id %}play{% else %}circle{% endif %} me-2"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold small">{{ course_lesson.title|truncatewords:5 }}</div>
+                                    <small class="text-muted">{{ course_lesson.duration_minutes }} {% trans "دقيقة" %}</small>
+                                </div>
+                                {% if course_lesson.is_preview %}
+                                    <span class="badge bg-success small">{% trans "تجريبي" %}</span>
+                                {% endif %}
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-md-8" :class="{ 'col-12': !showSidebar }">
+            <div id="lesson-content">
+                {% include 'courses/partials/lesson_content.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+[x-cloak] { display: none !important; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Mark lesson as completed when video ends
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.querySelector('video');
+    if (video) {
+        video.addEventListener('ended', function() {
+            htmx.ajax('POST', '{% url "courses:update_progress_htmx" lesson.id %}', {
+                values: { completed: 'true' },
+                target: '#progress-indicator',
+                swap: 'innerHTML'
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

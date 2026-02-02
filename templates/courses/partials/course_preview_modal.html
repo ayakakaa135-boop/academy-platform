@@ -1,0 +1,85 @@
+{% load i18n %}
+
+<div class="modal-header">
+    <h5 class="modal-title">{{ course.title }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+<div class="modal-body">
+    {% if course.thumbnail %}
+        <img src="{{ course.thumbnail.url }}" class="img-fluid rounded mb-3" alt="{{ course.title }}">
+    {% endif %}
+
+    <div class="mb-3">
+        <span class="badge bg-primary me-2">{{ course.category.name }}</span>
+        <span class="badge bg-info">
+            {% if course.difficulty == 'beginner' %}{% trans "مبتدئ" %}
+            {% elif course.difficulty == 'intermediate' %}{% trans "متوسط" %}
+            {% else %}{% trans "متقدم" %}{% endif %}
+        </span>
+    </div>
+
+    <p>{{ course.description }}</p>
+
+    <div class="row g-3 mb-3">
+        <div class="col-6">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-user-tie fa-2x text-primary me-2"></i>
+                <div>
+                    <small class="text-muted d-block">{% trans "المدرب" %}</small>
+                    <strong>{{ course.instructor.get_full_name }}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-book-open fa-2x text-primary me-2"></i>
+                <div>
+                    <small class="text-muted d-block">{% trans "الدروس" %}</small>
+                    <strong>{{ course.total_lessons }} {% trans "درس" %}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-clock fa-2x text-primary me-2"></i>
+                <div>
+                    <small class="text-muted d-block">{% trans "المدة" %}</small>
+                    <strong>{{ course.duration_hours }} {% trans "ساعة" %}</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-users fa-2x text-primary me-2"></i>
+                <div>
+                    <small class="text-muted d-block">{% trans "الطلاب" %}</small>
+                    <strong>{{ course.total_students }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if preview_lessons %}
+        <h6 class="fw-bold mt-4 mb-3">
+            <i class="fas fa-gift me-2 text-success"></i>
+            {% trans "دروس تجريبية مجانية" %}
+        </h6>
+        <ul class="list-group">
+            {% for lesson in preview_lessons %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-play-circle text-primary me-2"></i>
+                        {{ lesson.title }}
+                    </div>
+                    <span class="badge bg-secondary">{{ lesson.duration_minutes }} {% trans "دقيقة" %}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "إغلاق" %}</button>
+    <a href="{% url 'courses:detail' course.slug %}" class="btn btn-primary">
+        {% trans "عرض التفاصيل الكاملة" %}
+    </a>
+</div>

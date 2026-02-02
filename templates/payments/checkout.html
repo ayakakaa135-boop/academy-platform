@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "الدفع" %} - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        {% trans "إتمام عملية الشراء" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Course Info -->
+                    <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
+                        {% if course.thumbnail %}
+                            <img src="{{ course.thumbnail.url }}" class="rounded me-3" width="100" height="100" style="object-fit: cover;">
+                        {% else %}
+                            <div class="bg-secondary rounded me-3 d-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                                <i class="fas fa-book fa-3x text-white"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h5 class="mb-1">{{ course.title }}</h5>
+                            <p class="text-muted mb-0 small">{{ course.instructor.get_full_name }}</p>
+                            <h4 class="text-success mb-0 mt-2">${{ course.price }}</h4>
+                        </div>
+                    </div>
+
+                    <!-- Payment Info -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">
+                            <i class="fas fa-credit-card me-2"></i>
+                            {% trans "طريقة الدفع" %}
+                        </h6>
+                        <p class="text-muted">
+                            <i class="fas fa-lock me-2 text-success"></i>
+                            {% trans "الدفع آمن ومحمي بواسطة Stripe" %}
+                        </p>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">{% trans "ملخص الطلب" %}</h6>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{% trans "سعر الدورة:" %}</span>
+                            <span>${{ course.price }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{% trans "الضريبة:" %}</span>
+                            <span>$0.00</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>{% trans "المجموع:" %}</span>
+                            <span class="text-success">${{ course.price }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success btn-lg w-100 mb-3">
+                            <i class="fas fa-lock me-2"></i>
+                            {% trans "متابعة إلى الدفع الآمن" %}
+                        </button>
+                    </form>
+
+                    <p class="text-center text-muted small mb-0">
+                        {% trans "سيتم تحويلك إلى صفحة الدفع الآمنة من Stripe" %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Security Info -->
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    {% trans "جميع المعاملات مشفرة وآمنة 256-bit SSL" %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

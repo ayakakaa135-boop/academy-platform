@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "لوحة التحكم" %} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <h2 class="mb-0">
+                        {% trans "مرحباً" %}, {{ user.get_full_name|default:user.username }}! 👋
+                    </h2>
+                    <p class="mb-0">{% trans "نحن سعداء بوجودك معنا. استمر في التعلم وتحقيق أهدافك!" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h3 class="mb-0">{{ enrolled_courses.count }}</h3>
+                    <p class="text-muted mb-0">{% trans "دورة مسجلة" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                    <h3 class="mb-0">0</h3>
+                    <p class="text-muted mb-0">{% trans "دورة مكتملة" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-clock fa-3x text-success mb-3"></i>
+                    <h3 class="mb-0">0</h3>
+                    <p class="text-muted mb-0">{% trans "ساعة تعلم" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Courses -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-graduation-cap me-2"></i>
+                        {% trans "دوراتي" %}
+                    </h5>
+                    <a href="{% url 'courses:list' %}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus me-2"></i>
+                        {% trans "تصفح الدورات" %}
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if enrolled_courses %}
+                        <div class="row g-4">
+                            {% for course in enrolled_courses %}
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="card course-card h-100">
+                                        {% if course.thumbnail %}
+                                            <img src="{{ course.thumbnail.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 150px; object-fit: cover;">
+                                        {% else %}
+                                            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 150px;">
+                                                <i class="fas fa-book fa-3x text-white"></i>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="card-body">
+                                            <span class="badge bg-primary mb-2">{{ course.category.name }}</span>
+                                            <h6 class="card-title">{{ course.title }}</h6>
+
+                                            <!-- Progress Bar -->
+                                            <div class="mb-3">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <small class="text-muted">{% trans "التقدم" %}</small>
+                                                    <small class="text-muted">0%</small>
+                                                </div>
+                                                <div class="progress" style="height: 5px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-grid gap-2">
+                                                <a href="{% url 'courses:detail' course.slug %}" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-play me-2"></i>
+                                                    {% trans "متابعة التعلم" %}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-book-open fa-5x text-muted mb-4"></i>
+                            <h4 class="text-muted">{% trans "لم تسجل في أي دورة بعد" %}</h4>
+                            <p class="text-muted mb-4">{% trans "ابدأ رحلتك التعليمية الآن!" %}</p>
+                            <a href="{% url 'courses:list' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search me-2"></i>
+                                {% trans "تصفح الدورات" %}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-bolt me-2"></i>
+                        {% trans "إجراءات سريعة" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="{% url 'users:profile' %}" class="btn btn-outline-primary w-100 py-3">
+                                <i class="fas fa-user fa-2x d-block mb-2"></i>
+                                {% trans "تعديل الملف الشخصي" %}
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'payments:history' %}" class="btn btn-outline-success w-100 py-3">
+                                <i class="fas fa-receipt fa-2x d-block mb-2"></i>
+                                {% trans "سجل المدفوعات" %}
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'courses:list' %}" class="btn btn-outline-info w-100 py-3">
+                                <i class="fas fa-search fa-2x d-block mb-2"></i>
+                                {% trans "تصفح الدورات" %}
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'blog:list' %}" class="btn btn-outline-warning w-100 py-3">
+                                <i class="fas fa-blog fa-2x d-block mb-2"></i>
+                                {% trans "المدونة" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

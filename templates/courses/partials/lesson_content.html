@@ -1,0 +1,151 @@
+{% load i18n %}
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'courses:home' %}">{% trans "الرئيسية" %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'courses:detail' course.slug %}">{{ course.title }}</a></li>
+        <li class="breadcrumb-item active">{{ lesson.title }}</li>
+    </ol>
+</nav>
+
+<!-- Lesson Title -->
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <h2 class="fw-bold">{{ lesson.title }}</h2>
+    {% if lesson.is_preview %}
+        <span class="badge bg-success p-2">
+            <i class="fas fa-gift me-1"></i>
+            {% trans "درس تجريبي مجاني" %}
+        </span>
+    {% endif %}
+</div>
+
+<!-- Progress Indicator -->
+<div id="progress-indicator" class="mb-3">
+    <!-- سيتم تحديثه ديناميكياً -->
+</div>
+
+<!-- Video Player -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body p-0">
+        {% if lesson.video_url %}
+            <!-- YouTube/Vimeo Embed -->
+            <div class="ratio ratio-16x9">
+                <iframe src="{{ lesson.video_url }}" allowfullscreen></iframe>
+            </div>
+        {% elif lesson.video_file %}
+            <!-- Local Video -->
+            <video controls class="w-100" controlsList="nodownload">
+                <source src="{{ lesson.video_file.url }}" type="video/mp4">
+                {% trans "متصفحك لا يدعم تشغيل الفيديو" %}
+            </video>
+        {% else %}
+            <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 400px;">
+                <div class="text-center">
+                    <i class="fas fa-video fa-5x mb-3"></i>
+                    <h4>{% trans "لا يوجد فيديو متاح حالياً" %}</h4>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Lesson Description -->
+{% if lesson.description %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-align-left me-2"></i>
+                {% trans "وصف الدرس" %}
+            </h5>
+        </div>
+        <div class="card-body">
+            <p>{{ lesson.description }}</p>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Comments Section -->
+<div class="card shadow-sm">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">
+            <i class="fas fa-comments me-2"></i>
+            {% trans "التعليقات والأسئلة" %} (<span id="comments-count">{{ comments.count }}</span>)
+        </h5>
+    </div>
+    <div class="card-body">
+        <!-- Add Comment Form -->
+        {% if user.is_authenticated %}
+            <div class="mb-4" x-data="{ content: '' }">
+                <h6 class="fw-bold">{% trans "أضف تعليقاً" %}</h6>
+                <form hx-post="{% url 'courses:add_comment_htmx' lesson.id %}"
+                      hx-target="#comments-list"
+                      hx-swap="afterbegin"
+                      @htmx:after-request="content = ''">
+                    {% csrf_token %}
+                    <textarea name="content"
+                              class="form-control mb-2"
+                              rows="3"
+                              x-model="content"
+                              placeholder="{% trans 'اكتب تعليقك...' %}"
+                              required></textarea>
+                    <button type="submit" class="btn btn-primary" :disabled="content.trim().length === 0">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        {% trans "إرسال التعليق" %}
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                <a href="{% url 'account_login' %}?next={{ request.path }}">{% trans "سجل دخول" %}</a>
+                {% trans "لإضافة تعليق" %}
+            </div>
+        {% endif %}
+
+        <hr>
+
+        <!-- Comments List -->
+        <div id="comments-list">
+            {% for comment in comments %}
+                {% if comment.is_active %}
+                    {% include 'courses/partials/comment_item.html' %}
+                {% endif %}
+            {% empty %}
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-comment-slash fa-3x mb-3"></i>
+                    <p>{% trans "لا توجد تعليقات بعد. كن أول من يعلق!" %}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Load More Comments -->
+        {% if comments.count > 5 %}
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-primary"
+                        hx-get="{% url 'courses:load_more_comments' lesson.id %}?offset=5"
+                        hx-target="#comments-list"
+                        hx-swap="beforeend">
+                    <i class="fas fa-chevron-down me-2"></i>
+                    {% trans "تحميل المزيد" %}
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="d-flex justify-content-between mt-4">
+    <a href="{% url 'courses:detail' course.slug %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-{% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %} me-2"></i>
+        {% trans "العودة للدورة" %}
+    </a>
+
+    <button class="btn btn-success"
+            hx-post="{% url 'courses:update_progress_htmx' lesson.id %}"
+            hx-vals='{"completed": "true"}'
+            hx-target="#progress-indicator">
+        <i class="fas fa-check me-2"></i>
+        {% trans "تم إكمال الدرس" %}
+    </button>
+</div>

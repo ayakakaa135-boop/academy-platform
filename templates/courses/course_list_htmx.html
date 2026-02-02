@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "جميع الدورات" %} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold">
+                <i class="fas fa-book me-3"></i>
+                {% trans "جميع الدورات" %}
+            </h1>
+            <p class="lead text-muted">{% trans "اختر الدورة المناسبة لك من بين مئات الدورات المتاحة" %}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3 mb-4">
+            <div class="card shadow-sm sticky-top" style="top: 90px;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>
+                        {% trans "تصفية النتائج" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Live Search -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-search me-2"></i>
+                            {% trans "البحث المباشر" %}
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               name="q"
+                               placeholder="{% trans 'ابحث عن دورة...' %}"
+                               hx-get="{% url 'courses:search_htmx' %}"
+                               hx-trigger="keyup changed delay:500ms"
+                               hx-target="#search-results"
+                               hx-indicator="#search-spinner">
+                        <div id="search-spinner" class="htmx-indicator text-center mt-2">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <div id="search-results" class="mt-2"></div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Filters Form -->
+                    <form hx-get="{% url 'courses:list_htmx' %}"
+                          hx-target="#courses-container"
+                          hx-indicator="#loading-indicator"
+                          hx-push-url="true">
+
+                        <!-- Category Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-folder me-2"></i>
+                                {% trans "الفئة" %}
+                            </label>
+                            <select name="category" class="form-select" hx-trigger="change">
+                                <option value="">{% trans "جميع الفئات" %}</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.slug }}"
+                                            {% if selected_category == category.slug %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Difficulty Filter -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-signal me-2"></i>
+                                {% trans "المستوى" %}
+                            </label>
+                            <select name="difficulty" class="form-select" hx-trigger="change">
+                                <option value="">{% trans "جميع المستويات" %}</option>
+                                <option value="beginner" {% if selected_difficulty == 'beginner' %}selected{% endif %}>
+                                    {% trans "مبتدئ" %}
+                                </option>
+                                <option value="intermediate" {% if selected_difficulty == 'intermediate' %}selected{% endif %}>
+                                    {% trans "متوسط" %}
+                                </option>
+                                <option value="advanced" {% if selected_difficulty == 'advanced' %}selected{% endif %}>
+                                    {% trans "متقدم" %}
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Sort -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-sort me-2"></i>
+                                {% trans "الترتيب" %}
+                            </label>
+                            <select name="sort" class="form-select" hx-trigger="change">
+                                <option value="-created_at">{% trans "الأحدث" %}</option>
+                                <option value="price">{% trans "السعر: من الأقل" %}</option>
+                                <option value="-price">{% trans "السعر: من الأعلى" %}</option>
+                                <option value="title">{% trans "الاسم: أ-ي" %}</option>
+                            </select>
+                        </div>
+
+                        <button type="button"
+                                class="btn btn-outline-secondary w-100"
+                                onclick="this.form.reset(); htmx.trigger(this.form, 'change')">
+                            <i class="fas fa-redo me-2"></i>
+                            {% trans "إعادة تعيين" %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="col-lg-9">
+            <!-- Loading Indicator -->
+            <div id="loading-indicator" class="htmx-indicator text-center mb-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-muted">{% trans "جاري التحميل..." %}</p>
+            </div>
+
+            <!-- Results Info -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="text-muted mb-0">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <span id="results-count">{% trans "عدد النتائج:" %} <strong>{{ courses.count }}</strong></span>
+                </p>
+            </div>
+
+            <!-- Courses Container -->
+            <div id="courses-container">
+                {% include 'courses/partials/course_grid.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "معاينة الدورة" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="preview-modal-content">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.htmx-indicator {
+    display: none;
+}
+.htmx-request .htmx-indicator {
+    display: block;
+}
+.htmx-request.htmx-indicator {
+    display: inline-block;
+}
+</style>
+{% endblock %}

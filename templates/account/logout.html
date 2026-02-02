@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "تسجيل الخروج" %} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <i class="fas fa-sign-out-alt fa-4x text-warning mb-4"></i>
+                    <h2 class="fw-bold mb-3">{% trans "تسجيل الخروج" %}</h2>
+                    <p class="text-muted mb-4">{% trans "هل أنت متأكد من رغبتك في تسجيل الخروج؟" %}</p>
+
+                    <form method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-warning btn-lg w-100 mb-2">
+                            <i class="fas fa-sign-out-alt me-2"></i>
+                            {% trans "تأكيد تسجيل الخروج" %}
+                        </button>
+
+                        <a href="{% url 'courses:home' %}" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-times me-2"></i>
+                            {% trans "إلغاء" %}
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

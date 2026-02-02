@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "تم الدفع بنجاح" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow text-center">
+                <div class="card-body py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle fa-5x text-success"></i>
+                    </div>
+
+                    <h2 class="mb-3">{% trans "تم الدفع بنجاح!" %}</h2>
+                    <p class="lead text-muted mb-4">{% trans "شكراً لشرائك الدورة" %}</p>
+
+                    <div class="bg-light p-4 rounded mb-4">
+                        <h5 class="mb-3">{{ course.title }}</h5>
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-check me-2 text-success"></i>
+                            {% trans "تم تسجيلك في الدورة بنجاح" %}
+                        </p>
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-envelope me-2 text-success"></i>
+                            {% trans "تم إرسال تأكيد إلى بريدك الإلكتروني" %}
+                        </p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'courses:detail' course.slug %}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play me-2"></i>
+                            {% trans "ابدأ التعلم الآن" %}
+                        </a>
+                        <a href="{% url 'users:dashboard' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            {% trans "الذهاب إلى لوحة التحكم" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

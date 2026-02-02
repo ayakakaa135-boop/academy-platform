@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <article>
+                <!-- Featured Image -->
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="img-fluid rounded shadow mb-4" alt="{{ post.title }}">
+                {% endif %}
+
+                <!-- Post Header -->
+                <div class="mb-4">
+                    <span class="badge bg-primary mb-2">{{ post.category.name }}</span>
+                    <h1 class="display-5 fw-bold">{{ post.title }}</h1>
+
+                    <div class="d-flex align-items-center text-muted mt-3">
+                        <div class="me-4">
+                            <i class="fas fa-user me-2"></i>
+                            {{ post.author.get_full_name }}
+                        </div>
+                        <div class="me-4">
+                            <i class="fas fa-calendar me-2"></i>
+                            {{ post.published_at|date:"Y-m-d" }}
+                        </div>
+                        <div>
+                            <i class="fas fa-eye me-2"></i>
+                            {{ post.views_count }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post Content -->
+                <div class="post-content mb-5">
+                    {{ post.content|safe }}
+                </div>
+
+                <!-- Comments -->
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-comments me-2"></i>
+                            {% trans "التعليقات" %} ({{ comments.count }})
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                            <form method="post" class="mb-4">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    {% trans "إضافة تعليق" %}
+                                </button>
+                            </form>
+                        {% else %}
+                            <div class="alert alert-info">
+                                <a href="{% url 'account_login' %}?next={{ request.path }}">{% trans "سجل دخول" %}</a>
+                                {% trans "لإضافة تعليق" %}
+                            </div>
+                        {% endif %}
+
+                        {% for comment in comments %}
+                            <div class="border-bottom pb-3 mb-3">
+                                <h6>{{ comment.user.get_full_name }}</h6>
+                                <small class="text-muted">{{ comment.created_at|timesince }} {% trans "منذ" %}</small>
+                                <p class="mt-2">{{ comment.content }}</p>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted text-center">{% trans "كن أول من يعلق!" %}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Related Posts -->
+            {% if related_posts %}
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0">{% trans "مقالات ذات صلة" %}</h6>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        {% for related in related_posts %}
+                            <a href="{% url 'blog:detail' related.slug %}" class="list-group-item list-group-item-action">
+                                <h6>{{ related.title|truncatewords:8 }}</h6>
+                                <small class="text-muted">{{ related.published_at|date:"Y-m-d" }}</small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
