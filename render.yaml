@@ -2,20 +2,19 @@ services:
   # Web Service
   - type: web
     name: academy-platform
-    env: python
-    region: oregon
+    runtime: python
     plan: free
     buildCommand: "./build.sh"
     startCommand: "gunicorn config.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: "3.11.0"
       - key: SECRET_KEY
         generateValue: true
       - key: DEBUG
-        value: False
+        value: "False"
       - key: ALLOWED_HOSTS
-        sync: false
+        value: "academy-platform.onrender.com"
       - key: DATABASE_URL
         fromDatabase:
           name: academy-db
@@ -31,12 +30,8 @@ services:
       - key: EMAIL_HOST_PASSWORD
         sync: false
       - key: SITE_URL
-        sync: false
+        value: "https://academy-platform.onrender.com"
 
-  # PostgreSQL Database
-  - type: psgql
-    name: postgres
-    region: oregon
+databases:
+  - name: academy
     plan: free
-    databaseName: postgres
-    databaseUser: postgres
