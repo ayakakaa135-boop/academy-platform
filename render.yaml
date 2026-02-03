@@ -35,8 +35,8 @@ services:
 
   # PostgreSQL Database
   - type: psgql
-    name: academy-db
+    name: postgres
     region: oregon
     plan: free
-    databaseName: academy
-    databaseUser: academy_user
+    databaseName: postgres
+    databaseUser: postgres
