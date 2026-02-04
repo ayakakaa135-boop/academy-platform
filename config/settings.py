@@ -183,7 +183,7 @@ if not DEBUG:
     EMAIL_USE_TLS = True
     EMAIL_HOST_USER = 'apikey'  
     EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY') 
-    DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+    DEFAULT_FROM_EMAIL = config('DEFAULT_EMAIL')
 else:
     
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
