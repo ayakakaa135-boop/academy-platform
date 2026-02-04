@@ -173,9 +173,8 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # Email settings
-# ... باقي الإعدادات
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_TIMEOUT = 10  # مهلة الاتصال بخادم البريد لتجنب تعليق الطلب
 
 EMAIL_HOST = 'smtp-relay.brevo.com'
 EMAIL_PORT = 587
