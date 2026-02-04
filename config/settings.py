@@ -175,20 +175,16 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 # Email settings
 # ... باقي الإعدادات
 
-if not DEBUG:
-    # Production Email Settings (using SendGrid manually)
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.sendgrid.net'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = 'apikey'  
-    EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY') 
-    DEFAULT_FROM_EMAIL ="kaaka310690@gmail.com"
-else:
-    
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
+
+DEFAULT_FROM_EMAIL = 'kaaka310690@gmail.com'
 
 # Stripe settings
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
