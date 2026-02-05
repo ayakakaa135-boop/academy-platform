@@ -10,7 +10,7 @@ class BrevoEmailBackend(BaseEmailBackend):
     def __init__(self, fail_silently=False, **kwargs):
         super().__init__(fail_silently=fail_silently, **kwargs)
         self.configuration = sib_api_v3_sdk.Configuration()
-        # سنستخدم EMAIL_HOST_PASSWORD كمفتاح API (API Key) لسهولة الإعداد في Render
+        # استخدام EMAIL_HOST_PASSWORD كمفتاح API (API Key)
         self.configuration.api_key['api-key'] = getattr(settings, 'EMAIL_HOST_PASSWORD', '')
         self.api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(self.configuration))
 
@@ -24,20 +24,24 @@ class BrevoEmailBackend(BaseEmailBackend):
                 sender = {"email": message.from_email or settings.DEFAULT_FROM_EMAIL}
                 to = [{"email": recipient} for recipient in message.to]
                 
+                # استخراج محتوى HTML إذا وجد
+                html_content = None
+                if message.content_subtype == 'html':
+                    html_content = message.body
+                elif hasattr(message, 'alternatives'):
+                    for content, mimetype in message.alternatives:
+                        if mimetype == 'text/html':
+                            html_content = content
+                            break
+                
                 send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                     to=to,
                     sender=sender,
                     subject=message.subject,
-                    html_content=message.body if message.content_subtype == 'html' else None,
-                    text_content=message.body if message.content_subtype != 'html' else None,
+                    html_content=html_content or message.body,
+                    text_content=message.body if not html_content else None,
                 )
                 
-                # التعامل مع المرفقات إذا وجدت
-                if hasattr(message, 'alternatives') and message.alternatives:
-                    for content, mimetype in message.alternatives:
-                        if mimetype == 'text/html':
-                            send_smtp_email.html_content = content
-
                 self.api_instance.send_transac_email(send_smtp_email)
                 count += 1
             except ApiException as e:
