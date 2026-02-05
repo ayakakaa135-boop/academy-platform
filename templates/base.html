@@ -4,8 +4,11 @@
 <html lang="{% if LANGUAGE_CODE == 'ar' %}ar{% else %}en{% endif %}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="{% block meta_description %}الأكاديمية التعليمية - منصتك للتعلم والتطوير{% endblock %}">
+    
     <title>{% block title %}{% trans "الأكاديمية التعليمية" %}{% endblock %}</title>
 
     <!-- Bootstrap 5 CSS -->
@@ -21,10 +24,7 @@
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-
-    <!-- Custom CSS -->
+    <!-- Custom CSS - IMPROVED ✅ -->
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -45,32 +45,25 @@
             background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
             min-height: 100vh;
         }
+
+        /* ✅ IMPROVED: Hero Section - Responsive */
         .hero {
-    background-image: url('{% static "images/hero-background.jpg" %}');
-    background-size: cover;
-    background-position: center center;
-    min-height: 600px;
-    position: relative;
-}
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.85) 100%);
+            background-size: cover;
+            background-position: center center;
+            min-height: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(59, 130, 246, 0.65);
-    z-index: 1;
-}
+        @media (min-width: 768px) {
+            .hero {
+                min-height: 600px;
+            }
+        }
 
-.hero > .container {
-    position: relative;
-    z-index: 2;
-}
-
-.hero .row {
-    min-height: 600px;
-}
-
+        /* ✅ IMPROVED: Navbar - Better Mobile Support */
         .navbar {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
@@ -78,10 +71,30 @@
             transition: all 0.3s ease;
         }
 
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: rgba(37, 99, 235, 0.98);
+                padding: 1rem;
+                border-radius: 12px;
+                margin-top: 0.5rem;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+            
+            body {
+                padding-top: 66px;
+            }
+        }
+
         .navbar-brand {
             font-weight: bold;
             font-size: 1.5rem;
             transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
         }
 
         .navbar-brand:hover {
@@ -91,6 +104,7 @@
         .nav-link {
             transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 1rem;
         }
 
         .nav-link::after {
@@ -109,6 +123,7 @@
             width: 80%;
         }
 
+        /* ✅ IMPROVED: Footer */
         .footer {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: #fff;
@@ -117,11 +132,23 @@
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
         }
 
+        @media (max-width: 768px) {
+            .footer {
+                text-align: center;
+            }
+            
+            .footer .col-md-4 {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* ✅ IMPROVED: Buttons */
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             border: none;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             transition: all 0.3s ease;
+            min-height: 44px; /* Touch-friendly */
         }
 
         .btn-primary:hover {
@@ -134,6 +161,7 @@
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
             transition: all 0.3s ease;
+            min-height: 44px;
         }
 
         .btn-outline-primary:hover {
@@ -143,6 +171,7 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
+        /* ✅ IMPROVED: Course Cards - Responsive */
         .course-card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
@@ -164,6 +193,17 @@
             transform: scale(1.05);
         }
 
+        @media (max-width: 576px) {
+            .course-card {
+                margin-bottom: 1rem;
+            }
+            
+            .course-card img {
+                height: 150px !important;
+            }
+        }
+
+        /* ✅ IMPROVED: Alerts */
         .alert {
             border-radius: 12px;
             border: none;
@@ -182,6 +222,7 @@
             }
         }
 
+        /* ✅ IMPROVED: Cards */
         .card {
             border-radius: 12px;
             border: none;
@@ -193,17 +234,13 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         }
 
-        .badge {
-            padding: 0.5rem 0.75rem;
-            font-weight: 600;
-            border-radius: 6px;
-        }
-
+        /* ✅ IMPROVED: Forms */
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
         }
 
+        /* ✅ IMPROVED: Dropdown */
         .dropdown-menu {
             border-radius: 12px;
             border: none;
@@ -216,6 +253,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ✅ IMPROVED: Social Links */
         .social-links a {
             transition: all 0.3s ease;
             display: inline-block;
@@ -225,11 +263,49 @@
             transform: translateY(-3px) scale(1.1);
         }
 
-        {% if LANGUAGE_CODE == 'ar' %}
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
-        {% endif %}
+        /* ✅ IMPROVED: Responsive Typography */
+        @media (max-width: 576px) {
+            .display-4 {
+                font-size: 2rem !important;
+            }
+            
+            .display-5 {
+                font-size: 1.75rem !important;
+            }
+            
+            .lead {
+                font-size: 1rem !important;
+            }
+            
+            h1 {
+                font-size: 1.75rem !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+            }
+        }
 
-        /* Scrollbar Styling */
+        /* ✅ NEW: Accessibility - Focus Styles */
+        *:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus,
+        a:focus {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+        }
+
+        /* ✅ NEW: Safe Area for iOS */
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+            }
+        }
+
+        /* ✅ IMPROVED: Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -246,6 +322,24 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-dark);
         }
+
+        /* ✅ NEW: Loading Spinner */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* ✅ NEW: Sticky Elements */
+        @media (max-width: 992px) {
+            .sticky-top {
+                position: relative !important;
+                top: auto !important;
+            }
+        }
+
+        {% if LANGUAGE_CODE == 'ar' %}
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+        {% endif %}
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -259,7 +353,7 @@
                 {% trans "الأكاديمية" %}
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -292,11 +386,11 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle me-1"></i>
                                 {{ user.username }}
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'users:profile' %}">
                                     <i class="fas fa-user me-2"></i>{% trans "الملف الشخصي" %}
                                 </a></li>
@@ -331,11 +425,11 @@
 
                     <!-- Language Switcher -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-language me-1"></i>
                             {% if LANGUAGE_CODE == 'ar' %}العربية{% else %}English{% endif %}
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 <form action="{% url 'set_language' %}" method="post" class="px-3">
                                     {% csrf_token %}
@@ -365,7 +459,7 @@
                     {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle me-2"></i>{% endif %}
                     {% if message.tags == 'info' %}<i class="fas fa-info-circle me-2"></i>{% endif %}
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
         </div>
@@ -401,10 +495,10 @@
                 <div class="col-md-4 mb-4">
                     <h5>{% trans "تواصل معنا" %}</h5>
                     <div class="social-links">
-                        <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook fa-2x"></i></a>
-                        <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter fa-2x"></i></a>
-                        <a href="#" class="text-white-50 me-3"><i class="fab fa-instagram fa-2x"></i></a>
-                        <a href="#" class="text-white-50"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-white-50 me-3" aria-label="Facebook"><i class="fab fa-facebook fa-2x"></i></a>
+                        <a href="#" class="text-white-50 me-3" aria-label="Twitter"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-white-50 me-3" aria-label="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
+                        <a href="#" class="text-white-50" aria-label="YouTube"><i class="fab fa-youtube fa-2x"></i></a>
                     </div>
                 </div>
             </div>
@@ -426,9 +520,6 @@
 
     <!-- HTMX Extensions -->
     <script src="https://unpkg.com/htmx.org/dist/ext/loading-states.js"></script>
-
-    <!-- Custom Enhancements -->
-    <script src="{% static 'js/enhancements.js' %}"></script>
 
     <script>
         // HTMX Configuration
@@ -456,6 +547,16 @@
                 bsAlert.close();
             });
         }, 5000);
+        
+        // ✅ NEW: Close mobile menu on link click
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    bootstrap.Collapse.getInstance(navbarCollapse).hide();
+                }
+            });
+        });
     </script>
 
     {% block extra_js %}{% endblock %}
