@@ -1,7 +1,4 @@
-{% load i18n %}
-{% blocktrans %}تنبيه: محاولة تسجيل حساب موجود بالفعل{% endblocktrans %}
-
-{% blocktrans %}مرحباً،{% endblocktrans %}
+{% load i18n %}{% autoescape off %}{% blocktrans %}مرحباً بك في الأكاديمية التعليمية!{% endblocktrans %}
 
 {% blocktrans %}لقد تلقينا محاولة لتسجيل حساب جديد في الأكاديمية التعليمية باستخدام بريدك الإلكتروني: {{ email }}.{% endblocktrans %}
 
@@ -13,5 +10,5 @@
 
 {% blocktrans %}إذا لم تكن أنت من حاول التسجيل، فلا داعي للقلق. حسابك الحالي آمن.{% endblocktrans %}
 
-{% blocktrans %}مع أطيب التحيات،{% endblocktrans %}
-{% blocktrans %}فريق الأكاديمية التعليمية{% endblocktrans %}
+{% blocktrans %}شكراً لاستخدامك الأكاديمية التعليمية!{% endblocktrans %}
+academy-platform.onrender.com{% endautoescape %}

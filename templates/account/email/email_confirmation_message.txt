@@ -1,5 +1,4 @@
-{% load i18n %}
-{% blocktrans %}مرحباً بك في الأكاديمية!{% endblocktrans %}
+{% load i18n %}{% autoescape off %}{% blocktrans %}مرحباً بك في الأكاديمية التعليمية!{% endblocktrans %}
 
 {% blocktrans %}مرحباً {{ user }}،{% endblocktrans %}
 
@@ -9,5 +8,5 @@
 
 {% blocktrans %}إذا لم تقم بالتسجيل في موقعنا، يرجى تجاهل هذا البريد.{% endblocktrans %}
 
-{% blocktrans %}مع أطيب التحيات،{% endblocktrans %}
-{% blocktrans %}فريق الأكاديمية التعليمية{% endblocktrans %}
+{% blocktrans %}شكراً لاستخدامك الأكاديمية التعليمية!{% endblocktrans %}
+academy-platform.onrender.com{% endautoescape %}
