@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans "الملف الشخصي" %} - {% trans "الأكاديمية" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Profile Sidebar -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" class="rounded-circle mb-3" width="150" height="150" style="object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <i class="fas fa-user fa-5x"></i>
+                        </div>
+                    {% endif %}
+
+                    <h4 class="mb-1">{{ user.get_full_name|default:user.username }}</h4>
+                    <p class="text-muted mb-3">{{ user.email }}</p>
+
+                    {% if user.bio %}
+                        <p class="small">{{ user.bio }}</p>
+                    {% endif %}
+
+                    <div class="border-top pt-3 mt-3">
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h5 class="mb-0">{{ user.enrolled_courses.count }}</h5>
+                                <small class="text-muted">{% trans "دورة" %}</small>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="mb-0">{{ user.date_joined|timesince }}</h5>
+                                <small class="text-muted">{% trans "عضو منذ" %}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="card shadow mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">
+                        <i class="fas fa-link me-2"></i>
+                        {% trans "روابط سريعة" %}
+                    </h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{% url 'users:dashboard' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        {% trans "لوحة التحكم" %}
+                    </a>
+                    <a href="{% url 'payments:history' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-receipt me-2"></i>
+                        {% trans "سجل المدفوعات" %}
+                    </a>
+                    <a href="{% url 'account_change_password' %}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-key me-2"></i>
+                        {% trans "تغيير كلمة المرور" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Form -->
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>
+                        {% trans "تعديل الملف الشخصي" %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                {% trans "حفظ التغييرات" %}
+                            </button>
+                            <a href="{% url 'users:dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times me-2"></i>
+                                {% trans "إلغاء" %}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="card shadow mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-cog me-2"></i>
+                        {% trans "إعدادات الحساب" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="border p-3 rounded">
+                                <h6 class="text-primary">
+                                    <i class="fas fa-envelope me-2"></i>
+                                    {% trans "البريد الإلكتروني" %}
+                                </h6>
+                                <p class="mb-2">{{ user.email }}</p>
+                                <a href="{% url 'account_email' %}" class="btn btn-sm btn-outline-primary">
+                                    {% trans "إدارة البريد" %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="border p-3 rounded">
+                                <h6 class="text-primary">
+                                    <i class="fas fa-key me-2"></i>
+                                    {% trans "كلمة المرور" %}
+                                </h6>
+                                <p class="mb-2">••••••••</p>
+                                <a href="{% url 'account_change_password' %}" class="btn btn-sm btn-outline-primary">
+                                    {% trans "تغيير كلمة المرور" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
