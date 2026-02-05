@@ -1,0 +1,11 @@
+{% load i18n %}
+{% blocktrans %}تنبيه: تم تغيير البريد الإلكتروني{% endblocktrans %}
+
+{% blocktrans %}مرحباً،{% endblocktrans %}
+
+{% blocktrans %}نود إعلامك بأنه تم تغيير البريد الإلكتروني المرتبط بحسابك في الأكاديمية التعليمية إلى: {{ email }}{% endblocktrans %}
+
+{% blocktrans %}إذا لم تقم بهذا التغيير، يرجى التواصل مع فريق الدعم فوراً.{% endblocktrans %}
+
+{% blocktrans %}مع أطيب التحيات،{% endblocktrans %}
+{% blocktrans %}فريق الأكاديمية التعليمية{% endblocktrans %}

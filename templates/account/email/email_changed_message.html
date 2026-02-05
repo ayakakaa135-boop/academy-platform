@@ -1,0 +1,34 @@
+{% extends "account/email/base_email.html" %}
+{% load i18n %}
+
+{% block subject %}
+{% autoescape off %}
+{% blocktrans %}تنبيه: تم تغيير البريد الإلكتروني{% endblocktrans %}
+{% endautoescape %}
+{% endblock %}
+
+{% block content %}
+<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">📧 تغيير البريد الإلكتروني</h2>
+
+<p style="margin-bottom: 15px;">مرحباً،</p>
+
+<p style="margin-bottom: 15px;">نود إعلامك بأنه تم تغيير البريد الإلكتروني المرتبط بحسابك في <strong>الأكاديمية التعليمية</strong>.</p>
+
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #1e40af;">
+        <strong>📍 البريد الجديد:</strong> {{ email }}
+    </p>
+</div>
+
+<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #92400e;">
+        <strong>⚠️ لم تقم بهذا التغيير؟</strong><br>
+        إذا لم تكن أنت من قام بتغيير البريد الإلكتروني، يرجى التواصل مع فريق الدعم فوراً لتأمين حسابك.
+    </p>
+</div>
+
+<p style="margin-top: 30px;">
+    مع أطيب التحيات،<br>
+    <strong>فريق الأكاديمية التعليمية</strong>
+</p>
+{% endblock %}

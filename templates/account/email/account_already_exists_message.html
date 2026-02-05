@@ -1,0 +1,53 @@
+{% extends "account/email/base_email.html" %}
+{% load i18n %}
+
+{% block subject %}
+{% autoescape off %}
+{% blocktrans %}تنبيه: محاولة تسجيل حساب موجود بالفعل{% endblocktrans %}
+{% endautoescape %}
+{% endblock %}
+
+{% block content %}
+<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">⚠️ تنبيه أمني</h2>
+
+<p style="margin-bottom: 15px;">مرحباً،</p>
+
+<p style="margin-bottom: 15px;">لقد تلقينا محاولة لتسجيل حساب جديد في <strong>الأكاديمية التعليمية</strong> باستخدام بريدك الإلكتروني: <strong>{{ email }}</strong>.</p>
+
+<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #92400e;">
+        <strong>ℹ️ ملاحظة:</strong> يوجد بالفعل حساب مسجل بهذا البريد الإلكتروني في منصتنا.
+    </p>
+</div>
+
+<p style="margin-bottom: 15px;">إذا كنت قد نسيت كلمة المرور الخاصة بك، يمكنك استعادتها بسهولة بالنقر على الزر أدناه:</p>
+
+<div style="text-align: center; margin: 30px 0;">
+    <a href="{{ password_reset_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
+        🔐 إعادة تعيين كلمة المرور
+    </a>
+</div>
+
+<p style="margin-bottom: 15px;">إذا لم تتمكن من النقر على الزر، يمكنك نسخ ولصق الرابط التالي في متصفحك:</p>
+
+<p style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; word-break: break-all; font-size: 14px; font-family: monospace; color: #4b5563;">
+    {{ password_reset_url }}
+</p>
+
+<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
+
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #1e40af;">
+        <strong>🛡️ حماية حسابك:</strong> إذا لم تكن أنت من حاول التسجيل، فلا داعي للقلق. حسابك الحالي آمن ولا يمكن لأي شخص آخر الوصول إليه باستخدام هذا البريد.
+    </p>
+</div>
+
+<p style="margin-top: 30px;">
+    شكراً لاستخدامك الأكاديمية التعليمية! 🚀
+</p>
+
+<p style="margin-top: 20px;">
+    مع أطيب التحيات،<br>
+    <strong>فريق الأكاديمية التعليمية</strong>
+</p>
+{% endblock %}

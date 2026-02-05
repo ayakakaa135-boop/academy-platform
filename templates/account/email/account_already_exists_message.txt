@@ -1,0 +1,17 @@
+{% load i18n %}
+{% blocktrans %}تنبيه: محاولة تسجيل حساب موجود بالفعل{% endblocktrans %}
+
+{% blocktrans %}مرحباً،{% endblocktrans %}
+
+{% blocktrans %}لقد تلقينا محاولة لتسجيل حساب جديد في الأكاديمية التعليمية باستخدام بريدك الإلكتروني: {{ email }}.{% endblocktrans %}
+
+{% blocktrans %}يوجد بالفعل حساب مسجل بهذا البريد الإلكتروني في منصتنا.{% endblocktrans %}
+
+{% blocktrans %}إذا كنت قد نسيت كلمة المرور الخاصة بك، يمكنك استعادتها عبر الرابط التالي:{% endblocktrans %}
+
+{{ password_reset_url }}
+
+{% blocktrans %}إذا لم تكن أنت من حاول التسجيل، فلا داعي للقلق. حسابك الحالي آمن.{% endblocktrans %}
+
+{% blocktrans %}مع أطيب التحيات،{% endblocktrans %}
+{% blocktrans %}فريق الأكاديمية التعليمية{% endblocktrans %}
