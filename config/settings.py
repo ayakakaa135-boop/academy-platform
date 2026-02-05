@@ -181,7 +181,7 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
-DEFAULT_FROM_EMAIL = 'kaaka310690@gmail.com'
+DEFAULT_FROM_EMAIL = 'ayakakaa135@gmail.com'
 
 # Stripe settings
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY', default='')
