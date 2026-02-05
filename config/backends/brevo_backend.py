@@ -39,27 +39,35 @@ class BrevoEmailBackend(BaseEmailBackend):
                 
                 # 1. التحقق من وجود محتوى HTML في alternatives (الطريقة الشائعة)
                 if hasattr(message, 'alternatives'):
+                    logger.info(f"Message has {len(message.alternatives)} alternatives")
                     for content, mimetype in message.alternatives:
+                        logger.info(f"Alternative mimetype: {mimetype}")
                         if mimetype == 'text/html':
                             html_content = content
+                            logger.info("HTML content found in alternatives")
                             break
                 
                 # 2. إذا لم يوجد، التحقق مما إذا كان الرسالة نفسها من نوع HTML
-                if not html_content and getattr(message, 'content_subtype', None) == 'html':
-                    html_content = message.body
+                if not html_content:
+                    subtype = getattr(message, 'content_subtype', None)
+                    logger.info(f"Message content_subtype: {subtype}")
+                    if subtype == 'html':
+                        html_content = message.body
+                        logger.info("HTML content found in message body (subtype=html)")
                 
                 # إعداد كائن الإرسال
+                # نستخدم html_content إذا وجد، وإلا نستخدم message.body كـ HTML بسيط
+                final_html = html_content
+                if not final_html:
+                    final_html = f"<html><body dir='rtl'>{message.body.replace('\n', '<br>')}</body></html>"
+
                 send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                     to=to,
                     sender=sender,
                     subject=message.subject,
-                    html_content=html_content if html_content else None,
-                    text_content=message.body if not html_content else message.body,
+                    html_content=final_html,
+                    text_content=message.body,
                 )
-                
-                # إذا لم يتوفر HTML، نستخدم النص العادي كـ HTML بسيط لضمان العرض
-                if not html_content:
-                    send_smtp_email.html_content = f"<html><body>{message.body.replace('\n', '<br>')}</body></html>"
 
                 logger.info(f"Attempting to send email to {message.to} via Brevo API (HTML: {'Yes' if html_content else 'No'})...")
                 api_response = self.api_instance.send_transac_email(send_smtp_email)
