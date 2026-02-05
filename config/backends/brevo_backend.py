@@ -70,6 +70,10 @@ class BrevoEmailBackend(BaseEmailBackend):
                 )
 
                 logger.info(f"Attempting to send email to {message.to} via Brevo API (HTML: {'Yes' if html_content else 'No'})...")
+                if html_content:
+                    logger.info(f"HTML Content length: {len(html_content)}")
+                    # Log a snippet of HTML to verify links
+                    logger.info(f"HTML Snippet: {html_content[:500]}...")
                 api_response = self.api_instance.send_transac_email(send_smtp_email)
                 logger.info(f"Email sent successfully! Message ID: {api_response.message_id}")
                 count += 1
