@@ -1,57 +1,57 @@
 {% extends "account/email/base_email.html" %}
 
 {% block content %}
-<h2>🎉 مرحباً بك في الأكاديمية!</h2>
+<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">🎉 مرحباً بك في الأكاديمية!</h2>
 
-<p>مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
+<p style="margin-bottom: 15px;">مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
 
-<p>نحن في غاية السعادة لانضمامك إلى <strong>الأكاديمية التعليمية</strong>! 🎊</p>
+<p style="margin-bottom: 15px;">نحن في غاية السعادة لانضمامك إلى <strong>الأكاديمية التعليمية</strong>! 🎊</p>
 
-<div class="success-box">
-    <p style="margin: 0;">
+<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #065f46;">
         <strong>✅ تم تفعيل حسابك بنجاح!</strong>
     </p>
 </div>
 
-<p>أنت الآن جزء من مجتمع يضم آلاف المتعلمين الطموحين حول العالم. نحن هنا لمساعدتك في تحقيق أهدافك التعليمية.</p>
+<p style="margin-bottom: 15px;">أنت الآن جزء من مجتمع يضم آلاف المتعلمين الطموحين حول العالم. نحن هنا لمساعدتك في تحقيق أهدافك التعليمية.</p>
 
 <div style="text-align: center; margin: 30px 0;">
-    <a href="{{ site_url }}" class="button">
+    <a href="{{ site_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
         🚀 ابدأ التعلم الآن
     </a>
 </div>
 
-<div class="divider"></div>
+<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px;">🎯 ماذا يمكنك فعله الآن؟</h3>
+<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">🎯 ماذا يمكنك فعله الآن؟</h3>
 
-<ul>
-    <li>📚 <strong>تصفح الدورات:</strong> استكشف آلاف الدورات في مختلف المجالات</li>
-    <li>🎁 <strong>جرّب مجاناً:</strong> شاهد الدروس التجريبية المجانية</li>
-    <li>👤 <strong>أكمل ملفك الشخصي:</strong> أضف صورتك ومعلوماتك</li>
-    <li>⭐ <strong>ابدأ دورتك الأولى:</strong> اختر دورة وابدأ رحلة التعلم</li>
-    <li>💬 <strong>تواصل معنا:</strong> نحن دائماً هنا للمساعدة</li>
+<ul style="padding-right: 20px; margin: 15px 0;">
+    <li style="margin: 10px 0;">📚 <strong>تصفح الدورات:</strong> استكشف آلاف الدورات في مختلف المجالات</li>
+    <li style="margin: 10px 0;">🎁 <strong>جرّب مجاناً:</strong> شاهد الدروس التجريبية المجانية</li>
+    <li style="margin: 10px 0;">👤 <strong>أكمل ملفك الشخصي:</strong> أضف صورتك ومعلوماتك</li>
+    <li style="margin: 10px 0;">⭐ <strong>ابدأ دورتك الأولى:</strong> اختر دورة وابدأ رحلة التعلم</li>
+    <li style="margin: 10px 0;">💬 <strong>تواصل معنا:</strong> نحن دائماً هنا للمساعدة</li>
 </ul>
 
-<div class="info-box">
-    <p style="margin: 0; font-size: 14px;">
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #1e40af;">
         <strong>💡 نصيحة:</strong> ابدأ بالدورات المصنفة "للمبتدئين" إذا كنت جديداً في المجال!
     </p>
 </div>
 
-<div class="divider"></div>
+<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px;">📧 ابقَ على اتصال</h3>
+<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">📧 ابقَ على اتصال</h3>
 
-<p>ستصلك تحديثات منتظمة عن:</p>
+<p style="margin-bottom: 15px;">ستصلك تحديثات منتظمة عن:</p>
 
-<ul>
-    <li>📬 الدورات الجديدة والعروض الخاصة</li>
-    <li>🎓 نصائح تعليمية وموارد مجانية</li>
-    <li>🏆 إنجازاتك وتقدمك في التعلم</li>
+<ul style="padding-right: 20px; margin: 15px 0;">
+    <li style="margin: 10px 0;">📬 الدورات الجديدة والعروض الخاصة</li>
+    <li style="margin: 10px 0;">🎓 نصائح تعليمية وموارد مجانية</li>
+    <li style="margin: 10px 0;">🏆 إنجازاتك وتقدمك في التعلم</li>
 </ul>
 
-<p style="margin-top: 30px;">نتمنى لك رحلة تعليمية ممتعة ومثمرة! 🌟</p>
+<p style="margin-top: 30px; margin-bottom: 15px;">نتمنى لك رحلة تعليمية ممتعة ومثمرة! 🌟</p>
 
 <p style="margin-top: 20px;">
     مع أطيب التحيات،<br>

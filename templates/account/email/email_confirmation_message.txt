@@ -1,0 +1,13 @@
+{% load i18n %}
+{% blocktrans %}مرحباً بك في الأكاديمية!{% endblocktrans %}
+
+{% blocktrans %}مرحباً {{ user_display }}،{% endblocktrans %}
+
+{% blocktrans %}شكراً لتسجيلك في الأكاديمية التعليمية. لتفعيل حسابك، يرجى النقر على الرابط التالي:{% endblocktrans %}
+
+{{ activate_url }}
+
+{% blocktrans %}إذا لم تقم بالتسجيل في موقعنا، يرجى تجاهل هذا البريد.{% endblocktrans %}
+
+{% blocktrans %}مع أطيب التحيات،{% endblocktrans %}
+{% blocktrans %}فريق الأكاديمية التعليمية{% endblocktrans %}

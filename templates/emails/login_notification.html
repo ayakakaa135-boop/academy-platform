@@ -1,53 +1,53 @@
 {% extends "account/email/base_email.html" %}
 
 {% block content %}
-<h2>🔐 تسجيل دخول جديد إلى حسابك</h2>
+<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">🔐 تسجيل دخول جديد إلى حسابك</h2>
 
-<p>مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
+<p style="margin-bottom: 15px;">مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
 
-<p>تم تسجيل دخول جديد إلى حسابك في <strong>الأكاديمية التعليمية</strong>.</p>
+<p style="margin-bottom: 15px;">تم تسجيل دخول جديد إلى حسابك في <strong>الأكاديمية التعليمية</strong>.</p>
 
-<div class="info-box">
-    <p style="margin: 0;">
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #1e40af;">
         <strong>📍 معلومات تسجيل الدخول:</strong><br>
         <strong>التاريخ والوقت:</strong> {{ login_time|date:"Y-m-d H:i" }}<br>
     </p>
 </div>
 
-<div class="success-box">
-    <p style="margin: 0;">
+<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #065f46;">
         <strong>✅ هل كنت أنت؟</strong> رائع! يمكنك تجاهل هذا البريد.
     </p>
 </div>
 
-<div class="warning-box">
-    <p style="margin: 0; font-size: 14px;">
+<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #92400e;">
         <strong>⚠️ لم تكن أنت؟</strong><br>
         إذا لم تسجل الدخول، يرجى اتخاذ الإجراءات التالية فوراً:
     </p>
 </div>
 
-<ul>
-    <li>🔒 قم بتغيير كلمة مرورك فوراً</li>
-    <li>✉️ تأكد من أن بريدك الإلكتروني آمن</li>
-    <li>📞 تواصل معنا إذا كنت تشك في وجود نشاط غير مصرح به</li>
+<ul style="padding-right: 20px; margin: 15px 0;">
+    <li style="margin: 10px 0;">🔒 قم بتغيير كلمة مرورك فوراً</li>
+    <li style="margin: 10px 0;">✉️ تأكد من أن بريدك الإلكتروني آمن</li>
+    <li style="margin: 10px 0;">📞 تواصل معنا إذا كنت تشك في وجود نشاط غير مصرح به</li>
 </ul>
 
 <div style="text-align: center; margin: 30px 0;">
-    <a href="{{ password_reset_url }}" class="button">
+    <a href="{{ password_reset_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
         🔑 تغيير كلمة المرور
     </a>
 </div>
 
-<div class="divider"></div>
+<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px;">🛡️ نصائح للحفاظ على أمان حسابك:</h3>
+<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">🛡️ نصائح للحفاظ على أمان حسابك:</h3>
 
-<ul>
-    <li>لا تشارك كلمة مرورك مع أي شخص</li>
-    <li>استخدم كلمة مرور قوية ومعقدة</li>
-    <li>قم بتسجيل الخروج بعد استخدام أجهزة عامة</li>
-    <li>فعّل المصادقة الثنائية إن أمكن</li>
+<ul style="padding-right: 20px; margin: 15px 0;">
+    <li style="margin: 10px 0;">لا تشارك كلمة مرورك مع أي شخص</li>
+    <li style="margin: 10px 0;">استخدم كلمة مرور قوية ومعقدة</li>
+    <li style="margin: 10px 0;">قم بتسجيل الخروج بعد استخدام أجهزة عامة</li>
+    <li style="margin: 10px 0;">فعّل المصادقة الثنائية إن أمكن</li>
 </ul>
 
 <p style="margin-top: 30px;">

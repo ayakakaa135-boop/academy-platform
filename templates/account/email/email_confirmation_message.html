@@ -9,57 +9,57 @@
 {% endblock %}
 
 {% block content %}
-<h2>🎉 مرحباً بك في الأكاديمية!</h2>
+<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">🎉 مرحباً بك في الأكاديمية!</h2>
 
-<p>مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
+<p style="margin-bottom: 15px;">مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
 
-<p>نحن سعداء جداً بانضمامك إلينا! شكراً لتسجيلك في <strong>الأكاديمية التعليمية</strong>.</p>
+<p style="margin-bottom: 15px;">نحن سعداء جداً بانضمامك إلينا! شكراً لتسجيلك في <strong>الأكاديمية التعليمية</strong>.</p>
 
-<div class="success-box">
-    <p style="margin: 0;">
+<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; color: #065f46;">
         <strong>✅ تم إنشاء حسابك بنجاح!</strong>
     </p>
 </div>
 
-<p>للبدء في استخدام الأكاديمية والوصول إلى جميع الدورات، يرجى تأكيد بريدك الإلكتروني بالنقر على الزر أدناه:</p>
+<p style="margin-bottom: 15px;">للبدء في استخدام الأكاديمية والوصول إلى جميع الدورات، يرجى تأكيد بريدك الإلكتروني بالنقر على الزر أدناه:</p>
 
 <div style="text-align: center; margin: 30px 0;">
-    <a href="{{ activate_url }}" class="button">
+    <a href="{{ activate_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
         🔓 تفعيل حسابي الآن
     </a>
 </div>
 
-<div class="info-box">
-    <p style="margin: 0; font-size: 14px;">
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #1e40af;">
         <strong>ℹ️ ملاحظة:</strong> رابط التفعيل صالح لمدة 24 ساعة فقط. إذا لم تقم بالتفعيل خلال هذه المدة، ستحتاج إلى التسجيل مرة أخرى.
     </p>
 </div>
 
-<p>إذا لم تتمكن من النقر على الزر، يمكنك نسخ ولصق الرابط التالي في متصفحك:</p>
+<p style="margin-bottom: 15px;">إذا لم تتمكن من النقر على الزر، يمكنك نسخ ولصق الرابط التالي في متصفحك:</p>
 
-<p style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; word-break: break-all; font-size: 14px; font-family: monospace;">
+<p style="background-color: #f3f4f6; padding: 15px; border-radius: 6px; word-break: break-all; font-size: 14px; font-family: monospace; color: #4b5563;">
     {{ activate_url }}
 </p>
 
-<div class="divider"></div>
+<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px;">🎯 ماذا بعد التفعيل؟</h3>
+<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">🎯 ماذا بعد التفعيل؟</h3>
 
-<ul>
-    <li>✨ تصفح آلاف الدورات التعليمية في مختلف المجالات</li>
-    <li>📚 ابدأ التعلم فوراً مع الدروس التجريبية المجانية</li>
-    <li>⭐ احصل على شهادات إتمام معتمدة</li>
-    <li>💬 تفاعل مع المدربين والطلاب الآخرين</li>
-    <li>📊 تتبع تقدمك وإنجازاتك</li>
+<ul style="padding-right: 20px; margin: 15px 0;">
+    <li style="margin: 10px 0;">✨ تصفح آلاف الدورات التعليمية في مختلف المجالات</li>
+    <li style="margin: 10px 0;">📚 ابدأ التعلم فوراً مع الدروس التجريبية المجانية</li>
+    <li style="margin: 10px 0;">⭐ احصل على شهادات إتمام معتمدة</li>
+    <li style="margin: 10px 0;">💬 تفاعل مع المدربين والطلاب الآخرين</li>
+    <li style="margin: 10px 0;">📊 تتبع تقدمك وإنجازاتك</li>
 </ul>
 
-<div class="warning-box">
-    <p style="margin: 0; font-size: 14px;">
+<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
+    <p style="margin: 0; font-size: 14px; color: #92400e;">
         <strong>⚠️ لم تسجل حساباً؟</strong> إذا استلمت هذا البريد بالخطأ، يمكنك تجاهله بأمان.
     </p>
 </div>
 
-<p style="margin-top: 30px;">نتطلع لرؤيتك في الأكاديمية! 🚀</p>
+<p style="margin-top: 30px; margin-bottom: 15px;">نتطلع لرؤيتك في الأكاديمية! 🚀</p>
 
 <p style="margin-top: 20px;">
     مع أطيب التحيات،<br>
