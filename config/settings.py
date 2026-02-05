@@ -173,13 +173,9 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_TIMEOUT = 10  # مهلة الاتصال بخادم البريد لتجنب تعليق الطلب
-
-EMAIL_HOST = 'smtp-relay.brevo.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
+# استخدام Brevo API بدلاً من SMTP لحل مشكلة Timeout على Render
+EMAIL_BACKEND = 'config.backends.brevo_backend.BrevoEmailBackend'
+# ملاحظة: EMAIL_HOST_PASSWORD في إعدادات Render يجب أن يحتوي على API Key الخاص بـ Brevo وليس كلمة سر SMTP
 
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
