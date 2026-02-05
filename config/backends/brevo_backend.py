@@ -14,7 +14,6 @@ class BrevoEmailBackend(BaseEmailBackend):
         # الحصول على مفتاح API من الإعدادات
         api_key = getattr(settings, 'EMAIL_HOST_PASSWORD', '')
         
-        # سجل تشخيصي (بدون طباعة المفتاح كاملاً للأمان)
         if not api_key:
             logger.error("Brevo API Key is missing! Check EMAIL_HOST_PASSWORD in environment variables.")
         else:
@@ -35,24 +34,34 @@ class BrevoEmailBackend(BaseEmailBackend):
                 to = [{"email": recipient} for recipient in message.to]
                 
                 # استخراج محتوى HTML
+                # في Django، عند استخدام EmailMultiAlternatives، يتم تخزين HTML في alternatives
                 html_content = None
-                if message.content_subtype == 'html':
-                    html_content = message.body
-                elif hasattr(message, 'alternatives'):
+                
+                # 1. التحقق من وجود محتوى HTML في alternatives (الطريقة الشائعة)
+                if hasattr(message, 'alternatives'):
                     for content, mimetype in message.alternatives:
                         if mimetype == 'text/html':
                             html_content = content
                             break
                 
+                # 2. إذا لم يوجد، التحقق مما إذا كان الرسالة نفسها من نوع HTML
+                if not html_content and getattr(message, 'content_subtype', None) == 'html':
+                    html_content = message.body
+                
+                # إعداد كائن الإرسال
                 send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                     to=to,
                     sender=sender,
                     subject=message.subject,
-                    html_content=html_content or message.body,
-                    text_content=message.body if html_content else None,
+                    html_content=html_content if html_content else None,
+                    text_content=message.body if not html_content else message.body,
                 )
                 
-                logger.info(f"Attempting to send email to {message.to} via Brevo API...")
+                # إذا لم يتوفر HTML، نستخدم النص العادي كـ HTML بسيط لضمان العرض
+                if not html_content:
+                    send_smtp_email.html_content = f"<html><body>{message.body.replace('\n', '<br>')}</body></html>"
+
+                logger.info(f"Attempting to send email to {message.to} via Brevo API (HTML: {'Yes' if html_content else 'No'})...")
                 api_response = self.api_instance.send_transac_email(send_smtp_email)
                 logger.info(f"Email sent successfully! Message ID: {api_response.message_id}")
                 count += 1
