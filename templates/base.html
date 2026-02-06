@@ -4,10 +4,12 @@
 <html lang="{% if LANGUAGE_CODE == 'ar' %}ar{% else %}en{% endif %}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="#2563eb">
     <meta name="description" content="{% block meta_description %}الأكاديمية التعليمية - منصتك للتعلم والتطوير{% endblock %}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <title>{% block title %}{% trans "الأكاديمية التعليمية" %}{% endblock %}</title>
 
@@ -24,7 +26,7 @@
     <!-- Animate.css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-    <!-- Custom CSS - IMPROVED ✅ -->
+    <!-- Custom CSS - MOBILE OPTIMIZED ✅ -->
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -37,254 +39,340 @@
             --info-color: #06b6d4;
             --dark-color: #1e293b;
             --light-color: #f8fafc;
+            --navbar-height: 72px;
         }
 
         * {
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
         }
 
         html, body {
             width: 100%;
             overflow-x: hidden;
-        }
-
-        body {
-            font-family: {% if LANGUAGE_CODE == 'ar' %}'Cairo', {% endif %}system-ui, -apple-system, 'Segoe UI', sans-serif;
-            padding-top: 76px;
-            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
-            min-height: 100vh;
             margin: 0;
             padding: 0;
         }
 
-        /* ✅ IMPROVED: Hero Section - Responsive */
+        body {
+            font-family: {% if LANGUAGE_CODE == 'ar' %}'Cairo', {% endif %}system-ui, -apple-system, 'Segoe UI', sans-serif;
+            padding-top: var(--navbar-height);
+            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== HERO SECTION - MOBILE OPTIMIZED ===== */
         .hero {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.9) 0%, rgba(37, 99, 235, 0.85) 100%);
             background-size: cover;
             background-position: center center;
-            min-height: 400px;
+            min-height: 350px;
             position: relative;
             display: flex;
             align-items: center;
+            padding: 2rem 0;
         }
 
         @media (min-width: 768px) {
+            .hero {
+                min-height: 500px;
+            }
+        }
+
+        @media (min-width: 1200px) {
             .hero {
                 min-height: 600px;
             }
         }
 
-        @media (max-width: 576px) {
-            .hero {
-                min-height: 300px;
-                padding: 1rem 0;
-            }
-        }
-
-        /* ✅ IMPROVED: Navbar - Better Mobile Support */
+        /* ===== NAVBAR - MOBILE FIRST ===== */
         .navbar {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 2px 12px rgba(59, 130, 246, 0.2);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1030;
-            padding: 0.5rem 0;
+            padding: 0.75rem 0;
+            min-height: var(--navbar-height);
         }
 
-        .navbar-expand-lg .navbar-nav {
-            gap: 0.5rem;
+        .navbar-brand {
+            font-weight: bold;
+            font-size: clamp(1.1rem, 4vw, 1.5rem);
+            transition: transform 0.3s ease;
+            white-space: nowrap;
+            color: white !important;
         }
 
-        @media (max-width: 992px) {
-            .navbar {
-                padding: 0.25rem 0;
+        .navbar-brand:hover {
+            transform: scale(1.03);
+        }
+
+        .navbar-brand i {
+            font-size: 1.2em;
+        }
+
+        /* NAVBAR TOGGLER - IMPROVED TOUCH TARGET */
+        .navbar-toggler {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 0.75rem;
+            min-height: 48px;
+            min-width: 48px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:hover,
+        .navbar-toggler:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-toggler-icon {
+            width: 1.5em;
+            height: 1.5em;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* DESKTOP NAVBAR */
+        @media (min-width: 992px) {
+            .navbar-expand-lg .navbar-nav {
+                gap: 0.5rem;
             }
 
+            .nav-link {
+                position: relative;
+                padding: 0.5rem 1rem !important;
+                color: white !important;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: white;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            .nav-link:hover::after {
+                width: 80%;
+            }
+        }
+
+        /* MOBILE NAVBAR - CRITICAL FIXES */
+        @media (max-width: 991px) {
             .navbar-collapse {
-                background: rgba(37, 99, 235, 0.98);
-                padding: 1rem;
-                border-radius: 12px;
-                margin-top: 0.5rem;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                max-height: 80vh;
+                background: linear-gradient(135deg, rgba(37, 99, 235, 0.98) 0%, rgba(29, 78, 216, 0.98) 100%);
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin-top: 1rem;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+                max-height: calc(100vh - var(--navbar-height) - 2rem);
                 overflow-y: auto;
-            }
-            
-            body {
-                padding-top: 70px;
+                -webkit-overflow-scrolling: touch;
             }
 
             .navbar-nav {
                 flex-direction: column;
-                gap: 0.25rem;
+                gap: 0.75rem;
             }
 
             .nav-item {
                 width: 100%;
             }
 
+            /* NAV LINKS - OPTIMIZED TOUCH TARGETS */
             .nav-link {
-                padding: 0.75rem 1rem !important;
-                border-radius: 8px;
+                padding: 1rem 1.25rem !important;
+                border-radius: 12px;
                 transition: all 0.3s ease;
                 display: flex;
                 align-items: center;
-            }
-
-            .nav-link:hover {
-                background: rgba(255, 255, 255, 0.1);
-            }
-
-            /* Fix for Language Dropdown on Mobile */
-            .nav-item.dropdown {
-                position: static;
-            }
-            
-            .dropdown-menu {
-                position: relative;
-                float: none;
-                width: 100%;
+                gap: 0.75rem;
+                font-size: 1.05rem;
+                font-weight: 500;
+                min-height: 52px;
+                color: white !important;
                 background: rgba(255, 255, 255, 0.05);
                 border: 1px solid rgba(255, 255, 255, 0.1);
-                margin-top: 0.5rem;
-            }
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 576px) {
-            .navbar-brand {
-                font-size: 1.2rem;
-            }
-        }
-
-        .navbar-brand:hover {
-            transform: scale(1.05);
-        }
-
-        .navbar-toggler {
-            border: none;
-            padding: 0.5rem;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-            outline: 2px solid rgba(255, 255, 255, 0.5);
-            outline-offset: 2px;
-        }
-
-        .nav-link {
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 1rem !important;
-            white-space: nowrap;
-            font-size: 0.95rem;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: white;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after {
-            width: 80%;
-        }
-
-        @media (max-width: 992px) {
-            .nav-link::after {
-                display: none;
-            }
-        }
-
-        /* ✅ IMPROVED: Language Switcher - Mobile Friendly */
-        .dropdown-menu {
-            min-width: auto;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding: 0.5rem;
-        }
-
-        @media (max-width: 992px) {
-            .dropdown-menu {
-                background: rgba(255, 255, 255, 0.1);
-                border-radius: 8px;
-                margin: 0.5rem 0;
             }
 
-            .dropdown-item {
-                color: white;
-                padding: 0.75rem 1rem;
-                border-radius: 6px;
-                transition: all 0.3s ease;
-            }
-
-            .dropdown-item:hover {
+            .nav-link:hover,
+            .nav-link:active,
+            .nav-link:focus {
                 background: rgba(255, 255, 255, 0.2);
-                color: white;
+                border-color: rgba(255, 255, 255, 0.3);
+                transform: translateX({% if LANGUAGE_CODE == 'ar' %}-5px{% else %}5px{% endif %});
             }
 
+            .nav-link i {
+                font-size: 1.2em;
+                min-width: 1.5rem;
+                text-align: center;
+            }
+
+            /* DROPDOWN - MOBILE OPTIMIZED */
+            .nav-item.dropdown {
+                position: relative;
+            }
+
+            .dropdown-toggle {
+                min-height: 52px;
+                padding: 1rem 1.25rem !important;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .dropdown-toggle::after {
+                margin-{% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %}: auto;
+                transition: transform 0.3s ease;
+            }
+
+            .dropdown-toggle[aria-expanded="true"]::after {
+                transform: rotate(180deg);
+            }
+
+            /* DROPDOWN MENU - MOBILE */
+            .dropdown-menu {
+                position: static !important;
+                transform: none !important;
+                float: none;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                margin-top: 0.75rem;
+                border-radius: 12px;
+                padding: 0.75rem;
+                box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .dropdown-menu.show {
+                display: block;
+                animation: slideDown 0.3s ease;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* DROPDOWN ITEMS */
+            .dropdown-item {
+                color: white !important;
+                padding: 1rem 1.25rem;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+                min-height: 52px;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                font-size: 1rem;
+                font-weight: 500;
+                background: rgba(255, 255, 255, 0.05);
+                margin-bottom: 0.5rem;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .dropdown-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .dropdown-item:hover,
+            .dropdown-item:active,
             .dropdown-item:focus {
                 background: rgba(255, 255, 255, 0.2);
-                color: white;
+                border-color: rgba(255, 255, 255, 0.3);
+                color: white !important;
             }
-        }
 
-        /* ✅ IMPROVED: Footer */
-        .footer {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            color: #fff;
-            padding: 3rem 1rem 1rem;
-            margin-top: 4rem;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .footer {
+            .dropdown-item i {
+                min-width: 1.5rem;
                 text-align: center;
-                padding: 2rem 1rem 1rem;
-            }
-            
-            .footer .col-md-4 {
-                margin-bottom: 2rem;
             }
 
-            .footer h5 {
-                font-size: 1.1rem;
+            /* LANGUAGE SWITCHER FORMS */
+            .dropdown-menu form {
+                margin: 0;
+                width: 100%;
             }
 
-            .footer p {
-                font-size: 0.9rem;
+            .dropdown-menu form button {
+                text-align: {% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %};
+                width: 100%;
+            }
+
+            /* LOGOUT BUTTON */
+            .dropdown-item.text-danger {
+                background: rgba(239, 68, 68, 0.1);
+                border-color: rgba(239, 68, 68, 0.3);
+            }
+
+            .dropdown-item.text-danger:hover {
+                background: rgba(239, 68, 68, 0.2);
+                border-color: rgba(239, 68, 68, 0.5);
+            }
+
+            .dropdown-divider {
+                border-color: rgba(255, 255, 255, 0.2);
+                margin: 0.75rem 0;
+            }
+
+            /* OUTLINE BUTTON IN MOBILE */
+            .btn-outline-light {
+                background: rgba(255, 255, 255, 0.15);
+                border: 2px solid rgba(255, 255, 255, 0.3);
+            }
+
+            .btn-outline-light:hover {
+                background: rgba(255, 255, 255, 0.25);
+                border-color: rgba(255, 255, 255, 0.5);
             }
         }
 
-        /* ✅ IMPROVED: Buttons */
+        /* ===== BUTTONS - MOBILE OPTIMIZED ===== */
+        .btn {
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            min-height: 48px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            border: none;
+        }
+
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            border: none;
+            color: white;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-            transition: all 0.3s ease;
-            min-height: 44px;
-            min-width: 44px;
-            padding: 0.75rem 1.5rem;
         }
 
         .btn-primary:hover {
@@ -300,35 +388,81 @@
         .btn-outline-primary {
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
-            transition: all 0.3s ease;
-            min-height: 44px;
-            padding: 0.75rem 1.5rem;
+            background: transparent;
         }
 
         .btn-outline-primary:hover {
             background: var(--primary-color);
+            color: white;
             border-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .btn-outline-light {
-            min-height: 44px;
-            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* ✅ IMPROVED: Course Cards - Responsive */
-        .course-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .btn-outline-light:hover {
+            background: white;
+            color: var(--primary-color);
+            border-color: white;
+        }
+
+        .btn-lg {
+            min-height: 52px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+            color: white;
+        }
+
+        .btn-outline-secondary {
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 576px) {
+            .btn {
+                width: 100%;
+            }
+
+            .btn-lg {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== CARDS - MOBILE OPTIMIZED ===== */
+        .card {
             border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             overflow: hidden;
         }
 
-        .course-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+        }
+
+        .course-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (min-width: 768px) {
+            .course-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+            }
+
+            .course-card:hover img {
+                transform: scale(1.05);
+            }
         }
 
         .course-card img {
@@ -337,198 +471,322 @@
             height: auto;
         }
 
-        .course-card:hover img {
-            transform: scale(1.05);
-        }
-
         @media (max-width: 576px) {
             .course-card {
-                margin-bottom: 1rem;
-            }
-            
-            .course-card:hover {
-                transform: none;
+                margin-bottom: 1.25rem;
             }
         }
 
-        /* ✅ IMPROVED: Messages/Alerts */
+        /* ===== FORMS - MOBILE OPTIMIZED ===== */
+        input,
+        textarea,
+        select,
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            font-size: 16px !important; /* Prevents iOS zoom */
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus,
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-check-input {
+            min-width: 20px;
+            min-height: 20px;
+            cursor: pointer;
+        }
+
+        .form-check-label {
+            cursor: pointer;
+            padding-{% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %}: 0.5rem;
+        }
+
+        /* ===== ALERTS - MOBILE OPTIMIZED ===== */
         .alert {
             border: none;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
             margin: 1rem 0;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .alert i {
+            font-size: 1.25em;
         }
 
         @media (max-width: 576px) {
             .alert {
-                margin: 0.5rem 0;
-                padding: 0.75rem;
-                font-size: 0.9rem;
+                margin: 0.75rem 0;
+                padding: 0.875rem 1rem;
+                font-size: 0.95rem;
             }
         }
 
-        /* ✅ IMPROVED: Container Padding */
-        .container {
+        /* ===== FOOTER - MOBILE OPTIMIZED ===== */
+        .footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #fff;
+            padding: 3rem 1rem 1.5rem;
+            margin-top: 4rem;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                text-align: center;
+                padding: 2.5rem 1rem 1.5rem;
+            }
+
+            .footer .col-md-4 {
+                margin-bottom: 2rem;
+            }
+
+            .footer h5 {
+                font-size: 1.15rem;
+                margin-bottom: 1rem;
+            }
+
+            .footer p,
+            .footer ul {
+                font-size: 0.95rem;
+            }
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            min-height: 48px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 1.25rem;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        /* ===== CONTAINER - MOBILE OPTIMIZED ===== */
+        .container,
+        .container-fluid {
             padding-left: 1rem;
             padding-right: 1rem;
         }
 
         @media (max-width: 576px) {
-            .container {
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
+            .container,
+            .container-fluid {
+                padding-left: 0.875rem;
+                padding-right: 0.875rem;
             }
         }
 
-        /* ✅ IMPROVED: Text Sizing */
+        /* ===== TYPOGRAPHY - MOBILE OPTIMIZED ===== */
         h1, h2, h3, h4, h5, h6 {
             word-wrap: break-word;
             overflow-wrap: break-word;
+            line-height: 1.3;
         }
 
-        @media (max-width: 576px) {
-            h1 {
-                font-size: 1.75rem;
-            }
+        h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); }
+        h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
+        h3 { font-size: clamp(1.25rem, 3.5vw, 1.75rem); }
+        h4 { font-size: clamp(1.1rem, 3vw, 1.5rem); }
+        h5 { font-size: clamp(1rem, 2.5vw, 1.25rem); }
+        h6 { font-size: clamp(0.95rem, 2vw, 1.1rem); }
 
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            h3 {
-                font-size: 1.25rem;
-            }
-
-            h4 {
-                font-size: 1.1rem;
-            }
-        }
-
-        /* ✅ IMPROVED: Form Elements */
-        input, textarea, select {
-            min-height: 44px;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            outline: none;
-        }
-
-        @media (max-width: 576px) {
-            input, textarea, select {
-                font-size: 16px;
-            }
-        }
-
-        /* ✅ IMPROVED: Social Links */
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 44px;
-            min-height: 44px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            margin: 0.25rem;
-        }
-
-        .social-links a:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* ✅ IMPROVED: Responsive Images */
+        /* ===== IMAGES - RESPONSIVE ===== */
         img {
             max-width: 100%;
             height: auto;
             display: block;
         }
 
-        /* ✅ IMPROVED: Safe Area Support for Notched Devices */
+        /* ===== UTILITIES ===== */
+        .shadow-lg {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .rounded {
+            border-radius: 12px !important;
+        }
+
+        /* ===== SAFE AREA SUPPORT (iPhone X+) ===== */
         @supports (padding: max(0px)) {
             body {
-                padding-top: max(76px, env(safe-area-inset-top) + 76px);
+                padding-top: max(var(--navbar-height), calc(env(safe-area-inset-top) + var(--navbar-height)));
+                padding-bottom: env(safe-area-inset-bottom);
             }
 
-            @media (max-width: 992px) {
-                body {
-                    padding-top: max(70px, env(safe-area-inset-top) + 70px);
-                }
+            .navbar {
+                padding-top: max(0.75rem, env(safe-area-inset-top));
+            }
+
+            .container,
+            .container-fluid {
+                padding-left: max(1rem, env(safe-area-inset-left));
+                padding-right: max(1rem, env(safe-area-inset-right));
             }
         }
 
-        /* ✅ IMPROVED: Print Styles */
+        /* ===== ACCESSIBILITY ===== */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Focus styles for keyboard navigation */
+        *:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease;
+        }
+
+        /* ===== PRINT STYLES ===== */
         @media print {
-            .navbar, .footer, .btn {
+            .navbar,
+            .footer,
+            .btn,
+            .alert {
                 display: none;
             }
+
+            body {
+                padding-top: 0;
+            }
+        }
+
+        /* ===== LOADING STATES ===== */
+        .htmx-request {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .htmx-swapping {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .htmx-settling {
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid px-3 px-md-4">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'courses:home' %}">
-                <i class="fas fa-graduation-cap me-2"></i>
-                {% trans "الأكاديمية" %}
+                <i class="fas fa-graduation-cap"></i>
+                <span>{% trans "الأكاديمية" %}</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="{% trans 'فتح القائمة' %}">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'courses:home' %}">
-                            <i class="fas fa-home me-1"></i>
-                            {% trans "الرئيسية" %}
+                            <i class="fas fa-home"></i>
+                            <span>{% trans "الرئيسية" %}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'courses:list' %}">
-                            <i class="fas fa-book me-1"></i>
-                            {% trans "الدورات" %}
+                            <i class="fas fa-book"></i>
+                            <span>{% trans "الدورات" %}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'blog:list' %}">
-                            <i class="fas fa-blog me-1"></i>
-                            {% trans "المدونة" %}
+                            <i class="fas fa-blog"></i>
+                            <span>{% trans "المدونة" %}</span>
                         </a>
                     </li>
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'users:dashboard' %}">
-                                <i class="fas fa-tachometer-alt me-1"></i>
-                                {% trans "لوحتي" %}
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>{% trans "لوحتي" %}</span>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user-circle me-1"></i>
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
                                 <span>{{ user.username }}</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{% url 'users:profile' %}">
-                                    <i class="fas fa-user me-2"></i>{% trans "الملف الشخصي" %}
-                                </a></li>
-                                <li><a class="dropdown-item" href="{% url 'payments:history' %}">
-                                    <i class="fas fa-receipt me-2"></i>{% trans "سجل المدفوعات" %}
-                                </a></li>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'users:profile' %}">
+                                        <i class="fas fa-user"></i>
+                                        <span>{% trans "الملف الشخصي" %}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'payments:history' %}">
+                                        <i class="fas fa-receipt"></i>
+                                        <span>{% trans "سجل المدفوعات" %}</span>
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <form method="post" action="{% url 'account_logout' %}" class="m-0">
+                                    <form method="post" action="{% url 'account_logout' %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger w-100 text-start">
-                                            <i class="fas fa-sign-out-alt me-2"></i>{% trans "تسجيل الخروج" %}
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span>{% trans "تسجيل الخروج" %}</span>
                                         </button>
                                     </form>
                                 </li>
@@ -537,41 +795,42 @@
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_login' %}">
-                                <i class="fas fa-sign-in-alt me-1"></i>
-                                {% trans "تسجيل الدخول" %}
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>{% trans "تسجيل الدخول" %}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-outline-light ms-2" href="{% url 'account_signup' %}">
-                                <i class="fas fa-user-plus me-1"></i>
-                                {% trans "إنشاء حساب" %}
+                            <a class="nav-link btn btn-outline-light" href="{% url 'account_signup' %}">
+                                <i class="fas fa-user-plus"></i>
+                                <span>{% trans "إنشاء حساب" %}</span>
                             </a>
                         </li>
                     {% endif %}
 
-                    <!-- Language Switcher - IMPROVED ✅ -->
+                    <!-- Language Switcher - MOBILE OPTIMIZED -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-language {% if LANGUAGE_CODE == 'ar' %}ms-1{% else %}me-1{% endif %}"></i>
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" 
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-language"></i>
                             <span>{% if LANGUAGE_CODE == 'ar' %}العربية{% else %}English{% endif %}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                             <li>
-                                <form action="{% url 'set_language' %}" method="post" class="m-0">
+                                <form action="{% url 'set_language' %}" method="post">
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ request.path }}">
-                                    <button type="submit" name="language" value="ar" class="dropdown-item d-flex align-items-center w-100">
-                                        <span class="{% if LANGUAGE_CODE == 'ar' %}ms-2{% else %}me-2{% endif %}">🇸🇦</span>
+                                    <button type="submit" name="language" value="ar" class="dropdown-item">
+                                        <span>🇸🇦</span>
                                         <span>العربية</span>
                                     </button>
                                 </form>
                             </li>
                             <li>
-                                <form action="{% url 'set_language' %}" method="post" class="m-0">
+                                <form action="{% url 'set_language' %}" method="post">
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ request.path }}">
-                                    <button type="submit" name="language" value="en" class="dropdown-item d-flex align-items-center w-100">
-                                        <span class="{% if LANGUAGE_CODE == 'ar' %}ms-2{% else %}me-2{% endif %}">🇺🇸</span>
+                                    <button type="submit" name="language" value="en" class="dropdown-item">
+                                        <span>🇺🇸</span>
                                         <span>English</span>
                                     </button>
                                 </form>
@@ -587,12 +846,12 @@
     {% if messages %}
         <div class="container mt-3">
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {% if message.tags == 'success' %}<i class="fas fa-check-circle me-2"></i>{% endif %}
-                    {% if message.tags == 'error' or message.tags == 'danger' %}<i class="fas fa-exclamation-circle me-2"></i>{% endif %}
-                    {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle me-2"></i>{% endif %}
-                    {% if message.tags == 'info' %}<i class="fas fa-info-circle me-2"></i>{% endif %}
-                    {{ message }}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show animate-fadeIn" role="alert">
+                    {% if message.tags == 'success' %}<i class="fas fa-check-circle"></i>{% endif %}
+                    {% if message.tags == 'error' or message.tags == 'danger' %}<i class="fas fa-exclamation-circle"></i>{% endif %}
+                    {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle"></i>{% endif %}
+                    {% if message.tags == 'info' %}<i class="fas fa-info-circle"></i>{% endif %}
+                    <span>{{ message }}</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
@@ -608,37 +867,64 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row g-3">
+            <div class="row g-4">
                 <div class="col-12 col-md-4">
                     <h5>
                         <i class="fas fa-graduation-cap me-2"></i>
                         {% trans "الأكاديمية التعليمية" %}
                     </h5>
-                    <p class="small">{% trans "منصة تعليمية متكاملة لتعلم المهارات الجديدة وتطوير قدراتك" %}</p>
+                    <p class="small opacity-75">
+                        {% trans "منصة تعليمية متكاملة لتعلم المهارات الجديدة وتطوير قدراتك" %}
+                    </p>
                 </div>
                 <div class="col-12 col-md-4">
                     <h5>{% trans "روابط سريعة" %}</h5>
                     <ul class="list-unstyled small">
-                        <li><a href="{% url 'courses:list' %}" class="text-white-50 text-decoration-none">{% trans "الدورات" %}</a></li>
-                        <li><a href="{% url 'blog:list' %}" class="text-white-50 text-decoration-none">{% trans "المدونة" %}</a></li>
+                        <li class="mb-2">
+                            <a href="{% url 'courses:list' %}" class="text-white-50 text-decoration-none">
+                                <i class="fas fa-chevron-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} me-2"></i>
+                                {% trans "الدورات" %}
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="{% url 'blog:list' %}" class="text-white-50 text-decoration-none">
+                                <i class="fas fa-chevron-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} me-2"></i>
+                                {% trans "المدونة" %}
+                            </a>
+                        </li>
                         {% if user.is_authenticated %}
-                            <li><a href="{% url 'users:dashboard' %}" class="text-white-50 text-decoration-none">{% trans "لوحة التحكم" %}</a></li>
+                            <li class="mb-2">
+                                <a href="{% url 'users:dashboard' %}" class="text-white-50 text-decoration-none">
+                                    <i class="fas fa-chevron-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} me-2"></i>
+                                    {% trans "لوحة التحكم" %}
+                                </a>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>
                 <div class="col-12 col-md-4">
                     <h5>{% trans "تواصل معنا" %}</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-white-50" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white-50" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white-50" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white-50" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-white" aria-label="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-white" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white" aria-label="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <hr class="bg-white my-3">
+            <hr class="bg-white opacity-25 my-4">
             <div class="text-center">
-                <p class="small mb-0">&copy; {% now "Y" %} {% trans "الأكاديمية التعليمية. جميع الحقوق محفوظة." %}</p>
+                <p class="small mb-0 opacity-75">
+                    &copy; {% now "Y" %} {% trans "الأكاديمية التعليمية. جميع الحقوق محفوظة." %}
+                </p>
             </div>
         </div>
     </footer>
@@ -655,61 +941,134 @@
     <!-- HTMX Extensions -->
     <script src="https://unpkg.com/htmx.org/dist/ext/loading-states.js"></script>
 
+    <!-- Custom JavaScript - MOBILE OPTIMIZED -->
     <script>
-        // ✅ IMPROVED: HTMX Configuration
+        // HTMX Configuration
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         });
 
-        // Show loading indicator
+        // Loading States
         document.body.addEventListener('htmx:beforeRequest', (event) => {
-            const target = event.detail.target;
-            target.style.opacity = '0.6';
-            target.style.pointerEvents = 'none';
+            event.detail.target.classList.add('htmx-request');
         });
 
         document.body.addEventListener('htmx:afterRequest', (event) => {
-            const target = event.detail.target;
-            target.style.opacity = '1';
-            target.style.pointerEvents = 'auto';
+            event.detail.target.classList.remove('htmx-request');
         });
 
-        // Auto-dismiss alerts after 5 seconds
+        // Auto-dismiss alerts
         setTimeout(() => {
             document.querySelectorAll('.alert').forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
+                const bsAlert = bootstrap.Alert.getInstance(alert);
+                if (bsAlert) bsAlert.close();
             });
         }, 5000);
-        
-        // ✅ IMPROVED: Close mobile menu on link click
-        document.querySelectorAll('.navbar-nav .nav-link, .navbar-nav .dropdown-item').forEach(link => {
+
+        // Close mobile menu on click
+        document.querySelectorAll('.navbar-collapse .nav-link, .navbar-collapse .dropdown-item').forEach(link => {
             link.addEventListener('click', function(e) {
-                // Don't close if it's a form button (language switcher)
-                if (this.tagName === 'BUTTON') return;
-                
+                // Don't close for dropdowns or form buttons
+                if (this.classList.contains('dropdown-toggle') || this.tagName === 'BUTTON') {
+                    return;
+                }
+
                 const navbarCollapse = document.querySelector('.navbar-collapse');
                 if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                    const collapse = bootstrap.Collapse.getInstance(navbarCollapse);
-                    if (collapse) collapse.hide();
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                    if (bsCollapse) {
+                        bsCollapse.hide();
+                    } else {
+                        new bootstrap.Collapse(navbarCollapse).hide();
+                    }
                 }
             });
         });
 
-        // ✅ IMPROVED: Handle viewport meta tag for mobile
-        if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-            // Support for safe areas on notched devices
-            document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+        // Improve dropdown behavior on mobile
+        if (window.innerWidth < 992) {
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const menu = this.nextElementSibling;
+                    const isShown = menu.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                        if (m !== menu) {
+                            m.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    menu.classList.toggle('show');
+                    this.setAttribute('aria-expanded', !isShown);
+                });
+            });
+
+            // Close dropdowns when clicking form buttons (language switcher)
+            document.querySelectorAll('.dropdown-menu form button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const menu = this.closest('.dropdown-menu');
+                    if (menu) {
+                        menu.classList.remove('show');
+                    }
+                });
+            });
         }
 
-        // ✅ IMPROVED: Prevent horizontal scroll on mobile
-        document.addEventListener('touchmove', function(e) {
-            const touch = e.touches[0];
-            if (touch.clientX < 10 || touch.clientX > window.innerWidth - 10) {
-                // Allow edge swipes for navigation
-                return;
-            }
-        }, false);
+        // Prevent zoom on iOS
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        // Handle safe area insets
+        if ('CSS' in window && CSS.supports('padding-top', 'env(safe-area-inset-top)')) {
+            const root = document.documentElement;
+            root.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+            root.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+            root.style.setProperty('--safe-area-inset-left', 'env(safe-area-inset-left)');
+            root.style.setProperty('--safe-area-inset-right', 'env(safe-area-inset-right)');
+        }
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href !== '') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Performance: Lazy load images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
     </script>
 
     {% block extra_js %}{% endblock %}
