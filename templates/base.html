@@ -4,7 +4,7 @@
 <html lang="{% if LANGUAGE_CODE == 'ar' %}ar{% else %}en{% endif %}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="theme-color" content="#2563eb">
     <meta name="description" content="{% block meta_description %}الأكاديمية التعليمية - منصتك للتعلم والتطوير{% endblock %}">
@@ -39,11 +39,23 @@
             --light-color: #f8fafc;
         }
 
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: {% if LANGUAGE_CODE == 'ar' %}'Cairo', {% endif %}system-ui, -apple-system, 'Segoe UI', sans-serif;
             padding-top: 76px;
             background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
 
         /* ✅ IMPROVED: Hero Section - Responsive */
@@ -63,25 +75,66 @@
             }
         }
 
+        @media (max-width: 576px) {
+            .hero {
+                min-height: 300px;
+                padding: 1rem 0;
+            }
+        }
+
         /* ✅ IMPROVED: Navbar - Better Mobile Support */
         .navbar {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1030;
+            padding: 0.5rem 0;
+        }
+
+        .navbar-expand-lg .navbar-nav {
+            gap: 0.5rem;
         }
 
         @media (max-width: 992px) {
+            .navbar {
+                padding: 0.25rem 0;
+            }
+
             .navbar-collapse {
                 background: rgba(37, 99, 235, 0.98);
                 padding: 1rem;
                 border-radius: 12px;
                 margin-top: 0.5rem;
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                max-height: 80vh;
+                overflow-y: auto;
             }
             
             body {
-                padding-top: 66px;
+                padding-top: 70px;
+            }
+
+            .navbar-nav {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .nav-item {
+                width: 100%;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem !important;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover {
+                background: rgba(255, 255, 255, 0.1);
             }
         }
 
@@ -89,6 +142,7 @@
             font-weight: bold;
             font-size: 1.5rem;
             transition: transform 0.3s ease;
+            white-space: nowrap;
         }
 
         @media (max-width: 576px) {
@@ -101,10 +155,25 @@
             transform: scale(1.05);
         }
 
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: 2px solid rgba(255, 255, 255, 0.5);
+            outline-offset: 2px;
+        }
+
         .nav-link {
             transition: all 0.3s ease;
             position: relative;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1rem !important;
+            white-space: nowrap;
+            font-size: 0.95rem;
         }
 
         .nav-link::after {
@@ -123,11 +192,51 @@
             width: 80%;
         }
 
+        @media (max-width: 992px) {
+            .nav-link::after {
+                display: none;
+            }
+        }
+
+        /* ✅ IMPROVED: Language Switcher - Mobile Friendly */
+        .dropdown-menu {
+            min-width: auto;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .dropdown-menu {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                margin: 0.5rem 0;
+            }
+
+            .dropdown-item {
+                color: white;
+                padding: 0.75rem 1rem;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+            }
+
+            .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+            }
+
+            .dropdown-item:focus {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+            }
+        }
+
         /* ✅ IMPROVED: Footer */
         .footer {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: #fff;
-            padding: 3rem 0 1rem;
+            padding: 3rem 1rem 1rem;
             margin-top: 4rem;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
         }
@@ -135,10 +244,19 @@
         @media (max-width: 768px) {
             .footer {
                 text-align: center;
+                padding: 2rem 1rem 1rem;
             }
             
             .footer .col-md-4 {
                 margin-bottom: 2rem;
+            }
+
+            .footer h5 {
+                font-size: 1.1rem;
+            }
+
+            .footer p {
+                font-size: 0.9rem;
             }
         }
 
@@ -148,7 +266,9 @@
             border: none;
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             transition: all 0.3s ease;
-            min-height: 44px; /* Touch-friendly */
+            min-height: 44px;
+            min-width: 44px;
+            padding: 0.75rem 1.5rem;
         }
 
         .btn-primary:hover {
@@ -157,11 +277,16 @@
             background: linear-gradient(135deg, var(--primary-dark) 0%, #1e40af 100%);
         }
 
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
         .btn-outline-primary {
             border: 2px solid var(--primary-color);
             color: var(--primary-color);
             transition: all 0.3s ease;
             min-height: 44px;
+            padding: 0.75rem 1.5rem;
         }
 
         .btn-outline-primary:hover {
@@ -169,6 +294,11 @@
             border-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-outline-light {
+            min-height: 44px;
+            padding: 0.75rem 1rem;
         }
 
         /* ✅ IMPROVED: Course Cards - Responsive */
@@ -187,6 +317,8 @@
 
         .course-card img {
             transition: transform 0.3s ease;
+            width: 100%;
+            height: auto;
         }
 
         .course-card:hover img {
@@ -198,169 +330,147 @@
                 margin-bottom: 1rem;
             }
             
-            .course-card img {
-                height: 150px !important;
+            .course-card:hover {
+                transform: none;
             }
         }
 
-        /* ✅ IMPROVED: Alerts */
+        /* ✅ IMPROVED: Messages/Alerts */
         .alert {
-            border-radius: 12px;
             border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            animation: slideInDown 0.3s ease;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
         }
 
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
+        @media (max-width: 576px) {
+            .alert {
+                margin: 0.5rem 0;
+                padding: 0.75rem;
+                font-size: 0.9rem;
             }
         }
 
-        /* ✅ IMPROVED: Cards */
-        .card {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        /* ✅ IMPROVED: Container Padding */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        /* ✅ IMPROVED: Text Sizing */
+        h1, h2, h3, h4, h5, h6 {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
+            }
+
+            h4 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* ✅ IMPROVED: Form Elements */
+        input, textarea, select {
+            min-height: 44px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 1rem;
             transition: all 0.3s ease;
         }
 
-        .card:hover {
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-        }
-
-        /* ✅ IMPROVED: Forms */
-        .form-control:focus, .form-select:focus {
+        input:focus, textarea:focus, select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
         }
 
-        /* ✅ IMPROVED: Dropdown */
-        .dropdown-menu {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 576px) {
+            input, textarea, select {
+                font-size: 16px;
+            }
         }
 
         /* ✅ IMPROVED: Social Links */
         .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
             transition: all 0.3s ease;
-            display: inline-block;
+            margin: 0.25rem;
         }
 
         .social-links a:hover {
-            transform: translateY(-3px) scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
-        /* ✅ IMPROVED: Responsive Typography */
-        @media (max-width: 576px) {
-            .display-4 {
-                font-size: 2rem !important;
-            }
-            
-            .display-5 {
-                font-size: 1.75rem !important;
-            }
-            
-            .lead {
-                font-size: 1rem !important;
-            }
-            
-            h1 {
-                font-size: 1.75rem !important;
-            }
-            
-            h2 {
-                font-size: 1.5rem !important;
-            }
+        /* ✅ IMPROVED: Responsive Images */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        /* ✅ NEW: Accessibility - Focus Styles */
-        *:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        button:focus,
-        a:focus {
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
-        }
-
-        /* ✅ NEW: Safe Area for iOS */
+        /* ✅ IMPROVED: Safe Area Support for Notched Devices */
         @supports (padding: max(0px)) {
             body {
-                padding-left: max(0px, env(safe-area-inset-left));
-                padding-right: max(0px, env(safe-area-inset-right));
+                padding-top: max(76px, env(safe-area-inset-top) + 76px);
+            }
+
+            @media (max-width: 992px) {
+                body {
+                    padding-top: max(70px, env(safe-area-inset-top) + 70px);
+                }
             }
         }
 
-        /* ✅ IMPROVED: Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        /* ✅ NEW: Loading Spinner */
-        .spinner-border-sm {
-            width: 1rem;
-            height: 1rem;
-        }
-
-        /* ✅ NEW: Sticky Elements */
-        @media (max-width: 992px) {
-            .sticky-top {
-                position: relative !important;
-                top: auto !important;
+        /* ✅ IMPROVED: Print Styles */
+        @media print {
+            .navbar, .footer, .btn {
+                display: none;
             }
         }
-
-        {% if LANGUAGE_CODE == 'ar' %}
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
-        {% endif %}
     </style>
-
-    {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'courses:home' %}">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid px-3 px-md-4">
+            <a class="navbar-brand" href="{% url 'home' %}">
                 <i class="fas fa-graduation-cap me-2"></i>
                 {% trans "الأكاديمية" %}
             </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'courses:home' %}">
+                        <a class="nav-link" href="{% url 'home' %}">
                             <i class="fas fa-home me-1"></i>
                             {% trans "الرئيسية" %}
                         </a>
@@ -388,7 +498,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle me-1"></i>
-                                {{ user.username }}
+                                <span>{{ user.username }}</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{% url 'users:profile' %}">
@@ -399,9 +509,9 @@
                                 </a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
-                                    <form method="post" action="{% url 'account_logout' %}">
+                                    <form method="post" action="{% url 'account_logout' %}" class="m-0">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item text-danger">
+                                        <button type="submit" class="dropdown-item text-danger w-100 text-start">
                                             <i class="fas fa-sign-out-alt me-2"></i>{% trans "تسجيل الخروج" %}
                                         </button>
                                     </form>
@@ -423,22 +533,30 @@
                         </li>
                     {% endif %}
 
-                    <!-- Language Switcher -->
+                    <!-- Language Switcher - IMPROVED ✅ -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-language me-1"></i>
-                            {% if LANGUAGE_CODE == 'ar' %}العربية{% else %}English{% endif %}
+                            <span>{% if LANGUAGE_CODE == 'ar' %}العربية{% else %}English{% endif %}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                             <li>
-                                <form action="{% url 'set_language' %}" method="post" class="px-3">
+                                <form action="{% url 'set_language' %}" method="post" class="m-0">
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ request.path }}">
-                                    <button type="submit" name="language" value="ar" class="dropdown-item">
-                                        🇸🇦 العربية
+                                    <button type="submit" name="language" value="ar" class="dropdown-item d-flex align-items-center w-100">
+                                        <span class="me-2">🇸🇦</span>
+                                        <span>العربية</span>
                                     </button>
-                                    <button type="submit" name="language" value="en" class="dropdown-item">
-                                        🇬🇧 English
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'set_language' %}" method="post" class="m-0">
+                                    {% csrf_token %}
+                                    <input name="next" type="hidden" value="{{ request.path }}">
+                                    <button type="submit" name="language" value="en" class="dropdown-item d-flex align-items-center w-100">
+                                        <span class="me-2">🇬🇧</span>
+                                        <span>English</span>
                                     </button>
                                 </form>
                             </li>
@@ -474,17 +592,17 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
+            <div class="row g-3">
+                <div class="col-12 col-md-4">
                     <h5>
                         <i class="fas fa-graduation-cap me-2"></i>
                         {% trans "الأكاديمية التعليمية" %}
                     </h5>
-                    <p>{% trans "منصة تعليمية متكاملة لتعلم المهارات الجديدة وتطوير قدراتك" %}</p>
+                    <p class="small">{% trans "منصة تعليمية متكاملة لتعلم المهارات الجديدة وتطوير قدراتك" %}</p>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-12 col-md-4">
                     <h5>{% trans "روابط سريعة" %}</h5>
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled small">
                         <li><a href="{% url 'courses:list' %}" class="text-white-50 text-decoration-none">{% trans "الدورات" %}</a></li>
                         <li><a href="{% url 'blog:list' %}" class="text-white-50 text-decoration-none">{% trans "المدونة" %}</a></li>
                         {% if user.is_authenticated %}
@@ -492,19 +610,19 @@
                         {% endif %}
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4">
+                <div class="col-12 col-md-4">
                     <h5>{% trans "تواصل معنا" %}</h5>
                     <div class="social-links">
-                        <a href="#" class="text-white-50 me-3" aria-label="Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-                        <a href="#" class="text-white-50 me-3" aria-label="Twitter"><i class="fab fa-twitter fa-2x"></i></a>
-                        <a href="#" class="text-white-50 me-3" aria-label="Instagram"><i class="fab fa-instagram fa-2x"></i></a>
-                        <a href="#" class="text-white-50" aria-label="YouTube"><i class="fab fa-youtube fa-2x"></i></a>
+                        <a href="#" class="text-white-50" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white-50" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white-50" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white-50" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
-            <hr class="bg-white">
+            <hr class="bg-white my-3">
             <div class="text-center">
-                <p>&copy; {% now "Y" %} {% trans "الأكاديمية التعليمية. جميع الحقوق محفوظة." %}</p>
+                <p class="small mb-0">&copy; {% now "Y" %} {% trans "الأكاديمية التعليمية. جميع الحقوق محفوظة." %}</p>
             </div>
         </div>
     </footer>
@@ -522,7 +640,7 @@
     <script src="https://unpkg.com/htmx.org/dist/ext/loading-states.js"></script>
 
     <script>
-        // HTMX Configuration
+        // ✅ IMPROVED: HTMX Configuration
         document.body.addEventListener('htmx:configRequest', (event) => {
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         });
@@ -548,15 +666,34 @@
             });
         }, 5000);
         
-        // ✅ NEW: Close mobile menu on link click
-        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
-            link.addEventListener('click', () => {
+        // ✅ IMPROVED: Close mobile menu on link click
+        document.querySelectorAll('.navbar-nav .nav-link, .navbar-nav .dropdown-item').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Don't close if it's a form button (language switcher)
+                if (this.tagName === 'BUTTON') return;
+                
                 const navbarCollapse = document.querySelector('.navbar-collapse');
-                if (navbarCollapse.classList.contains('show')) {
-                    bootstrap.Collapse.getInstance(navbarCollapse).hide();
+                if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                    const collapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                    if (collapse) collapse.hide();
                 }
             });
         });
+
+        // ✅ IMPROVED: Handle viewport meta tag for mobile
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+            // Support for safe areas on notched devices
+            document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+        }
+
+        // ✅ IMPROVED: Prevent horizontal scroll on mobile
+        document.addEventListener('touchmove', function(e) {
+            const touch = e.touches[0];
+            if (touch.clientX < 10 || touch.clientX > window.innerWidth - 10) {
+                // Allow edge swipes for navigation
+                return;
+            }
+        }, false);
     </script>
 
     {% block extra_js %}{% endblock %}
