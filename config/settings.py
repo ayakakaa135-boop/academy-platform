@@ -178,6 +178,10 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'
 
 # إعدادات إضافية لتحسين الأمان وتجربة المستخدم
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
+# إعدادات إضافية لضمان استخدام قوالب HTML لجميع الرسائل
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "" # إزالة البادئة الافتراضية [Site]
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True # التفعيل بمجرد النقر على الرابط
+
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
 # تم نقل الإعدادات للأعلى لضمان الترتيب
 ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
