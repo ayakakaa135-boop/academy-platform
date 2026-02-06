@@ -172,6 +172,12 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
+# إعدادات إضافية لتحسين الأمان وتجربة المستخدم
+ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/users/dashboard/'  # التوجيه بعد التأكيد
+ACCOUNT_PREVENT_ENUMERATION = True  # منع تسريب معلومات وجود الحساب عند التسجيل أو استعادة كلمة المرور
+
 # Email settings
 # استخدام Brevo API بدلاً من SMTP لحل مشكلة Timeout على Render
 EMAIL_BACKEND = 'config.backends.brevo_backend.BrevoEmailBackend'

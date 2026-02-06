@@ -44,6 +44,28 @@
             padding-top: 76px;
             background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
             min-height: 100vh;
+            overflow-x: hidden; /* منع التمرير الأفقي على الجوال */
+        }
+
+        /* تحسين التجاوب للصور والحاويات */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 66px;
+            }
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
         }
 
         /* ✅ IMPROVED: Hero Section - Responsive */
