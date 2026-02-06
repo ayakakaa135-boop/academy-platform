@@ -176,7 +176,7 @@ ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
 # إعدادات إضافية لتحسين الأمان وتجربة المستخدم
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/users/dashboard/'  # التوجيه بعد التأكيد
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'  # التوجيه بعد التأكيد مع بادئة اللغة
 ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
 
 # Email settings
