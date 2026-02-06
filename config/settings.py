@@ -176,7 +176,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/users/dashboard/'  # التوجيه بعد التأكيد
-ACCOUNT_PREVENT_ENUMERATION = True  # منع تسريب معلومات وجود الحساب عند التسجيل أو استعادة كلمة المرور
+ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
 
 # Email settings
 # استخدام Brevo API بدلاً من SMTP لحل مشكلة Timeout على Render
