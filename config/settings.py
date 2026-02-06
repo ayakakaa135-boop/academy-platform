@@ -171,6 +171,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
 
 # إعدادات إضافية لتحسين الأمان وتجربة المستخدم
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
