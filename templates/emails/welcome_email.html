@@ -1,60 +1,211 @@
 {% extends "account/email/base_email.html" %}
 
 {% block content %}
-<h2 style="color: #2563eb; font-size: 24px; margin-bottom: 20px;">🎉 مرحباً بك في الأكاديمية!</h2>
+<div style="text-align: center; margin-bottom: 30px;">
+    <div style="display: inline-block; width: 100px; height: 100px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 50%; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);">
+        <span style="font-size: 50px; color: white; display: block; text-align: center; line-height: 100px;">🎉</span>
+    </div>
+</div>
 
-<p style="margin-bottom: 15px;">مرحباً <strong>{{ user.get_full_name|default:user.username }}</strong>،</p>
+<h2 style="color: #2563eb; font-size: 28px; margin-bottom: 15px; text-align: center;">مرحباً بك في الأكاديمية!</h2>
 
-<p style="margin-bottom: 15px;">نحن في غاية السعادة لانضمامك إلى <strong>الأكاديمية التعليمية</strong>! 🎊</p>
+<p style="margin-bottom: 20px; font-size: 17px; text-align: center; color: #64748b;">نحن سعداء جداً بانضمامك إلى مجتمعنا التعليمي 🎊</p>
 
-<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
-    <p style="margin: 0; color: #065f46;">
-        <strong>✅ تم تفعيل حسابك بنجاح!</strong>
+<div style="height: 2px; background: linear-gradient(to left, transparent, #e5e7eb, transparent); margin: 30px 0;"></div>
+
+<p style="margin-bottom: 20px; font-size: 16px;">مرحباً <strong style="color: #2563eb;">{{ user.get_full_name|default:user.username }}</strong>،</p>
+
+<p style="margin-bottom: 20px; font-size: 16px; line-height: 1.7;">نحن في غاية السعادة لانضمامك إلى <strong>الأكاديمية التعليمية</strong>! أنت الآن جزء من عائلة كبيرة تضم آلاف المتعلمين الطموحين حول العالم.</p>
+
+<div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-right: 4px solid #10b981; padding: 25px; margin: 30px 0; border-radius: 12px; text-align: center;">
+    <div style="margin-bottom: 15px;">
+        <span style="font-size: 50px; display: block;">✅</span>
+    </div>
+    <p style="margin: 0; color: #065f46; font-size: 18px; font-weight: bold;">
+        تم تفعيل حسابك بنجاح!
+    </p>
+    <p style="margin: 10px 0 0 0; color: #047857; font-size: 14px;">
+        يمكنك الآن البدء في رحلتك التعليمية
     </p>
 </div>
 
-<p style="margin-bottom: 15px;">أنت الآن جزء من مجتمع يضم آلاف المتعلمين الطموحين حول العالم. نحن هنا لمساعدتك في تحقيق أهدافك التعليمية.</p>
-
-<div style="text-align: center; margin: 30px 0;">
-    <a href="{{ site_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
+<div style="text-align: center; margin: 40px 0;">
+    <a href="{{ site_url }}" style="display: inline-block; padding: 18px 50px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 12px; font-weight: bold; font-size: 19px; box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); transition: all 0.3s ease;">
         🚀 ابدأ التعلم الآن
     </a>
 </div>
 
-<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
+<div style="height: 2px; background: linear-gradient(to left, transparent, #e5e7eb, transparent); margin: 40px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">🎯 ماذا يمكنك فعله الآن؟</h3>
+<h3 style="color: #2563eb; font-size: 22px; margin-bottom: 25px; text-align: center;">🎯 ماذا يمكنك فعله الآن؟</h3>
 
-<ul style="padding-right: 20px; margin: 15px 0;">
-    <li style="margin: 10px 0;">📚 <strong>تصفح الدورات:</strong> استكشف آلاف الدورات في مختلف المجالات</li>
-    <li style="margin: 10px 0;">🎁 <strong>جرّب مجاناً:</strong> شاهد الدروس التجريبية المجانية</li>
-    <li style="margin: 10px 0;">👤 <strong>أكمل ملفك الشخصي:</strong> أضف صورتك ومعلوماتك</li>
-    <li style="margin: 10px 0;">⭐ <strong>ابدأ دورتك الأولى:</strong> اختر دورة وابدأ رحلة التعلم</li>
-    <li style="margin: 10px 0;">💬 <strong>تواصل معنا:</strong> نحن دائماً هنا للمساعدة</li>
-</ul>
+<table style="width: 100%; border-collapse: collapse; margin: 25px 0;">
+    <tr>
+        <td style="padding: 20px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 10px; border-right: 4px solid #2563eb; margin-bottom: 15px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60px; vertical-align: top;">
+                        <div style="width: 50px; height: 50px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-align: center; line-height: 50px;">
+                            📚
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; padding-right: 15px;">
+                        <strong style="color: #1e40af; font-size: 16px; display: block; margin-bottom: 5px;">تصفح الدورات</strong>
+                        <span style="color: #3b82f6; font-size: 14px;">استكشف آلاف الدورات في مختلف المجالات</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="height: 15px;"></td></tr>
+    <tr>
+        <td style="padding: 20px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 10px; border-right: 4px solid #f59e0b; margin-bottom: 15px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60px; vertical-align: top;">
+                        <div style="width: 50px; height: 50px; background: #f59e0b; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-align: center; line-height: 50px;">
+                            🎁
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; padding-right: 15px;">
+                        <strong style="color: #92400e; font-size: 16px; display: block; margin-bottom: 5px;">جرّب مجاناً</strong>
+                        <span style="color: #b45309; font-size: 14px;">شاهد الدروس التجريبية المجانية لأي دورة</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="height: 15px;"></td></tr>
+    <tr>
+        <td style="padding: 20px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 10px; border-right: 4px solid #10b981; margin-bottom: 15px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60px; vertical-align: top;">
+                        <div style="width: 50px; height: 50px; background: #10b981; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-align: center; line-height: 50px;">
+                            👤
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; padding-right: 15px;">
+                        <strong style="color: #065f46; font-size: 16px; display: block; margin-bottom: 5px;">أكمل ملفك الشخصي</strong>
+                        <span style="color: #047857; font-size: 14px;">أضف صورتك ومعلوماتك للحصول على تجربة أفضل</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="height: 15px;"></td></tr>
+    <tr>
+        <td style="padding: 20px; background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); border-radius: 10px; border-right: 4px solid #ec4899; margin-bottom: 15px;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60px; vertical-align: top;">
+                        <div style="width: 50px; height: 50px; background: #ec4899; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-align: center; line-height: 50px;">
+                            ⭐
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; padding-right: 15px;">
+                        <strong style="color: #9f1239; font-size: 16px; display: block; margin-bottom: 5px;">ابدأ دورتك الأولى</strong>
+                        <span style="color: #be185d; font-size: 14px;">اختر دورة تهمك وابدأ رحلة التعلم الآن</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr><td style="height: 15px;"></td></tr>
+    <tr>
+        <td style="padding: 20px; background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-radius: 10px; border-right: 4px solid #8b5cf6;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 60px; vertical-align: top;">
+                        <div style="width: 50px; height: 50px; background: #8b5cf6; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-align: center; line-height: 50px;">
+                            💬
+                        </div>
+                    </td>
+                    <td style="vertical-align: middle; padding-right: 15px;">
+                        <strong style="color: #5b21b6; font-size: 16px; display: block; margin-bottom: 5px;">تواصل معنا</strong>
+                        <span style="color: #7c3aed; font-size: 14px;">فريق الدعم جاهز لمساعدتك في أي وقت</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
-<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
-    <p style="margin: 0; font-size: 14px; color: #1e40af;">
-        <strong>💡 نصيحة:</strong> ابدأ بالدورات المصنفة "للمبتدئين" إذا كنت جديداً في المجال!
+<div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border: 2px solid #3b82f6; padding: 20px; margin: 30px 0; border-radius: 12px;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50px; vertical-align: top;">
+                <span style="font-size: 30px;">💡</span>
+            </td>
+            <td style="vertical-align: middle; padding-right: 10px;">
+                <p style="margin: 0; font-size: 15px; color: #1e40af; line-height: 1.6;">
+                    <strong>نصيحة للبداية:</strong> ابدأ بالدورات المصنفة "للمبتدئين" إذا كنت جديداً في المجال! هذا سيساعدك على بناء أساس قوي.
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="height: 2px; background: linear-gradient(to left, transparent, #e5e7eb, transparent); margin: 40px 0;"></div>
+
+<h3 style="color: #2563eb; font-size: 20px; margin-bottom: 20px; text-align: center;">📧 ابقَ على اتصال</h3>
+
+<p style="margin-bottom: 20px; font-size: 15px; text-align: center; color: #64748b;">ستصلك تحديثات منتظمة عبر البريد الإلكتروني عن:</p>
+
+<table style="width: 100%; max-width: 500px; margin: 0 auto; border-collapse: collapse;">
+    <tr>
+        <td style="padding: 12px; text-align: center; background: #f8fafc; border-radius: 8px; margin-bottom: 10px;">
+            <span style="font-size: 24px; display: block; margin-bottom: 5px;">📬</span>
+            <span style="color: #334155; font-size: 14px;">الدورات الجديدة والعروض الخاصة</span>
+        </td>
+    </tr>
+    <tr><td style="height: 10px;"></td></tr>
+    <tr>
+        <td style="padding: 12px; text-align: center; background: #f8fafc; border-radius: 8px; margin-bottom: 10px;">
+            <span style="font-size: 24px; display: block; margin-bottom: 5px;">🎓</span>
+            <span style="color: #334155; font-size: 14px;">نصائح تعليمية وموارد مجانية</span>
+        </td>
+    </tr>
+    <tr><td style="height: 10px;"></td></tr>
+    <tr>
+        <td style="padding: 12px; text-align: center; background: #f8fafc; border-radius: 8px;">
+            <span style="font-size: 24px; display: block; margin-bottom: 5px;">🏆</span>
+            <span style="color: #334155; font-size: 14px;">إنجازاتك وتقدمك في التعلم</span>
+        </td>
+    </tr>
+</table>
+
+<div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 12px; margin: 35px 0; text-align: center; border: 2px solid #f59e0b;">
+    <p style="margin: 0; font-size: 16px; line-height: 1.6;">
+        <span style="font-size: 28px; display: block; margin-bottom: 10px;">🎁</span>
+        <strong style="color: #92400e; font-size: 17px; display: block; margin-bottom: 8px;">هدية الترحيب الخاصة بك!</strong>
+        <span style="color: #b45309; font-size: 14px;">احصل على خصم <span style="background: #f59e0b; color: white; padding: 3px 10px; border-radius: 5px; font-weight: bold;">15%</span> على دورتك الأولى</span>
     </p>
 </div>
 
-<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
+<div style="text-align: center; margin: 35px 0; padding: 30px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-radius: 12px;">
+    <p style="margin: 0; color: #1e40af; font-size: 18px; line-height: 1.7;">
+        <strong style="font-size: 20px; display: block; margin-bottom: 10px;">🌟 نتمنى لك رحلة تعليمية ممتعة ومثمرة!</strong>
+        <span style="font-size: 15px; color: #3b82f6;">نحن هنا لدعمك في كل خطوة من رحلتك</span>
+    </p>
+</div>
 
-<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">📧 ابقَ على اتصال</h3>
+<p style="margin-top: 35px; font-size: 16px; text-align: center; line-height: 1.7;">
+    مع أطيب التحيات وأحر الترحيب،<br>
+    <strong style="color: #2563eb; font-size: 17px;">فريق الأكاديمية التعليمية</strong>
+</p>
 
-<p style="margin-bottom: 15px;">ستصلك تحديثات منتظمة عن:</p>
+<div style="height: 1px; background-color: #e5e7eb; margin: 35px 0;"></div>
 
-<ul style="padding-right: 20px; margin: 15px 0;">
-    <li style="margin: 10px 0;">📬 الدورات الجديدة والعروض الخاصة</li>
-    <li style="margin: 10px 0;">🎓 نصائح تعليمية وموارد مجانية</li>
-    <li style="margin: 10px 0;">🏆 إنجازاتك وتقدمك في التعلم</li>
-</ul>
+<div style="text-align: center; background: #f8fafc; padding: 20px; border-radius: 8px;">
+    <p style="margin: 0; font-size: 13px; color: #64748b; line-height: 1.6;">
+        <strong style="display: block; margin-bottom: 8px; color: #334155;">معلومات حسابك:</strong>
+        <span style="display: block; margin-bottom: 5px;">📧 <strong>البريد الإلكتروني:</strong> {{ user.email }}</span>
+        <span style="display: block;">📅 <strong>تاريخ التسجيل:</strong> {{ user.date_joined|date:"Y-m-d" }}</span>
+    </p>
+</div>
 
-<p style="margin-top: 30px; margin-bottom: 15px;">نتمنى لك رحلة تعليمية ممتعة ومثمرة! 🌟</p>
-
-<p style="margin-top: 20px;">
-    مع أطيب التحيات،<br>
-    <strong>فريق الأكاديمية التعليمية</strong>
+<p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 20px; line-height: 1.5;">
+    💡 إذا واجهت أي مشكلة أو كان لديك أي استفسار، فريق الدعم متاح لمساعدتك على مدار الساعة
 </p>
 {% endblock %}
