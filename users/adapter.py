@@ -2,7 +2,6 @@ from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.models import EmailAddress
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
-from allauth.account.utils import send_email_confirmation
 from django.contrib import messages
 
 class CustomAccountAdapter(DefaultAccountAdapter):
@@ -22,11 +21,12 @@ class CustomAccountAdapter(DefaultAccountAdapter):
                 return email
             else:
                 # إذا كان الحساب موجوداً ولكن غير مفعل
-                # نقوم بإرسال رابط تفعيل جديد
+                # نقوم بإرسال رابط تفعيل جديد باستخدام المحول نفسه
                 request = self.request
                 user = email_address.user
                 if user:
-                    send_email_confirmation(request, user, signup=False)
+                    # في الإصدارات الحديثة، نستخدم send_confirmation_mail من المحول
+                    self.send_confirmation_mail(request, email_address, signup=False)
                 
                 # نرفع خطأ مخصص يخبر المستخدم بأنه تم إرسال رابط تفعيل جديد
                 raise ValidationError(
