@@ -7,55 +7,122 @@
 
 <p style="margin-bottom: 15px;">تم تسجيل دخول جديد إلى حسابك في <strong>الأكاديمية التعليمية</strong>.</p>
 
-<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
-    <p style="margin: 0; color: #1e40af;">
-        <strong>📍 معلومات تسجيل الدخول:</strong><br>
-        <strong>التاريخ والوقت:</strong> {{ login_time|date:"Y-m-d H:i" }}<br>
+<div style="background-color: #eff6ff; border-right: 4px solid #2563eb; padding: 20px; margin: 25px 0; border-radius: 10px;">
+    <p style="margin: 0; color: #1e40af; line-height: 1.8;">
+        <strong style="font-size: 16px;">📍 معلومات تسجيل الدخول:</strong><br>
+        <span style="display: inline-block; margin-top: 10px;">
+            <strong>📅 التاريخ والوقت:</strong> {{ login_time|date:"Y-m-d H:i" }}
+        </span>
     </p>
 </div>
 
-<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
-    <p style="margin: 0; color: #065f46;">
-        <strong>✅ هل كنت أنت؟</strong> رائع! يمكنك تجاهل هذا البريد.
-    </p>
+<div style="background-color: #d1fae5; border-right: 4px solid #10b981; padding: 20px; margin: 25px 0; border-radius: 10px;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50px; vertical-align: top;">
+                <div style="width: 40px; height: 40px; background: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-align: center; line-height: 40px;">
+                    ✅
+                </div>
+            </td>
+            <td style="vertical-align: top; padding-right: 10px;">
+                <p style="margin: 0; color: #065f46; font-size: 15px; line-height: 1.6;">
+                    <strong>هل كنت أنت؟</strong><br>
+                    <span style="color: #047857;">رائع! يمكنك تجاهل هذا البريد بأمان.</span>
+                </p>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 6px;">
-    <p style="margin: 0; font-size: 14px; color: #92400e;">
-        <strong>⚠️ لم تكن أنت؟</strong><br>
-        إذا لم تسجل الدخول، يرجى اتخاذ الإجراءات التالية فوراً:
-    </p>
+<div style="background-color: #fef3c7; border-right: 4px solid #f59e0b; padding: 20px; margin: 25px 0; border-radius: 10px;">
+    <table style="width: 100%;">
+        <tr>
+            <td style="width: 50px; vertical-align: top;">
+                <div style="width: 40px; height: 40px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-align: center; line-height: 40px;">
+                    ⚠️
+                </div>
+            </td>
+            <td style="vertical-align: top; padding-right: 10px;">
+                <p style="margin: 0; font-size: 15px; color: #92400e; line-height: 1.6;">
+                    <strong>لم تكن أنت؟</strong><br>
+                    <span style="color: #b45309;">إذا لم تسجل الدخول، يرجى اتخاذ الإجراءات التالية فوراً:</span>
+                </p>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<ul style="padding-right: 20px; margin: 15px 0;">
-    <li style="margin: 10px 0;">🔒 قم بتغيير كلمة مرورك فوراً</li>
-    <li style="margin: 10px 0;">✉️ تأكد من أن بريدك الإلكتروني آمن</li>
-    <li style="margin: 10px 0;">📞 تواصل معنا إذا كنت تشك في وجود نشاط غير مصرح به</li>
-</ul>
+<table style="width: 100%; border-collapse: collapse; margin: 25px 0;">
+    <tr>
+        <td style="padding: 15px; background: #fee2e2; border-radius: 8px; border-right: 4px solid #ef4444; margin-bottom: 10px;">
+            <strong style="color: #dc2626;">🔒</strong> قم بتغيير كلمة مرورك فوراً
+        </td>
+    </tr>
+    <tr><td style="height: 10px;"></td></tr>
+    <tr>
+        <td style="padding: 15px; background: #fef3c7; border-radius: 8px; border-right: 4px solid #f59e0b; margin-bottom: 10px;">
+            <strong style="color: #f59e0b;">✉️</strong> تأكد من أن بريدك الإلكتروني آمن
+        </td>
+    </tr>
+    <tr><td style="height: 10px;"></td></tr>
+    <tr>
+        <td style="padding: 15px; background: #dbeafe; border-radius: 8px; border-right: 4px solid #2563eb;">
+            <strong style="color: #2563eb;">📞</strong> تواصل معنا إذا كنت تشك في وجود نشاط غير مصرح به
+        </td>
+    </tr>
+</table>
 
-<div style="text-align: center; margin: 30px 0;">
-    <a href="{{ password_reset_url }}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);">
-        🔑 تغيير كلمة المرور
+<div style="text-align: center; margin: 35px 0;">
+    <a href="{{ password_reset_url }}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff !important; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 17px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); transition: all 0.3s ease;">
+        🔑 تغيير كلمة المرور الآن
     </a>
 </div>
 
-<div style="height: 1px; background-color: #e5e7eb; margin: 30px 0;"></div>
+<div style="height: 1px; background-color: #e5e7eb; margin: 35px 0;"></div>
 
-<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 15px;">🛡️ نصائح للحفاظ على أمان حسابك:</h3>
+<h3 style="color: #2563eb; font-size: 18px; margin-bottom: 20px;">🛡️ نصائح للحفاظ على أمان حسابك:</h3>
 
-<ul style="padding-right: 20px; margin: 15px 0;">
-    <li style="margin: 10px 0;">لا تشارك كلمة مرورك مع أي شخص</li>
-    <li style="margin: 10px 0;">استخدم كلمة مرور قوية ومعقدة</li>
-    <li style="margin: 10px 0;">قم بتسجيل الخروج بعد استخدام أجهزة عامة</li>
-    <li style="margin: 10px 0;">فعّل المصادقة الثنائية إن أمكن</li>
-</ul>
+<table style="width: 100%; border-collapse: collapse;">
+    <tr>
+        <td style="padding: 12px; background: #f8fafc; border-radius: 8px; border-right: 3px solid #64748b; margin-bottom: 8px;">
+            <strong style="color: #334155;">🔐</strong> لا تشارك كلمة مرورك مع أي شخص
+        </td>
+    </tr>
+    <tr><td style="height: 8px;"></td></tr>
+    <tr>
+        <td style="padding: 12px; background: #f8fafc; border-radius: 8px; border-right: 3px solid #64748b; margin-bottom: 8px;">
+            <strong style="color: #334155;">💪</strong> استخدم كلمة مرور قوية ومعقدة
+        </td>
+    </tr>
+    <tr><td style="height: 8px;"></td></tr>
+    <tr>
+        <td style="padding: 12px; background: #f8fafc; border-radius: 8px; border-right: 3px solid #64748b; margin-bottom: 8px;">
+            <strong style="color: #334155;">🚪</strong> قم بتسجيل الخروج بعد استخدام أجهزة عامة
+        </td>
+    </tr>
+    <tr><td style="height: 8px;"></td></tr>
+    <tr>
+        <td style="padding: 12px; background: #f8fafc; border-radius: 8px; border-right: 3px solid #64748b;">
+            <strong style="color: #334155;">🔒</strong> فعّل المصادقة الثنائية إن أمكن
+        </td>
+    </tr>
+</table>
 
-<p style="margin-top: 30px;">
-    نحن نهتم بأمانك وخصوصيتك. 🔒
+<div style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); padding: 20px; border-radius: 10px; margin: 30px 0; text-align: center;">
+    <p style="margin: 0; color: #1e40af; font-size: 15px;">
+        <strong>🔒 نحن نهتم بأمانك وخصوصيتك</strong><br>
+        <span style="font-size: 13px; color: #3b82f6;">نراقب حسابك لحمايتك من أي نشاط مشبوه</span>
+    </p>
+</div>
+
+<p style="margin-top: 30px; font-size: 16px;">
+    مع أطيب التحيات،<br>
+    <strong>فريق الأمان - الأكاديمية التعليمية</strong>
 </p>
 
-<p style="margin-top: 20px;">
-    مع أطيب التحيات،<br>
-    <strong>فريق الأكاديمية التعليمية</strong>
+<div style="height: 1px; background-color: #e5e7eb; margin: 25px 0;"></div>
+
+<p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 15px;">
+    💡 هذا تنبيه أمني تلقائي لحماية حسابك. إذا كان لديك أي استفسار، تواصل مع فريق الدعم
 </p>
 {% endblock %}
