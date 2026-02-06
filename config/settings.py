@@ -172,11 +172,14 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
+# إعدادات لضمان عمل روابط التفعيل مع i18n
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/ar/users/dashboard/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'
 
 # إعدادات إضافية لتحسين الأمان وتجربة المستخدم
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'  # التوجيه بعد التأكيد مع بادئة اللغة
+# تم نقل الإعدادات للأعلى لضمان الترتيب
 ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
 
 # Email settings

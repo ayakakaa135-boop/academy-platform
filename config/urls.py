@@ -12,13 +12,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/setlang/', set_language, name='set_language'),
     path('tinymce/', include('tinymce.urls')),
-    # استثناء allauth من i18n_patterns لتجنب مشاكل روابط التفعيل 404
-    path('accounts/', include('allauth.urls')),
 ]
 
 # URL patterns with internationalization support
 urlpatterns += i18n_patterns(
     path('', include('courses.urls')),
+    path('accounts/', include('allauth.urls')),
     path('blog/', include('blog.urls')),
     path('payments/', include('payments.urls')),
     path('users/', include('users.urls')),
