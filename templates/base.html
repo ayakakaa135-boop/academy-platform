@@ -131,10 +131,26 @@
                 padding: 0.75rem 1rem !important;
                 border-radius: 8px;
                 transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
             }
 
             .nav-link:hover {
                 background: rgba(255, 255, 255, 0.1);
+            }
+
+            /* Fix for Language Dropdown on Mobile */
+            .nav-item.dropdown {
+                position: static;
+            }
+            
+            .dropdown-menu {
+                position: relative;
+                float: none;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-top: 0.5rem;
             }
         }
 
@@ -535,8 +551,8 @@
 
                     <!-- Language Switcher - IMPROVED ✅ -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-language me-1"></i>
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-language {% if LANGUAGE_CODE == 'ar' %}ms-1{% else %}me-1{% endif %}"></i>
                             <span>{% if LANGUAGE_CODE == 'ar' %}العربية{% else %}English{% endif %}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
@@ -545,7 +561,7 @@
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ request.path }}">
                                     <button type="submit" name="language" value="ar" class="dropdown-item d-flex align-items-center w-100">
-                                        <span class="me-2">🇸🇦</span>
+                                        <span class="{% if LANGUAGE_CODE == 'ar' %}ms-2{% else %}me-2{% endif %}">🇸🇦</span>
                                         <span>العربية</span>
                                     </button>
                                 </form>
@@ -555,7 +571,7 @@
                                     {% csrf_token %}
                                     <input name="next" type="hidden" value="{{ request.path }}">
                                     <button type="submit" name="language" value="en" class="dropdown-item d-flex align-items-center w-100">
-                                        <span class="me-2">🇬🇧</span>
+                                        <span class="{% if LANGUAGE_CODE == 'ar' %}ms-2{% else %}me-2{% endif %}">🇺🇸</span>
                                         <span>English</span>
                                     </button>
                                 </form>

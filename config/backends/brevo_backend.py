@@ -70,15 +70,20 @@ class BrevoEmailBackend(BaseEmailBackend):
                 if not html_content:
                     subtype = getattr(message, 'content_subtype', None)
                     logger.info(f"Message content_subtype: {subtype}")
-                    if subtype == 'html':
+                    if subtype == 'html' or '<html>' in message.body.lower():
                         html_content = message.body
-                        logger.info("HTML content found in message body (subtype=html)")
+                        logger.info("HTML content found in message body")
                 
                 # إعداد كائن الإرسال
                 # نستخدم html_content إذا وجد، وإلا نستخدم message.body كـ HTML بسيط
                 final_html = html_content
                 if not final_html:
-                    final_html = f"<html><body dir='rtl'>{message.body.replace(chr(10), '<br>')}</body></html>"
+                    # التحقق من وجود وسوم HTML في الجسم حتى لو لم يتم تحديد النوع
+                    if '<html>' in message.body.lower() or '<body' in message.body.lower() or '<div' in message.body.lower():
+                        final_html = message.body
+                        logger.info("HTML tags detected in body, using as final_html")
+                    else:
+                        final_html = f"<html><body dir='rtl'>{message.body.replace(chr(10), '<br>')}</body></html>"
 
                 send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                     to=to,
