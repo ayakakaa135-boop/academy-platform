@@ -176,7 +176,6 @@ ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/ar/users/dashboard/'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'
 
-# إعدادات إضافية لتحسين الأمان وتجربة المستخدم
 ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
 # إعدادات إضافية لضمان استخدام قوالب HTML لجميع الرسائل
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "" # إزالة البادئة الافتراضية [Site]
@@ -187,9 +186,9 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائ
 ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
 
 # Email settings
-# استخدام Brevo API بدلاً من SMTP لحل مشكلة Timeout على Render
+
 EMAIL_BACKEND = 'config.backends.brevo_backend.BrevoEmailBackend'
-# ملاحظة: EMAIL_HOST_PASSWORD في إعدادات Render يجب أن يحتوي على API Key الخاص بـ Brevo وليس كلمة سر SMTP
+
 
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
