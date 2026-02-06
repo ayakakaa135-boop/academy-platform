@@ -6,51 +6,82 @@
 {% block title %}{% trans "تسجيل الدخول" %} - {% trans "الأكاديمية" %}{% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-4 my-md-5">
     <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-            <div class="card shadow-lg">
-                <div class="card-body p-5">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg animate-fadeIn">
+                <div class="card-body p-4 p-md-5">
                     <!-- Header -->
                     <div class="text-center mb-4">
-                        <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
-                        <h2 class="fw-bold">{% trans "مرحباً بعودتك!" %}</h2>
-                        <p class="text-muted">{% trans "سجل دخول للمتابعة" %}</p>
+                        <div class="mb-3">
+                            <i class="fas fa-sign-in-alt fa-3x text-primary"></i>
+                        </div>
+                        <h2 class="fw-bold mb-2">{% trans "مرحباً بعودتك!" %}</h2>
+                        <p class="text-muted mb-0">{% trans "سجل دخول للمتابعة" %}</p>
                     </div>
 
                     <!-- Login Form -->
-                    <form method="post" action="{% url 'account_login' %}">
+                    <form method="post" action="{% url 'account_login' %}" class="needs-validation" novalidate>
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        
+                        <div class="mb-3">
+                            {{ form.login.label_tag }}
+                            {{ form.login }}
+                            {% if form.login.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.login.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.password.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
 
                         {% if redirect_field_value %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                         {% endif %}
 
                         <!-- Remember Me & Forgot Password -->
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4">
                             <div class="form-check">
                                 <input type="checkbox" name="remember" class="form-check-input" id="remember">
-                                <label class="form-check-label" for="remember">
+                                <label class="form-check-label user-select-none" for="remember">
                                     {% trans "تذكرني" %}
                                 </label>
                             </div>
-                            <a href="{% url 'account_reset_password' %}" class="text-primary text-decoration-none small">
+                            <a href="{% url 'account_reset_password' %}" class="text-primary text-decoration-none small fw-medium">
+                                <i class="fas fa-key me-1"></i>
                                 {% trans "نسيت كلمة المرور؟" %}
                             </a>
                         </div>
 
-                        <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <!-- Non-field errors -->
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
                             <i class="fas fa-sign-in-alt me-2"></i>
                             {% trans "تسجيل الدخول" %}
                         </button>
                     </form>
 
                     <!-- Divider -->
-                    <div class="text-center my-4">
-                        <hr>
-                        <span class="text-muted">{% trans "أو" %}</span>
-                        <hr>
+                    <div class="position-relative my-4">
+                        <hr class="mb-0">
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                            {% trans "أو" %}
+                        </span>
                     </div>
 
                     <!-- Signup Link -->
@@ -59,12 +90,40 @@
                             {% trans "ليس لديك حساب؟" %}
                             <a href="{% url 'account_signup' %}" class="text-primary fw-bold text-decoration-none">
                                 {% trans "سجل الآن" %}
+                                <i class="fas fa-arrow-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} ms-1"></i>
                             </a>
                         </p>
                     </div>
                 </div>
             </div>
+
+            <!-- Security Notice -->
+            <div class="card mt-3 border-0 bg-light">
+                <div class="card-body p-3 text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-lock me-1"></i>
+                        {% trans "اتصالك آمن ومشفر" %}
+                    </small>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    .form-check-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .invalid-feedback {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+</style>
 {% endblock %}
