@@ -1008,13 +1008,11 @@
                 });
             });
 
-            // Close dropdowns when clicking form buttons (language switcher)
-            document.querySelectorAll('.dropdown-menu form button').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const menu = this.closest('.dropdown-menu');
-                    if (menu) {
-                        menu.classList.remove('show');
-                    }
+            // Allow form submission to complete before closing dropdowns
+            document.querySelectorAll('.dropdown-menu form').forEach(form => {
+                form.addEventListener('submit', function() {
+                    // Let the form submit naturally - don't interfere with the process
+                    // The page will reload anyway after language change
                 });
             });
         }
