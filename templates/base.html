@@ -324,6 +324,13 @@
             .dropdown-menu form button {
                 text-align: {% if LANGUAGE_CODE == 'ar' %}right{% else %}left{% endif %};
                 width: 100%;
+                cursor: pointer;
+                -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+            }
+            
+            .dropdown-menu form button:active {
+                background: rgba(255, 255, 255, 0.3) !important;
+                transform: scale(0.98);
             }
 
             /* LOGOUT BUTTON */
@@ -985,34 +992,22 @@
             });
         });
 
-        // Improve dropdown behavior on mobile
+        // Improve dropdown behavior on mobile - FIXED VERSION
         if (window.innerWidth < 992) {
-            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const menu = this.nextElementSibling;
-                    const isShown = menu.classList.contains('show');
-                    
-                    // Close all other dropdowns
-                    document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-                        if (m !== menu) {
-                            m.classList.remove('show');
+            // Use Bootstrap's built-in dropdown functionality
+            // Remove custom preventDefault that was blocking form submission
+            
+            // Only handle closing other dropdowns when one opens
+            document.addEventListener('show.bs.dropdown', function (e) {
+                // Close all other open dropdowns
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    const dropdown = menu.previousElementSibling;
+                    if (dropdown && dropdown !== e.target) {
+                        const bsDropdown = bootstrap.Dropdown.getInstance(dropdown);
+                        if (bsDropdown) {
+                            bsDropdown.hide();
                         }
-                    });
-                    
-                    // Toggle current dropdown
-                    menu.classList.toggle('show');
-                    this.setAttribute('aria-expanded', !isShown);
-                });
-            });
-
-            // Allow form submission to complete before closing dropdowns
-            document.querySelectorAll('.dropdown-menu form').forEach(form => {
-                form.addEventListener('submit', function() {
-                    // Let the form submit naturally - don't interfere with the process
-                    // The page will reload anyway after language change
+                    }
                 });
             });
         }
