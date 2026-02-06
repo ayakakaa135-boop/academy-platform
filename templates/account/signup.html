@@ -6,322 +6,89 @@
 {% block title %}{% trans "إنشاء حساب جديد" %} - {% trans "الأكاديمية" %}{% endblock %}
 
 {% block content %}
-<div class="container my-4 my-md-5">
+<div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-12 col-lg-10 col-xl-9">
-            <div class="row g-3 g-lg-4">
-                <!-- Registration Form -->
-                <div class="col-12 col-lg-7">
-                    <div class="card shadow-lg animate-fadeIn">
-                        <div class="card-body p-4 p-md-5">
-                            <!-- Header -->
-                            <div class="text-center mb-4">
-                                <div class="mb-3">
-                                    <i class="fas fa-user-plus fa-3x text-primary"></i>
-                                </div>
-                                <h2 class="fw-bold mb-2">{% trans "إنشاء حساب جديد" %}</h2>
-                                <p class="text-muted mb-0">{% trans "انضم إلينا وابدأ رحلتك التعليمية" %}</p>
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                        <h2 class="fw-bold">{% trans "إنشاء حساب جديد" %}</h2>
+                        <p class="text-muted">{% trans "انضم إلينا وابدأ رحلتك التعليمية" %}</p>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <form method="post" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
                             </div>
+                        {% endif %}
 
-                            <!-- Signup Form -->
-                            <form method="post" action="{% url 'account_signup' %}" class="needs-validation" novalidate>
-                                {% csrf_token %}
-                                
-                                <!-- Email Field -->
-                                <div class="mb-3">
-                                    {{ form.email.label_tag }}
-                                    {{ form.email }}
-                                    {% if form.email.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.email.errors }}
-                                        </div>
-                                    {% endif %}
-                                    {% if form.email.help_text %}
-                                        <small class="form-text text-muted d-block mt-1">
-                                            {{ form.email.help_text }}
-                                        </small>
-                                    {% endif %}
-                                </div>
+                        {{ form|crispy }}
 
-                                <!-- Username Field -->
-                                {% if form.username %}
-                                <div class="mb-3">
-                                    {{ form.username.label_tag }}
-                                    {{ form.username }}
-                                    {% if form.username.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.username.errors }}
-                                        </div>
-                                    {% endif %}
-                                    {% if form.username.help_text %}
-                                        <small class="form-text text-muted d-block mt-1">
-                                            {{ form.username.help_text }}
-                                        </small>
-                                    {% endif %}
-                                </div>
-                                {% endif %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
 
-                                <!-- Password Field -->
-                                <div class="mb-3">
-                                    {{ form.password1.label_tag }}
-                                    {{ form.password1 }}
-                                    {% if form.password1.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.password1.errors }}
-                                        </div>
-                                    {% endif %}
-                                    {% if form.password1.help_text %}
-                                        <small class="form-text text-muted d-block mt-1">
-                                            {{ form.password1.help_text }}
-                                        </small>
-                                    {% endif %}
-                                </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mt-3">
+                            <i class="fas fa-user-plus me-2"></i>
+                            {% trans "إنشاء حساب" %}
+                        </button>
+                    </form>
 
-                                <!-- Password Confirmation -->
-                                <div class="mb-3">
-                                    {{ form.password2.label_tag }}
-                                    {{ form.password2 }}
-                                    {% if form.password2.errors %}
-                                        <div class="invalid-feedback d-block">
-                                            {{ form.password2.errors }}
-                                        </div>
-                                    {% endif %}
-                                    {% if form.password2.help_text %}
-                                        <small class="form-text text-muted d-block mt-1">
-                                            {{ form.password2.help_text }}
-                                        </small>
-                                    {% endif %}
-                                </div>
+                    <!-- Divider -->
+                    <div class="text-center my-4">
+                        <hr>
+                        <span class="text-muted">{% trans "أو" %}</span>
+                        <hr>
+                    </div>
 
-                                {% if redirect_field_value %}
-                                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                                {% endif %}
-
-                                <!-- Non-field errors -->
-                                {% if form.non_field_errors %}
-                                    <div class="alert alert-danger" role="alert">
-                                        <i class="fas fa-exclamation-circle me-2"></i>
-                                        {{ form.non_field_errors }}
-                                    </div>
-                                {% endif %}
-
-                                <!-- Terms & Conditions -->
-                                <div class="form-check mb-4">
-                                    <input type="checkbox" class="form-check-input" id="terms" required>
-                                    <label class="form-check-label user-select-none small" for="terms">
-                                        {% trans "أوافق على" %}
-                                        <a href="#" class="text-primary">{% trans "الشروط والأحكام" %}</a>
-                                        {% trans "و" %}
-                                        <a href="#" class="text-primary">{% trans "سياسة الخصوصية" %}</a>
-                                    </label>
-                                </div>
-
-                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
-                                    <i class="fas fa-user-plus me-2"></i>
-                                    {% trans "إنشاء حساب" %}
-                                </button>
-                            </form>
-
-                            <!-- Divider -->
-                            <div class="position-relative my-4">
-                                <hr class="mb-0">
-                                <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
-                                    {% trans "أو" %}
-                                </span>
-                            </div>
-
-                            <!-- Login Link -->
-                            <div class="text-center">
-                                <p class="text-muted mb-0">
-                                    {% trans "لديك حساب بالفعل؟" %}
-                                    <a href="{% url 'account_login' %}" class="text-primary fw-bold text-decoration-none">
-                                        {% trans "سجل دخول" %}
-                                        <i class="fas fa-arrow-{% if LANGUAGE_CODE == 'ar' %}left{% else %}right{% endif %} ms-1"></i>
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <p class="text-muted mb-0">
+                            {% trans "لديك حساب بالفعل؟" %}
+                            <a href="{% url 'account_login' %}" class="text-primary fw-bold text-decoration-none">
+                                {% trans "سجل دخول" %}
+                            </a>
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                <!-- Benefits Section -->
-                <div class="col-12 col-lg-5">
-                    <div class="card border-0 bg-gradient h-100 animate-fadeIn" style="animation-delay: 0.2s;">
-                        <div class="card-body p-4">
-                            <h5 class="fw-bold mb-4 d-flex align-items-center">
-                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 p-2 me-2">
-                                    <i class="fas fa-check-circle text-success"></i>
-                                </div>
-                                {% trans "مميزات التسجيل" %}
-                            </h5>
-                            
-                            <ul class="list-unstyled">
-                                <li class="mb-3 d-flex align-items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 p-2 me-2">
-                                            <i class="fas fa-book text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <strong class="d-block mb-1">{% trans "الوصول إلى آلاف الدورات" %}</strong>
-                                        <small class="text-muted">{% trans "مكتبة ضخمة من الدورات في مختلف المجالات" %}</small>
-                                    </div>
-                                </li>
-                                
-                                <li class="mb-3 d-flex align-items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 p-2 me-2">
-                                            <i class="fas fa-chart-line text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <strong class="d-block mb-1">{% trans "تتبع تقدمك" %}</strong>
-                                        <small class="text-muted">{% trans "راقب تطورك واحصل على إحصائيات مفصلة" %}</small>
-                                    </div>
-                                </li>
-                                
-                                <li class="mb-3 d-flex align-items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 p-2 me-2">
-                                            <i class="fas fa-certificate text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <strong class="d-block mb-1">{% trans "شهادات إتمام" %}</strong>
-                                        <small class="text-muted">{% trans "احصل على شهادات معتمدة عند إنهاء الدورات" %}</small>
-                                    </div>
-                                </li>
-                                
-                                <li class="mb-3 d-flex align-items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 p-2 me-2">
-                                            <i class="fas fa-users text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <strong class="d-block mb-1">{% trans "تفاعل مع المجتمع" %}</strong>
-                                        <small class="text-muted">{% trans "شارك وتواصل مع المدربين والطلاب" %}</small>
-                                    </div>
-                                </li>
-
-                                <li class="d-flex align-items-start">
-                                    <div class="flex-shrink-0">
-                                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 p-2 me-2">
-                                            <i class="fas fa-mobile-alt text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <strong class="d-block mb-1">{% trans "تعلم في أي وقت ومكان" %}</strong>
-                                        <small class="text-muted">{% trans "متوافق مع جميع الأجهزة" %}</small>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <!-- Stats -->
-                            <div class="row g-2 mt-4">
-                                <div class="col-6">
-                                    <div class="card border-0 bg-white bg-opacity-10 text-center p-3">
-                                        <h4 class="fw-bold mb-0 text-primary">500+</h4>
-                                        <small class="text-muted">{% trans "دورة" %}</small>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="card border-0 bg-white bg-opacity-10 text-center p-3">
-                                        <h4 class="fw-bold mb-0 text-primary">10K+</h4>
-                                        <small class="text-muted">{% trans "طالب" %}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Benefits Section -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-check-circle text-success me-2"></i>
+                        {% trans "مميزات التسجيل" %}
+                    </h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "الوصول إلى آلاف الدورات التعليمية" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "تتبع تقدمك في التعلم" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "الحصول على شهادات إتمام" %}
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            {% trans "التفاعل مع المدربين والطلاب" %}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .bg-gradient {
-        background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
-    }
-
-    .bg-success.bg-opacity-10 {
-        background-color: rgba(16, 185, 129, 0.1) !important;
-    }
-
-    .bg-primary.bg-opacity-10 {
-        background-color: rgba(59, 130, 246, 0.1) !important;
-    }
-
-    .form-check-input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
-    }
-
-    .form-check-input:checked {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
-
-    .invalid-feedback {
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-    }
-
-    @media (max-width: 991px) {
-        .animate-fadeIn {
-            animation-delay: 0s !important;
-        }
-    }
-
-    /* Password Strength Indicator */
-    .password-strength {
-        height: 4px;
-        background: #e2e8f0;
-        border-radius: 2px;
-        margin-top: 0.5rem;
-        overflow: hidden;
-    }
-
-    .password-strength-bar {
-        height: 100%;
-        transition: all 0.3s ease;
-        background: var(--danger-color);
-    }
-
-    .password-strength-bar.weak {
-        width: 33%;
-        background: var(--danger-color);
-    }
-
-    .password-strength-bar.medium {
-        width: 66%;
-        background: var(--warning-color);
-    }
-
-    .password-strength-bar.strong {
-        width: 100%;
-        background: var(--success-color);
-    }
-</style>
-
-<script>
-    // Simple password strength indicator
-    document.addEventListener('DOMContentLoaded', function() {
-        const passwordInput = document.querySelector('input[name="password1"]');
-        if (passwordInput) {
-            passwordInput.addEventListener('input', function() {
-                const password = this.value;
-                let strength = 0;
-                
-                if (password.length >= 8) strength++;
-                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-                if (password.match(/[0-9]/)) strength++;
-                if (password.match(/[^a-zA-Z0-9]/)) strength++;
-                
-                // You can add visual indicator here if needed
-            });
-        }
-    });
-</script>
 {% endblock %}
