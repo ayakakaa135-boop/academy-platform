@@ -5,34 +5,77 @@
 {% block title %}{% trans "تسجيل الخروج" %} - {% trans "الأكاديمية" %}{% endblock %}
 
 {% block content %}
-<div class="container my-5">
+<div class="container my-4 my-md-5">
     <div class="row justify-content-center">
-        <div class="col-lg-5 col-md-7">
-            <div class="card shadow-lg">
-                <div class="card-body p-5 text-center">
-                    <i class="fas fa-sign-out-alt fa-4x text-warning mb-4"></i>
-                    <h2 class="fw-bold mb-3">{% trans "تسجيل الخروج" %}</h2>
-                    <p class="text-muted mb-4">{% trans "هل أنت متأكد من رغبتك في تسجيل الخروج؟" %}</p>
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-lg animate-fadeIn">
+                <div class="card-body p-4 p-md-5 text-center">
+                    <!-- Icon -->
+                    <div class="mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning bg-opacity-10 p-4">
+                            <i class="fas fa-sign-out-alt fa-4x text-warning"></i>
+                        </div>
+                    </div>
 
+                    <!-- Title & Message -->
+                    <h2 class="fw-bold mb-3">{% trans "تسجيل الخروج" %}</h2>
+                    <p class="text-muted mb-4 px-2">
+                        {% trans "هل أنت متأكد من رغبتك في تسجيل الخروج؟" %}
+                    </p>
+
+                    <!-- Logout Form -->
                     <form method="post" action="{% url 'account_logout' %}">
                         {% csrf_token %}
                         {% if redirect_field_value %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                         {% endif %}
 
-                        <button type="submit" class="btn btn-warning btn-lg w-100 mb-2">
-                            <i class="fas fa-sign-out-alt me-2"></i>
-                            {% trans "تأكيد تسجيل الخروج" %}
-                        </button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                {% trans "تأكيد تسجيل الخروج" %}
+                            </button>
 
-                        <a href="{% url 'courses:home' %}" class="btn btn-outline-secondary w-100">
-                            <i class="fas fa-times me-2"></i>
-                            {% trans "إلغاء" %}
-                        </a>
+                            <a href="{% url 'courses:home' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>
+                                {% trans "إلغاء" %}
+                            </a>
+                        </div>
                     </form>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="card mt-3 border-0 bg-light">
+                <div class="card-body p-3">
+                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 text-center">
+                        <a href="{% url 'courses:list' %}" class="text-decoration-none text-muted small">
+                            <i class="fas fa-book me-1"></i>
+                            {% trans "تصفح الدورات" %}
+                        </a>
+                        <a href="{% url 'blog:list' %}" class="text-decoration-none text-muted small">
+                            <i class="fas fa-blog me-1"></i>
+                            {% trans "قراءة المدونة" %}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .btn-warning {
+        color: white;
+    }
+
+    .btn-warning:hover {
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .bg-warning.bg-opacity-10 {
+        background-color: rgba(245, 158, 11, 0.1) !important;
+    }
+</style>
 {% endblock %}
