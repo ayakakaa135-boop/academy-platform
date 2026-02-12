@@ -3,11 +3,26 @@ HTMX Views for dynamic course interactions
 """
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
 from django.views.decorators.http import require_http_methods
 from .models import Course, Lesson, Comment, Review, Enrollment
 from .forms import CommentForm, ReviewForm
+
+
+def user_can_access_lesson(user, lesson):
+    """Return True if user can access the lesson content/interactions."""
+    if lesson.is_preview:
+        return True
+
+    if not user.is_authenticated:
+        return False
+
+    return Enrollment.objects.filter(
+        user=user,
+        course=lesson.course,
+        is_active=True
+    ).exists()
 
 
 @require_http_methods(["GET"])
@@ -43,8 +58,11 @@ def add_comment_htmx(request, lesson_id):
     HTMX endpoint for adding comments
     """
     lesson = get_object_or_404(Lesson, id=lesson_id)
+    if not user_can_access_lesson(request.user, lesson):
+        return HttpResponseForbidden('<div class="alert alert-danger">يجب شراء الدورة أولاً</div>')
+
     form = CommentForm(request.POST)
-    
+
     if form.is_valid():
         comment = form.save(commit=False)
         comment.lesson = lesson
@@ -71,6 +89,10 @@ def load_more_comments(request, lesson_id):
     HTMX endpoint for loading more comments
     """
     lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    if not user_can_access_lesson(request.user, lesson):
+        return HttpResponseForbidden('<div class="alert alert-danger">يجب شراء الدورة أولاً</div>')
+
     offset = int(request.GET.get('offset', 0))
     limit = 5
     
@@ -241,17 +263,13 @@ def lesson_htmx_content(request, course_slug, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id, course=course)
     
     # Check access permissions
-    is_enrolled = Enrollment.objects.filter(
-        user=request.user,
-        course=course,
-        is_active=True
-    ).exists() if request.user.is_authenticated else False
-    
-    if not lesson.is_preview and not is_enrolled:
-        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة للوصول لهذا الدرس</div>')
-    
+    is_enrolled = user_can_access_lesson(request.user, lesson)
+
+    if not is_enrolled:
+        return HttpResponseForbidden('<div class="alert alert-danger">يجب التسجيل في الدورة للوصول لهذا الدرس</div>')
+
     # Get all lessons for sidebar
-    all_lessons = course.lessons.filter(is_published=True).order_by('order', 'created_at')
+    all_lessons = course.lessons.order_by('order', 'created_at')
     
     # Get comments
     comments = lesson.comments.filter(is_active=True, parent=None).select_related('user')[:5]

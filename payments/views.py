@@ -4,11 +4,10 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.utils import timezone
-from django.core.mail import send_mail
+from django.db import transaction
 import stripe
-import json
 
 from courses.models import Course, Enrollment
 from .models import Payment, Order
@@ -107,55 +106,17 @@ def payment_success(request):
         messages.error(request, _('معلومات الدفع غير صحيحة'))
         return redirect('courses:home')
 
-    try:
-        # Retrieve the session from Stripe
-        session = stripe.checkout.Session.retrieve(session_id)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
 
-        # Get order
-        order = get_object_or_404(Order, id=order_id, user=request.user)
+    if order.status != 'completed':
+        messages.info(request, _('تم استلام عملية الدفع وجاري تأكيدها. سيتم تفعيل الاشتراك تلقائياً.'))
+        return redirect('courses:detail', slug=order.course.slug)
 
-        if session.payment_status == 'paid':
-            # Update payment
-            payment = order.payment
-            payment.status = 'completed'
-            payment.completed_at = timezone.now()
-            payment.stripe_charge_id = session.payment_intent
-            payment.save()
-
-            # Update order
-            order.status = 'completed'
-            order.completed_at = timezone.now()
-            order.save()
-
-            # Create enrollment
-            enrollment, created = Enrollment.objects.get_or_create(
-                user=request.user,
-                course=order.course,
-                defaults={'is_active': True}
-            )
-
-            if not created:
-                enrollment.is_active = True
-                enrollment.save()
-
-            # Send confirmation email
-            send_purchase_confirmation_email(request.user, order.course)
-
-            messages.success(request, _('تم الدفع بنجاح! يمكنك الآن الوصول إلى الدورة'))
-
-            context = {
-                'order': order,
-                'course': order.course,
-            }
-            return render(request, 'payments/success.html', context)
-        else:
-            messages.error(request, _('لم يتم إتمام الدفع'))
-            return redirect('courses:detail', slug=order.course.slug)
-
-    except Exception as e:
-        print(f"Error processing payment success: {str(e)}")
-        messages.error(request, _('حدث خطأ أثناء معالجة الدفع'))
-        return redirect('courses:home')
+    context = {
+        'order': order,
+        'course': order.course,
+    }
+    return render(request, 'payments/success.html', context)
 
 
 @csrf_exempt
@@ -196,11 +157,38 @@ def handle_checkout_session_completed(session):
     try:
         order_id = session.metadata.get('order_id')
         if order_id:
-            order = Order.objects.get(id=order_id)
-            order.status = 'processing'
-            order.save()
+            complete_order_from_session(order_id, session)
     except Exception as e:
         print(f"Error handling checkout session: {str(e)}")
+
+
+@transaction.atomic
+def complete_order_from_session(order_id, session):
+    order = Order.objects.select_related('payment', 'course', 'user').get(id=order_id)
+    payment = order.payment
+
+    if payment:
+        payment.status = 'completed'
+        payment.completed_at = timezone.now()
+        payment.stripe_charge_id = session.get('payment_intent', '')
+        payment.stripe_payment_intent_id = session.get('payment_intent', '')
+        payment.save()
+
+    order.status = 'completed'
+    order.completed_at = timezone.now()
+    order.save()
+
+    enrollment, created = Enrollment.objects.get_or_create(
+        user=order.user,
+        course=order.course,
+        defaults={'is_active': True}
+    )
+
+    if not created and not enrollment.is_active:
+        enrollment.is_active = True
+        enrollment.save(update_fields=['is_active'])
+
+    send_purchase_confirmation_email(order.user, order.course)
 
 
 def handle_payment_intent_succeeded(payment_intent):
