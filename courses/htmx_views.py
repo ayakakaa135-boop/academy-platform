@@ -88,6 +88,9 @@ def load_more_comments(request, lesson_id):
     """
     HTMX endpoint for loading more comments
     """
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('<div class="alert alert-danger">يجب تسجيل الدخول أولاً</div>')
+
     lesson = get_object_or_404(Lesson, id=lesson_id)
 
     if not user_can_access_lesson(request.user, lesson):
@@ -259,9 +262,12 @@ def lesson_htmx_content(request, course_slug, lesson_id):
     """
     HTMX endpoint for loading lesson content dynamically
     """
+    if not request.user.is_authenticated:
+        return HttpResponseForbidden('<div class="alert alert-danger">يجب تسجيل الدخول أولاً</div>')
+
     course = get_object_or_404(Course, slug=course_slug, is_published=True)
     lesson = get_object_or_404(Lesson, id=lesson_id, course=course)
-    
+
     # Check access permissions
     is_enrolled = user_can_access_lesson(request.user, lesson)
 

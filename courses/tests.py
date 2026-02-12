@@ -62,3 +62,20 @@ class HtmxLessonAccessTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.lesson.title)
+
+    def test_lesson_htmx_requires_login(self):
+        url = reverse('courses:lesson_htmx_content', kwargs={
+            'course_slug': self.course.slug,
+            'lesson_id': self.lesson.id,
+        })
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_load_more_comments_requires_login(self):
+        url = reverse('courses:load_more_comments', kwargs={'lesson_id': self.lesson.id})
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 403)
