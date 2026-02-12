@@ -12,6 +12,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('i18n/setlang/', set_language, name='set_language'),
     path('tinymce/', include('tinymce.urls')),
+    # Stripe Webhook should be outside i18n_patterns to avoid language prefix
+    path('payments/webhook/', include('payments.urls_webhook')),
 ]
 
 # URL patterns with internationalization support
