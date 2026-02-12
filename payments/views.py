@@ -9,6 +9,9 @@ from django.utils import timezone
 from django.core.mail import send_mail
 import stripe
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 from courses.models import Course, Enrollment
 from .models import Payment, Order
@@ -134,14 +137,23 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except ValueError:
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
-        return HttpResponse(status=400)
+    except ValueError as e:
+        logger.error(f"Invalid payload: {str(e)}")
+        return HttpResponse(content=f"Invalid payload: {str(e)}", status=400)
+    except stripe.error.SignatureVerificationError as e:
+        logger.error(f"Invalid signature: {str(e)}")
+        # This is the most common error if STRIPE_WEBHOOK_SECRET is wrong
+        return HttpResponse(content=f"Invalid signature: {str(e)}", status=400)
+    except Exception as e:
+        logger.error(f"Webhook error: {str(e)}")
+        return HttpResponse(content=str(e), status=400)
 
     # Handle the event
+    logger.info(f"Received Stripe event: {event['type']}")
+    
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
+        logger.info(f"Processing checkout.session.completed for session: {session.id}")
         handle_checkout_session_completed(session)
 
     elif event['type'] == 'payment_intent.succeeded':
@@ -184,9 +196,14 @@ def handle_checkout_session_completed(session):
             if not created:
                 enrollment.is_active = True
                 enrollment.save()
+            
+            logger.info(f"Enrollment activated for user {order.user.id} in course {order.course.id}")
                 
-            # Send confirmation email
-            send_purchase_confirmation_email(order.user, order.course)
+            # Send confirmation email - Wrap in try/except to ensure enrollment is not affected by email failure
+            try:
+                send_purchase_confirmation_email(order.user, order.course)
+            except Exception as email_error:
+                logger.error(f"Failed to send confirmation email: {str(email_error)}")
             
     except Exception as e:
         print(f"Error handling checkout session: {str(e)}")
