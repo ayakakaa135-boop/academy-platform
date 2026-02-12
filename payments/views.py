@@ -57,7 +57,7 @@ def create_checkout_session(request, course_slug):
                 }],
                 mode='payment',
                 success_url=request.build_absolute_uri(
-                    '/payments/success/') + f'?order_id={order.id}',
+                    '/payments/success/') + f'?order_id={order.id}&session_id={{CHECKOUT_SESSION_ID}}',
                 cancel_url=request.build_absolute_uri(f'/course/{course.slug}/'),
                 customer_email=request.user.email,
                 metadata={
@@ -106,6 +106,23 @@ def payment_success(request):
         return redirect('courses:home')
 
     order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    # Fallback in case webhook is delayed or unavailable:
+    # verify checkout session directly when user returns from Stripe.
+    session_id = request.GET.get('session_id')
+    if order.status != 'completed' and session_id:
+        try:
+            checkout_session = stripe.checkout.Session.retrieve(session_id)
+            session_order_id = checkout_session.metadata.get('order_id') if checkout_session.metadata else None
+
+            if (
+                checkout_session.payment_status == 'paid'
+                and str(order.id) == str(session_order_id)
+            ):
+                handle_checkout_session_completed(checkout_session)
+                order.refresh_from_db()
+        except Exception as e:
+            print(f"Error verifying checkout session on success page: {str(e)}")
     
     # Check if enrollment exists (it might have been created by webhook already)
     is_enrolled = Enrollment.objects.filter(
