@@ -135,6 +135,7 @@ class Lesson(models.Model):
     )
     duration_minutes = models.PositiveIntegerField(_('المدة (بالدقائق)'), default=0)
     order = models.PositiveIntegerField(_('الترتيب'), default=0)
+    is_published = models.BooleanField(_('منشور'), default=True)
     is_preview = models.BooleanField(_('درس تجريبي'), default=False)
 
     created_at = models.DateTimeField(_('تاريخ الإنشاء'), auto_now_add=True)

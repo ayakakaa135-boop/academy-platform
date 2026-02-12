@@ -92,7 +92,7 @@ def course_detail_view(request, slug):
         is_published=True
     )
 
-    lessons = course.lessons.all()
+    lessons = course.lessons.filter(is_published=True)
     preview_lessons = lessons.filter(is_preview=True)
 
     # Check if user is enrolled
@@ -171,7 +171,7 @@ def lesson_view(request, course_slug, lesson_id):
         form = CommentForm()
 
     # Get all lessons for navigation
-    all_lessons = course.lessons.all()
+    all_lessons = course.lessons.filter(is_published=True)
 
     context = {
         'course': course,

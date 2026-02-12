@@ -16,7 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class LessonInline(admin.TabularInline):
     model = Lesson
     extra = 1
-    fields = ['title', 'title_en', 'order', 'duration_minutes', 'is_preview']
+    fields = ['title', 'title_en', 'order', 'duration_minutes', 'is_published', 'is_preview']
 
 
 @admin.register(Course)
@@ -59,8 +59,8 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['title', 'course', 'order', 'duration_minutes', 'is_preview', 'created_at']
-    list_filter = ['course', 'is_preview', 'created_at']
+    list_display = ['title', 'course', 'order', 'duration_minutes', 'is_published', 'is_preview', 'created_at']
+    list_filter = ['course', 'is_published', 'is_preview', 'created_at']
     search_fields = ['title', 'title_en', 'course__title']
     ordering = ['course', 'order']
 

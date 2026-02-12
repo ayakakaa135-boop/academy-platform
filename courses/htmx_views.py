@@ -43,6 +43,17 @@ def add_comment_htmx(request, lesson_id):
     HTMX endpoint for adding comments
     """
     lesson = get_object_or_404(Lesson, id=lesson_id)
+    
+    # Check if user is enrolled or if it's a preview lesson
+    is_enrolled = Enrollment.objects.filter(
+        user=request.user,
+        course=lesson.course,
+        is_active=True
+    ).exists()
+    
+    if not (is_enrolled or lesson.is_preview):
+        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة لإضافة تعليق</div>', status=403)
+        
     form = CommentForm(request.POST)
     
     if form.is_valid():
@@ -71,6 +82,17 @@ def load_more_comments(request, lesson_id):
     HTMX endpoint for loading more comments
     """
     lesson = get_object_or_404(Lesson, id=lesson_id)
+    
+    # Check access permissions
+    is_enrolled = Enrollment.objects.filter(
+        user=request.user,
+        course=lesson.course,
+        is_active=True
+    ).exists() if request.user.is_authenticated else False
+    
+    if not lesson.is_preview and not is_enrolled:
+        return HttpResponse('<div class="alert alert-danger">غير مصرح لك بالوصول لهذه التعليقات</div>', status=403)
+        
     offset = int(request.GET.get('offset', 0))
     limit = 5
     
@@ -101,7 +123,7 @@ def add_review_htmx(request, course_slug):
     ).exists()
     
     if not is_enrolled:
-        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة أولاً</div>')
+        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة أولاً</div>', status=403)
     
     review = Review.objects.filter(user=request.user, course=course).first()
     form = ReviewForm(request.POST, instance=review)
@@ -213,7 +235,7 @@ def update_progress_htmx(request, lesson_id):
         
         return render(request, 'courses/partials/progress_bar.html', context)
     
-    return HttpResponse('')
+    return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة لتحديث التقدم</div>', status=403)
 
 
 @require_http_methods(["DELETE"])
@@ -248,7 +270,7 @@ def lesson_htmx_content(request, course_slug, lesson_id):
     ).exists() if request.user.is_authenticated else False
     
     if not lesson.is_preview and not is_enrolled:
-        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة للوصول لهذا الدرس</div>')
+        return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة للوصول لهذا الدرس</div>', status=403)
     
     # Get all lessons for sidebar
     all_lessons = course.lessons.filter(is_published=True).order_by('order', 'created_at')

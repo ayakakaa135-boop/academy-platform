@@ -57,7 +57,7 @@ def create_checkout_session(request, course_slug):
                 }],
                 mode='payment',
                 success_url=request.build_absolute_uri(
-                    '/payments/success/') + f'?session_id={{CHECKOUT_SESSION_ID}}&order_id={order.id}',
+                    '/payments/success/') + f'?order_id={order.id}',
                 cancel_url=request.build_absolute_uri(f'/course/{course.slug}/'),
                 customer_email=request.user.email,
                 metadata={
@@ -97,65 +97,32 @@ def create_checkout_session(request, course_slug):
 @login_required
 def payment_success(request):
     """
-    Handle successful payment
-    Template: payments/success.html
+    Handle successful payment redirection.
+    The actual enrollment is handled by the Webhook for security.
+    This view just shows the success page.
     """
-    session_id = request.GET.get('session_id')
     order_id = request.GET.get('order_id')
-
-    if not session_id or not order_id:
-        messages.error(request, _('معلومات الدفع غير صحيحة'))
+    if not order_id:
         return redirect('courses:home')
 
-    try:
-        # Retrieve the session from Stripe
-        session = stripe.checkout.Session.retrieve(session_id)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Check if enrollment exists (it might have been created by webhook already)
+    is_enrolled = Enrollment.objects.filter(
+        user=request.user, 
+        course=order.course, 
+        is_active=True
+    ).exists()
 
-        # Get order
-        order = get_object_or_404(Order, id=order_id, user=request.user)
+    if is_enrolled:
+        messages.success(request, _('تم الدفع بنجاح! يمكنك الآن الوصول إلى الدورة'))
 
-        if session.payment_status == 'paid':
-            # Update payment
-            payment = order.payment
-            payment.status = 'completed'
-            payment.completed_at = timezone.now()
-            payment.stripe_charge_id = session.payment_intent
-            payment.save()
-
-            # Update order
-            order.status = 'completed'
-            order.completed_at = timezone.now()
-            order.save()
-
-            # Create enrollment
-            enrollment, created = Enrollment.objects.get_or_create(
-                user=request.user,
-                course=order.course,
-                defaults={'is_active': True}
-            )
-
-            if not created:
-                enrollment.is_active = True
-                enrollment.save()
-
-            # Send confirmation email
-            send_purchase_confirmation_email(request.user, order.course)
-
-            messages.success(request, _('تم الدفع بنجاح! يمكنك الآن الوصول إلى الدورة'))
-
-            context = {
-                'order': order,
-                'course': order.course,
-            }
-            return render(request, 'payments/success.html', context)
-        else:
-            messages.error(request, _('لم يتم إتمام الدفع'))
-            return redirect('courses:detail', slug=order.course.slug)
-
-    except Exception as e:
-        print(f"Error processing payment success: {str(e)}")
-        messages.error(request, _('حدث خطأ أثناء معالجة الدفع'))
-        return redirect('courses:home')
+    context = {
+        'order': order,
+        'course': order.course,
+        'is_enrolled': is_enrolled,
+    }
+    return render(request, 'payments/success.html', context)
 
 
 @csrf_exempt
@@ -197,8 +164,33 @@ def handle_checkout_session_completed(session):
         order_id = session.metadata.get('order_id')
         if order_id:
             order = Order.objects.get(id=order_id)
-            order.status = 'processing'
+            
+            # Update order and payment status
+            order.status = 'completed'
+            order.completed_at = timezone.now()
             order.save()
+            
+            if order.payment:
+                order.payment.status = 'completed'
+                order.payment.completed_at = timezone.now()
+                # Update payment intent ID if it was missing
+                if not order.payment.stripe_payment_intent_id and session.payment_intent:
+                    order.payment.stripe_payment_intent_id = session.payment_intent
+                order.payment.save()
+            
+            # Create or activate enrollment
+            enrollment, created = Enrollment.objects.get_or_create(
+                user=order.user,
+                course=order.course,
+                defaults={'is_active': True}
+            )
+            if not created:
+                enrollment.is_active = True
+                enrollment.save()
+                
+            # Send confirmation email
+            send_purchase_confirmation_email(order.user, order.course)
+            
     except Exception as e:
         print(f"Error handling checkout session: {str(e)}")
 
@@ -214,6 +206,24 @@ def handle_payment_intent_succeeded(payment_intent):
             payment.status = 'completed'
             payment.completed_at = timezone.now()
             payment.save()
+            
+            # Also update order if linked
+            if hasattr(payment, 'order'):
+                order = payment.order
+                if order.status != 'completed':
+                    order.status = 'completed'
+                    order.completed_at = timezone.now()
+                    order.save()
+                    
+                    # Ensure enrollment
+                    enrollment, created = Enrollment.objects.get_or_create(
+                        user=order.user,
+                        course=order.course,
+                        defaults={'is_active': True}
+                    )
+                    if not created:
+                        enrollment.is_active = True
+                        enrollment.save()
     except Exception as e:
         print(f"Error handling payment intent: {str(e)}")
 
