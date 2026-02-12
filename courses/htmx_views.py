@@ -44,14 +44,14 @@ def add_comment_htmx(request, lesson_id):
     """
     lesson = get_object_or_404(Lesson, id=lesson_id)
     
-    # Check if user is enrolled or if it's a preview lesson
+    # Check if user is enrolled (comments are only for enrolled users, even for preview lessons to prevent spam)
     is_enrolled = Enrollment.objects.filter(
         user=request.user,
         course=lesson.course,
         is_active=True
     ).exists()
     
-    if not (is_enrolled or lesson.is_preview):
+    if not is_enrolled:
         return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة لإضافة تعليق</div>', status=403)
         
     form = CommentForm(request.POST)
@@ -90,7 +90,7 @@ def load_more_comments(request, lesson_id):
         is_active=True
     ).exists() if request.user.is_authenticated else False
     
-    if not lesson.is_preview and not is_enrolled:
+    if not (lesson.is_preview or is_enrolled):
         return HttpResponse('<div class="alert alert-danger">غير مصرح لك بالوصول لهذه التعليقات</div>', status=403)
         
     offset = int(request.GET.get('offset', 0))
@@ -269,11 +269,11 @@ def lesson_htmx_content(request, course_slug, lesson_id):
         is_active=True
     ).exists() if request.user.is_authenticated else False
     
-    if not lesson.is_preview and not is_enrolled:
+    if not (lesson.is_preview or is_enrolled):
         return HttpResponse('<div class="alert alert-danger">يجب التسجيل في الدورة للوصول لهذا الدرس</div>', status=403)
     
     # Get all lessons for sidebar
-    all_lessons = course.lessons.filter(is_published=True).order_by('order', 'created_at')
+    all_lessons = course.lessons.all().order_by('order', 'created_at')
     
     # Get comments
     comments = lesson.comments.filter(is_active=True, parent=None).select_related('user')[:5]

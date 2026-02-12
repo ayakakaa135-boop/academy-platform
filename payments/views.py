@@ -114,9 +114,6 @@ def payment_success(request):
         is_active=True
     ).exists()
 
-    if is_enrolled:
-        messages.success(request, _('تم الدفع بنجاح! يمكنك الآن الوصول إلى الدورة'))
-
     context = {
         'order': order,
         'course': order.course,
