@@ -188,7 +188,21 @@ def handle_checkout_session_completed(session):
             logger.error(f"Order with ID {order_id} not found")
             return
             
-        # Update order and payment status
+        # 1. First, try to send the confirmation email as per site design
+        # This is the "trigger" for the rest of the process
+        email_sent = False
+        try:
+            logger.info(f"Attempting to send confirmation email to {order.user.email} for course {order.course.title}")
+            send_purchase_confirmation_email(order.user, order.course)
+            email_sent = True
+            logger.info("Confirmation email sent successfully")
+        except Exception as email_error:
+            logger.error(f"CRITICAL: Failed to send confirmation email: {str(email_error)}")
+            # We will still proceed to activate the course if email fails, 
+            # but we log it as a critical error because the user expects the email.
+            # In a production environment, you might want to retry this.
+
+        # 2. Update order and payment status
         order.status = 'completed'
         order.completed_at = timezone.now()
         order.save()
@@ -202,7 +216,7 @@ def handle_checkout_session_completed(session):
                 order.payment.stripe_payment_intent_id = payment_intent
             order.payment.save()
             
-        # Create or activate enrollment
+        # 3. Create or activate enrollment (Open the course)
         enrollment, created = Enrollment.objects.get_or_create(
             user=order.user,
             course=order.course,
@@ -213,12 +227,6 @@ def handle_checkout_session_completed(session):
             enrollment.save()
         
         logger.info(f"Enrollment activated for user {order.user.id} in course {order.course.id}")
-            
-        # Send confirmation email - Wrap in try/except to ensure enrollment is not affected by email failure
-        try:
-            send_purchase_confirmation_email(order.user, order.course)
-        except Exception as email_error:
-            logger.error(f"Failed to send confirmation email: {str(email_error)}")
             
     except Exception as e:
         logger.error(f"Error handling checkout session: {str(e)}")
@@ -233,6 +241,10 @@ def handle_payment_intent_succeeded(payment_intent):
         ).first()
 
         if payment:
+            # If payment is already completed, don't do anything
+            if payment.status == 'completed':
+                return
+
             payment.status = 'completed'
             payment.completed_at = timezone.now()
             payment.save()
@@ -241,6 +253,12 @@ def handle_payment_intent_succeeded(payment_intent):
             if hasattr(payment, 'order'):
                 order = payment.order
                 if order.status != 'completed':
+                    # Try to send email here too if it wasn't sent by checkout.session.completed
+                    try:
+                        send_purchase_confirmation_email(order.user, order.course)
+                    except:
+                        pass
+
                     order.status = 'completed'
                     order.completed_at = timezone.now()
                     order.save()
@@ -305,6 +323,8 @@ def send_purchase_confirmation_email(user, course):
         email.send()
     except Exception as e:
         logger.error(f"Error sending purchase confirmation email: {e}")
+        # Re-raise to be caught by the caller
+        raise
 
 
 @login_required
