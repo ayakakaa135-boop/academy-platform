@@ -69,6 +69,7 @@ ROOT_URLCONF = 'config.urls'
 
 
 ADMIN_URL = config('ADMIN_URL', default='secret-portal/')
+AUTH_RATE_LIMIT = config('AUTH_RATE_LIMIT', default='10/m')
 
 TEMPLATES = [
     {
