@@ -8,6 +8,7 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from django.core.mail import send_mail
 import stripe
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -86,7 +87,7 @@ def create_checkout_session(request, course_slug):
 
         except Exception as e:
             messages.error(request, _('حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى.'))
-            print(f"Stripe error: {str(e)}")
+            logger.error(f"Stripe error: {str(e)}")
             return redirect('courses:detail', slug=course_slug)
 
     context = {
@@ -100,27 +101,51 @@ def create_checkout_session(request, course_slug):
 def payment_success(request):
     """
     Handle successful payment redirection.
-    The actual enrollment is handled by the Webhook for security.
-    This view just shows the success page.
+    
+    IMPORTANT: This view ONLY displays the success page.
+    The actual enrollment activation is handled by the Webhook for security.
+    
+    This ensures that:
+    - Users cannot manipulate URLs to gain access
+    - Closing the browser doesn't affect enrollment
+    - Payment verification happens server-side via Stripe
     """
     order_id = request.GET.get('order_id')
-  
+    session_id = request.GET.get('session_id')
+    
     if not order_id:
+        messages.warning(request, _('لم يتم العثور على معلومات الطلب'))
         return redirect('courses:home')
 
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    try:
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+    except:
+        messages.error(request, _('طلب غير صالح'))
+        return redirect('courses:home')
     
-    # Check if enrollment exists (it might have been created by webhook already)
+    # Check if enrollment exists (should be created by webhook)
     is_enrolled = Enrollment.objects.filter(
         user=request.user, 
         course=order.course, 
         is_active=True
     ).exists()
+    
+    # If webhook hasn't processed yet, show pending message
+    if order.status == 'pending' and not is_enrolled:
+        context = {
+            'order': order,
+            'course': order.course,
+            'is_enrolled': False,
+            'pending': True,
+            'message': _('جاري معالجة طلبك... سيتم تفعيل الاشتراك خلال لحظات')
+        }
+        return render(request, 'payments/success.html', context)
 
     context = {
         'order': order,
         'course': order.course,
         'is_enrolled': is_enrolled,
+        'pending': False,
     }
     return render(request, 'payments/success.html', context)
 
@@ -129,60 +154,56 @@ def payment_success(request):
 def stripe_webhook(request):
     """
     Handle Stripe webhook events
+    
+    CRITICAL: This is where ALL enrollment activation happens.
+    This ensures security and reliability regardless of user actions.
     """
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
 
-   
-   
-       # Strictly validate webhook signature before processing any event.
+    # Verify webhook signature
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
-    except (ValueError, stripe.error.SignatureVerificationError) as e:
-        logger.warning(f"Webhook signature verification failed: {str(e)}")
+    except ValueError as e:
+        logger.error(f"Invalid payload: {str(e)}")
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        logger.error(f"Invalid signature: {str(e)}")
         return HttpResponse(status=400)
     except Exception as e:
-        logger.error(f"Unexpected Webhook error: {str(e)}")
+        logger.error(f"Unexpected webhook error: {str(e)}")
         return HttpResponse(status=400)
 
     # Handle the event
-    event_type = event.type
+    event_type = event.get('type') if isinstance(event, dict) else event.type
     logger.info(f"Received Stripe event: {event_type}")
     
     if event_type == 'checkout.session.completed':
-        session = event.data.object
+        session = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
         logger.info(f"Processing checkout.session.completed")
         handle_checkout_session_completed(session)
 
     elif event_type == 'payment_intent.succeeded':
-        payment_intent = event.data.object
+        payment_intent = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
         handle_payment_intent_succeeded(payment_intent)
 
     elif event_type == 'payment_intent.payment_failed':
-        payment_intent = event.data.object
+        payment_intent = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
         handle_payment_intent_failed(payment_intent)
 
     return HttpResponse(status=200)
 
-def resolve_event_via_stripe_api(payload):
-    """Resolve webhook event from Stripe API by event id as a secure fallback."""
-    import json
-
-    data = json.loads(payload.decode('utf-8'))
-    event_id = data.get('id')
-    if not event_id:
-        raise ValueError('Missing Stripe event id in payload')
-
-    # Fetch canonical event from Stripe; this avoids trusting unsigned payload data.
-    return stripe.Event.retrieve(event_id)
-
 
 def handle_checkout_session_completed(session):
-    """Handle completed checkout session"""
+    """
+    Handle completed checkout session
+    
+    THIS IS THE MAIN ENROLLMENT ACTIVATION POINT
+    """
     try:
-        # Try to get order_id from metadata
+        # Get order_id from metadata
         metadata = session.get('metadata', {}) if isinstance(session, dict) else getattr(session, 'metadata', {})
         order_id = metadata.get('order_id')
         
@@ -195,26 +216,27 @@ def handle_checkout_session_completed(session):
         except Order.DoesNotExist:
             logger.error(f"Order with ID {order_id} not found")
             return
+        
+        # Verify payment status before activation
+        payment_status = session.get('payment_status') if isinstance(session, dict) else getattr(session, 'payment_status', None)
+        if payment_status != 'paid':
+            logger.warning(f"Checkout session for order {order_id} not paid yet. Status: {payment_status}")
+            return
             
-        # 1. First, try to send the confirmation email as per site design
-        # This is the "trigger" for the rest of the process
-        email_sent = False
-        try:
-            logger.info(f"Attempting to send confirmation email to {order.user.email} for course {order.course.title}")
-            send_purchase_confirmation_email(order.user, order.course)
-            email_sent = True
-            logger.info("Confirmation email sent successfully")
-        except Exception as email_error:
-            logger.error(f"CRITICAL: Failed to send confirmation email: {str(email_error)}")
-            # We will still proceed to activate the course if email fails, 
-            # but we log it as a critical error because the user expects the email.
-            # In a production environment, you might want to retry this.
+        # Check if already processed to avoid duplicate activation
+        if order.status == 'completed':
+            logger.info(f"Order {order_id} already completed. Skipping.")
+            return
 
-        # 2. Update order and payment status
+        logger.info(f"Activating enrollment for order {order_id}")
+
+        # 1. Update order status
         order.status = 'completed'
         order.completed_at = timezone.now()
         order.save()
+        logger.info(f"Order {order_id} marked as completed")
         
+        # 2. Update payment status
         order_payment = order.payment if order.payment_id else None
         if order_payment:
             order_payment.status = 'completed'
@@ -224,65 +246,89 @@ def handle_checkout_session_completed(session):
             if not order_payment.stripe_payment_intent_id and payment_intent:
                 order_payment.stripe_payment_intent_id = payment_intent
             order_payment.save()
+            logger.info(f"Payment updated for order {order_id}")
             
-        # 3. Create or activate enrollment (Open the course)
+        # 3. CREATE OR ACTIVATE ENROLLMENT - THIS IS THE CRITICAL STEP
         enrollment, created = Enrollment.objects.get_or_create(
             user=order.user,
             course=order.course,
             defaults={'is_active': True}
         )
+        
         if not created:
+            # If enrollment exists but was inactive, activate it
             enrollment.is_active = True
             enrollment.save()
+            logger.info(f"Existing enrollment reactivated for user {order.user.id} in course {order.course.id}")
+        else:
+            logger.info(f"New enrollment created for user {order.user.id} in course {order.course.id}")
         
-        logger.info(f"Enrollment activated for user {order.user.id} in course {order.course.id}")
+        # 4. Send confirmation email (after successful enrollment)
+        try:
+            send_purchase_confirmation_email(order.user, order.course)
+            logger.info(f"Confirmation email sent to {order.user.email}")
+        except Exception as email_error:
+            # Log but don't fail - enrollment is already active
+            logger.error(f"Failed to send confirmation email: {str(email_error)}")
             
     except Exception as e:
-        logger.error(f"Error handling checkout session: {str(e)}")
+        logger.error(f"Error handling checkout session: {str(e)}", exc_info=True)
 
 
 def handle_payment_intent_succeeded(payment_intent):
-    """Handle successful payment intent"""
+    """
+    Handle successful payment intent
+    
+    Backup activation point if checkout.session.completed is missed
+    """
     try:
         pi_id = payment_intent.get('id') if isinstance(payment_intent, dict) else payment_intent.id
         payment = Payment.objects.filter(
             stripe_payment_intent_id=pi_id
         ).first()
 
-        if payment:
-            # If payment is already completed, don't do anything
-            if payment.status == 'completed':
-                return
+        if not payment:
+            logger.warning(f"No payment found for payment_intent {pi_id}")
+            return
 
-            payment.status = 'completed'
-            payment.completed_at = timezone.now()
-            payment.save()
-            
-            # Also update order if linked
-            if hasattr(payment, 'order'):
-                order = payment.order
-                if order.status != 'completed':
-                    # Try to send email here too if it wasn't sent by checkout.session.completed
-                    try:
-                        send_purchase_confirmation_email(order.user, order.course)
-                    except:
-                        pass
+        # If payment is already completed, don't process again
+        if payment.status == 'completed':
+            logger.info(f"Payment {pi_id} already completed")
+            return
 
-                    order.status = 'completed'
-                    order.completed_at = timezone.now()
-                    order.save()
+        payment.status = 'completed'
+        payment.completed_at = timezone.now()
+        payment.save()
+        logger.info(f"Payment {pi_id} marked as completed")
+        
+        # Also update order if linked
+        if hasattr(payment, 'order'):
+            order = payment.order
+            if order.status != 'completed':
+                order.status = 'completed'
+                order.completed_at = timezone.now()
+                order.save()
+                
+                # ACTIVATE ENROLLMENT
+                enrollment, created = Enrollment.objects.get_or_create(
+                    user=order.user,
+                    course=order.course,
+                    defaults={'is_active': True}
+                )
+                if not created:
+                    enrollment.is_active = True
+                    enrollment.save()
+                
+                logger.info(f"Enrollment activated via payment_intent for user {order.user.id}")
+                
+                # Send email
+                try:
+                    send_purchase_confirmation_email(order.user, order.course)
+                except Exception as e:
+                    logger.error(f"Failed to send email: {str(e)}")
                     
-                    # Ensure enrollment
-                    enrollment, created = Enrollment.objects.get_or_create(
-                        user=order.user,
-                        course=order.course,
-                        defaults={'is_active': True}
-                    )
-                    if not created:
-                        enrollment.is_active = True
-                        enrollment.save()
     except Exception as e:
-        logger.error(f"Error handling payment intent: {str(e)}")
+        logger.error(f"Error handling payment intent: {str(e)}", exc_info=True)
 
 
 def handle_payment_intent_failed(payment_intent):
@@ -296,8 +342,17 @@ def handle_payment_intent_failed(payment_intent):
         if payment:
             payment.status = 'failed'
             payment.save()
+            logger.info(f"Payment {pi_id} marked as failed")
+            
+            # Update order if exists
+            if hasattr(payment, 'order'):
+                order = payment.order
+                order.status = 'failed'
+                order.save()
+                logger.info(f"Order {order.id} marked as failed")
+                
     except Exception as e:
-        logger.error(f"Error handling failed payment: {str(e)}")
+        logger.error(f"Error handling failed payment: {str(e)}", exc_info=True)
 
 
 def send_purchase_confirmation_email(user, course):
@@ -305,7 +360,6 @@ def send_purchase_confirmation_email(user, course):
     from django.template.loader import render_to_string
     from django.core.mail import EmailMultiAlternatives
     from django.utils.html import strip_tags
-    from django.utils import timezone
 
     subject = _('تأكيد شراء الدورة - {}').format(course.title)
 
@@ -318,22 +372,17 @@ def send_purchase_confirmation_email(user, course):
         'order_id': timezone.now().strftime('%Y%m%d%H%M%S'),
     }
 
-    try:
-        html_content = render_to_string('emails/course_purchase.html', context)
-        text_content = strip_tags(html_content)
+    html_content = render_to_string('emails/course_purchase.html', context)
+    text_content = strip_tags(html_content)
 
-        email = EmailMultiAlternatives(
-            subject=subject,
-            body=text_content,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=[user.email]
-        )
-        email.attach_alternative(html_content, "text/html")
-        email.send()
-    except Exception as e:
-        logger.error(f"Error sending purchase confirmation email: {e}")
-        # Re-raise to be caught by the caller
-        raise
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[user.email]
+    )
+    email.attach_alternative(html_content, "text/html")
+    email.send()
 
 
 @login_required
@@ -342,8 +391,8 @@ def payment_history(request):
     View payment history for current user
     Template: payments/history.html
     """
-    payments = Payment.objects.filter(user=request.user).select_related('course')
-    orders = Order.objects.filter(user=request.user).select_related('course', 'payment')
+    payments = Payment.objects.filter(user=request.user).select_related('course').order_by('-created_at')
+    orders = Order.objects.filter(user=request.user).select_related('course', 'payment').order_by('-created_at')
 
     context = {
         'payments': payments,
