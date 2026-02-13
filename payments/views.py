@@ -60,7 +60,7 @@ def create_checkout_session(request, course_slug):
                 }],
                 mode='payment',
                 success_url=request.build_absolute_uri(
-                    '/payments/success/') + f'?order_id={order.id}',
+                     '/payments/success/') + f'?order_id={order.id}&session_id={{CHECKOUT_SESSION_ID}}',
                 cancel_url=request.build_absolute_uri(f'/course/{course.slug}/'),
                 customer_email=request.user.email,
                 metadata={
@@ -105,10 +105,28 @@ def payment_success(request):
     This view just shows the success page.
     """
     order_id = request.GET.get('order_id')
+    session_id = request.GET.get('session_id')
     if not order_id:
         return redirect('courses:home')
 
     order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # Fallback: in case webhook is delayed/misconfigured, verify session directly
+    # and complete enrollment to avoid stuck pending orders.
+    if session_id and order.status != 'completed':
+        try:
+            checkout_session = stripe.checkout.Session.retrieve(session_id)
+            session_metadata = checkout_session.get('metadata', {}) if isinstance(checkout_session, dict) else getattr(checkout_session, 'metadata', {})
+            session_order_id = session_metadata.get('order_id')
+
+            if (
+                checkout_session.payment_status == 'paid'
+                and str(session_order_id) == str(order.id)
+            ):
+                handle_checkout_session_completed(checkout_session)
+                order.refresh_from_db()
+        except Exception as exc:
+            logger.error(f"Error verifying checkout session on success page: {str(exc)}")
     
     # Check if enrollment exists (it might have been created by webhook already)
     is_enrolled = Enrollment.objects.filter(
@@ -207,14 +225,15 @@ def handle_checkout_session_completed(session):
         order.completed_at = timezone.now()
         order.save()
         
-        if order.payment:
-            order.payment.status = 'completed'
-            order.payment.completed_at = timezone.now()
+        order_payment = order.payment if order.payment_id else None
+        if order_payment:
+            order_payment.status = 'completed'
+            order_payment.completed_at = timezone.now()
             # Update payment intent ID if it was missing
             payment_intent = session.get('payment_intent') if isinstance(session, dict) else getattr(session, 'payment_intent', None)
-            if not order.payment.stripe_payment_intent_id and payment_intent:
-                order.payment.stripe_payment_intent_id = payment_intent
-            order.payment.save()
+            if not order_payment.stripe_payment_intent_id and payment_intent:
+                order_payment.stripe_payment_intent_id = payment_intent
+            order_payment.save()
             
         # 3. Create or activate enrollment (Open the course)
         enrollment, created = Enrollment.objects.get_or_create(
