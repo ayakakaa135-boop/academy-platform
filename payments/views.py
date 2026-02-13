@@ -8,7 +8,6 @@ from django.http import JsonResponse, HttpResponse
 from django.utils import timezone
 from django.core.mail import send_mail
 import stripe
-import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -166,6 +165,18 @@ def stripe_webhook(request):
         handle_payment_intent_failed(payment_intent)
 
     return HttpResponse(status=200)
+
+def resolve_event_via_stripe_api(payload):
+    """Resolve webhook event from Stripe API by event id as a secure fallback."""
+    import json
+
+    data = json.loads(payload.decode('utf-8'))
+    event_id = data.get('id')
+    if not event_id:
+        raise ValueError('Missing Stripe event id in payload')
+
+    # Fetch canonical event from Stripe; this avoids trusting unsigned payload data.
+    return stripe.Event.retrieve(event_id)
 
 
 def handle_checkout_session_completed(session):
