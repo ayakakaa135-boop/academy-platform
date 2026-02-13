@@ -105,28 +105,11 @@ def payment_success(request):
     This view just shows the success page.
     """
     order_id = request.GET.get('order_id')
-    session_id = request.GET.get('session_id')
+  
     if not order_id:
         return redirect('courses:home')
 
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    
-    # Fallback: in case webhook is delayed/misconfigured, verify session directly
-    # and complete enrollment to avoid stuck pending orders.
-    if session_id and order.status != 'completed':
-        try:
-            checkout_session = stripe.checkout.Session.retrieve(session_id)
-            session_metadata = checkout_session.get('metadata', {}) if isinstance(checkout_session, dict) else getattr(checkout_session, 'metadata', {})
-            session_order_id = session_metadata.get('order_id')
-
-            if (
-                checkout_session.payment_status == 'paid'
-                and str(session_order_id) == str(order.id)
-            ):
-                handle_checkout_session_completed(checkout_session)
-                order.refresh_from_db()
-        except Exception as exc:
-            logger.error(f"Error verifying checkout session on success page: {str(exc)}")
     
     # Check if enrollment exists (it might have been created by webhook already)
     is_enrolled = Enrollment.objects.filter(
@@ -151,39 +134,35 @@ def stripe_webhook(request):
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
 
-    # Try to construct the event with signature verification
+   
+   
+       # Strictly validate webhook signature before processing any event.
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except (ValueError, stripe.error.SignatureVerificationError) as e:
-        logger.warning(f"Webhook signature verification failed: {str(e)}. Attempting to process without verification for debugging.")
-        # FALLBACK: If signature fails, we try to parse the payload manually 
-        # ONLY for debugging purposes to see if we are receiving data at all
-        try:
-            event = json.loads(payload)
-        except Exception as json_err:
-            logger.error(f"Failed to parse payload as JSON: {str(json_err)}")
-            return HttpResponse(status=400)
+        logger.warning(f"Webhook signature verification failed: {str(e)}")
+        return HttpResponse(status=400)
     except Exception as e:
         logger.error(f"Unexpected Webhook error: {str(e)}")
         return HttpResponse(status=400)
 
     # Handle the event
-    event_type = event.get('type') if isinstance(event, dict) else event.type
+    event_type = event.type
     logger.info(f"Received Stripe event: {event_type}")
     
     if event_type == 'checkout.session.completed':
-        session = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
+        session = event.data.object
         logger.info(f"Processing checkout.session.completed")
         handle_checkout_session_completed(session)
 
     elif event_type == 'payment_intent.succeeded':
-        payment_intent = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
+        payment_intent = event.data.object
         handle_payment_intent_succeeded(payment_intent)
 
     elif event_type == 'payment_intent.payment_failed':
-        payment_intent = event.get('data', {}).get('object') if isinstance(event, dict) else event.data.object
+        payment_intent = event.data.object
         handle_payment_intent_failed(payment_intent)
 
     return HttpResponse(status=200)
