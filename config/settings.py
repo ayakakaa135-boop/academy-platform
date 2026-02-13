@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'tinymce',
     'django_htmx',
+    'django_cleanup.apps.CleanupConfig',
 
     # Local apps
     'users.apps.UsersConfig',
@@ -61,9 +62,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    'config.middleware.LoginRateLimitMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+
+ADMIN_URL = config('ADMIN_URL', default='secret-portal/')
 
 TEMPLATES = [
     {
@@ -246,7 +251,9 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
     X_FRAME_OPTIONS = 'DENY'
-
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
 # CSRF Trusted Origins for production
 CSRF_TRUSTED_ORIGINS = [
     'https://academy-platform.onrender.com',
