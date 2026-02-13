@@ -11,8 +11,6 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-# SECRET_KEY must be set in environment variables. 
-# The application will raise an error if it's missing.
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config(
@@ -184,15 +182,12 @@ ACCOUNT_ADAPTER = 'users.adapter.CustomAccountAdapter'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/ar/users/dashboard/'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/ar/users/dashboard/'
 
-ACCOUNT_HTML_EMAIL = True  # تفعيل إرسال البريد بتنسيق HTML
-# إعدادات إضافية لضمان استخدام قوالب HTML لجميع الرسائل
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "" # إزالة البادئة الافتراضية [Site]
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True # التفعيل بمجرد النقر على الرابط
+ACCOUNT_HTML_EMAIL = True 
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "" 
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True 
 
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True  # تسجيل الدخول تلقائياً بعد تأكيد البريد
-# تم نقل الإعدادات للأعلى لضمان الترتيب
-ACCOUNT_PREVENT_ENUMERATION = False  # السماح بإظهار رسائل واضحة إذا كان الحساب موجوداً مسبقاً
-
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True 
+ACCOUNT_PREVENT_ENUMERATION = False  
 # Email settings
 
 EMAIL_BACKEND = 'config.backends.brevo_backend.BrevoEmailBackend'
